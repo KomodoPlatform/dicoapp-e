@@ -121,9 +121,12 @@ class BuyPage extends Component<Props, State> {
   onClickPaymentCoin = (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
     const { value } = evt.target;
-    this.setState({
-      paymentCoin: value
-    });
+    const { paymentCoin } = this.state;
+    if (value !== paymentCoin) {
+      this.setState({
+        paymentCoin: value
+      });
+    }
   };
 
   render() {
@@ -142,14 +145,6 @@ class BuyPage extends Component<Props, State> {
 
     return (
       <React.Fragment>
-        <MDCAppBar
-          title={
-            <FormattedMessage id="dicoapp.containers.BuyPage.title">
-              {(...content) => content}
-            </FormattedMessage>
-          }
-        />
-
         <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} className={classes.containerSection}>
             {/* <Card> */}
@@ -262,6 +257,13 @@ const BuyPageWapper = compose(
 const Index = () => (
   <NavigationLayout>
     <ErrorBoundary>
+      <MDCAppBar
+        title={
+          <FormattedMessage id="dicoapp.containers.BuyPage.title">
+            {(...content) => content}
+          </FormattedMessage>
+        }
+      />
       <BuyPageWapper />
     </ErrorBoundary>
   </NavigationLayout>
