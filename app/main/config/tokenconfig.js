@@ -1,5 +1,4 @@
 module.exports = {
-  logo: 'logo.svg',
   coin: 'DSEC',
   name: 'DEVSEC',
   asset: 'DSEC',

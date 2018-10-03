@@ -22,6 +22,7 @@ import USDTIcon from './usdt.svg';
 import MONEROIcon from './xmr.svg';
 import CARDANOIcon from './ada.svg';
 import KMDIcon from './kmd.svg';
+import DSECIcon from './dsec.svg';
 import UNKNOWIcon from './unknow.svg';
 
 export {
@@ -46,6 +47,7 @@ export {
   MONEROIcon as XMR,
   CARDANOIcon as ADA,
   KMDIcon as KMD,
+  DSECIcon as DSEC,
   UNKNOWIcon as UNKNOW
 };
 
@@ -71,6 +73,7 @@ const coins = {
   xmr: MONEROIcon,
   ada: CARDANOIcon,
   kmd: KMDIcon,
+  dsec: DSECIcon,
   unknow: UNKNOWIcon,
 
   AION: AionIcon,
@@ -94,6 +97,7 @@ const coins = {
   XMR: MONEROIcon,
   ADA: CARDANOIcon,
   KMD: KMDIcon,
+  DSEC: DSECIcon,
   UNKNOW: UNKNOWIcon
 };
 
@@ -119,6 +123,7 @@ const coinsRender = {
   xmr: <MONEROIcon />,
   ada: <CARDANOIcon />,
   kmd: <KMDIcon />,
+  dsec: <DSECIcon />,
   unknow: <UNKNOWIcon />,
 
   AION: <AionIcon />,
@@ -142,6 +147,7 @@ const coinsRender = {
   XMR: <MONEROIcon />,
   ADA: <CARDANOIcon />,
   KMD: <KMDIcon />,
+  DSEC: <DSECIcon />,
   UNKNOW: <UNKNOWIcon />
 };
 

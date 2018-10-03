@@ -13,11 +13,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import swal from 'sweetalert';
 import getConfig from '../../utils/config';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
+import CryptoIcons from '../../components/CryptoIcons';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import routes from '../../constants/routes.json';
 import { EmptyLayout } from '../Layout';
@@ -34,9 +35,7 @@ import { APP_STATE_NAME } from './constants';
 
 // import image from './components/logo.png';
 const config = getConfig();
-const image = `${config.get('paths.appDir')}/${config.get(
-  'marketmaker.tokenconfig.logo'
-)}`;
+const COIN_BASE = config.get('marketmaker.tokenconfig');
 
 // const styles = theme => ({
 const styles = () => ({
@@ -70,7 +69,8 @@ const styles = () => ({
     margin: '14px auto 0px',
     position: 'relative',
     height: 85,
-    width: 85
+    width: 85,
+    display: 'flex'
   },
 
   loginContainer__content: {
@@ -172,17 +172,15 @@ class LoginPage extends Component<Props, State> {
     debug('render');
     const { loading, classes } = this.props;
     const { passphrase } = this.state;
-
+    const symbol = COIN_BASE.coin;
+    const Icon = CryptoIcons[symbol];
     return (
       <div className={classes.loginContainer}>
         <div className={classes.loginContainer__center}>
           <Card className={classes.loginContainer__card}>
             {loading && <LinearProgress />}
-            <Avatar
-              className={classes.loginContainer__logo}
-              alt="logo"
-              src={image}
-            />
+            <Icon className={classes.loginContainer__logo} alt="logo" />
+
             <CardContent className={classes.loginContainer__content}>
               <Typography
                 variant="headline"
