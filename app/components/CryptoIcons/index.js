@@ -22,8 +22,8 @@ import USDTIcon from './usdt.svg';
 import MONEROIcon from './xmr.svg';
 import CARDANOIcon from './ada.svg';
 import KMDIcon from './kmd.svg';
-import DSECIcon from './dsec.svg';
 import UNKNOWIcon from './unknow.svg';
+import COQUIIcon from './coqui.svg';
 
 export {
   AionIcon as AION,
@@ -47,8 +47,8 @@ export {
   MONEROIcon as XMR,
   CARDANOIcon as ADA,
   KMDIcon as KMD,
-  DSECIcon as DSEC,
-  UNKNOWIcon as UNKNOW
+  UNKNOWIcon as UNKNOW,
+  COQUIIcon as COQUI
 };
 
 const coins = {
@@ -73,8 +73,8 @@ const coins = {
   xmr: MONEROIcon,
   ada: CARDANOIcon,
   kmd: KMDIcon,
-  dsec: DSECIcon,
   unknow: UNKNOWIcon,
+  coqui: COQUIIcon,
 
   AION: AionIcon,
   BTC: BTCIcon,
@@ -97,8 +97,8 @@ const coins = {
   XMR: MONEROIcon,
   ADA: CARDANOIcon,
   KMD: KMDIcon,
-  DSEC: DSECIcon,
-  UNKNOW: UNKNOWIcon
+  UNKNOW: UNKNOWIcon,
+  COQUI: COQUIIcon
 };
 
 const coinsRender = {
@@ -123,8 +123,8 @@ const coinsRender = {
   xmr: <MONEROIcon />,
   ada: <CARDANOIcon />,
   kmd: <KMDIcon />,
-  dsec: <DSECIcon style={{ height: 32, width: 32 }} />,
   unknow: <UNKNOWIcon />,
+  coqui: <COQUIIcon />,
 
   AION: <AionIcon />,
   BTC: <BTCIcon />,
@@ -147,8 +147,8 @@ const coinsRender = {
   XMR: <MONEROIcon />,
   ADA: <CARDANOIcon />,
   KMD: <KMDIcon />,
-  DSEC: <DSECIcon style={{ height: 32, width: 32 }} />,
-  UNKNOW: <UNKNOWIcon />
+  UNKNOW: <UNKNOWIcon />,
+  COQUI: <COQUIIcon />
 };
 
 export function getCoinIcon(symbol) {
