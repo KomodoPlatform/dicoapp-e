@@ -15,6 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import swal from 'sweetalert';
+import getConfig from '../../utils/config';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -30,7 +31,12 @@ import {
   makeSelectError
 } from '../App/selectors';
 import { APP_STATE_NAME } from './constants';
-import image from './components/logo.png';
+
+// import image from './components/logo.png';
+const config = getConfig();
+const image = `${config.get('paths.appDir')}/${config.get(
+  'marketmaker.tokenconfig.logo'
+)}`;
 
 // const styles = theme => ({
 const styles = () => ({

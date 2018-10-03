@@ -1,7 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
-import { getCoinIcon } from '../../../components/CryptoIcons';
+// import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line } from '../../../components/placeholder';
 import { floor } from '../utils';
 import getConfig from '../../../utils/config';
@@ -11,7 +12,10 @@ const debug = require('debug')('dicoapp:containers:BuyPage:CurrencySection');
 
 const config = getConfig();
 const COIN_BASE = config.get('marketmaker.tokenconfig');
-
+const image = `${config.get('paths.appDir')}/${config.get(
+  'marketmaker.tokenconfig.logo'
+)}`;
+const icon = <Avatar alt="logo" src={image} />;
 const line = (
   <Line
     width={60}
@@ -37,7 +41,6 @@ class CurrencySection extends PureComponent<Props> {
     debug(`render`);
     const { balance } = this.props;
     const symbol = COIN_BASE.coin;
-    const icon = getCoinIcon(symbol);
     const b = balance.get(symbol);
     if (!b) {
       // not found in balance
