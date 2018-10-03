@@ -24,6 +24,7 @@ import CARDANOIcon from './ada.svg';
 import KMDIcon from './kmd.svg';
 import UNKNOWIcon from './unknow.svg';
 import COQUIIcon from './coqui.svg';
+import BEERIcon from './beer.svg';
 
 export {
   AionIcon as AION,
@@ -48,7 +49,8 @@ export {
   CARDANOIcon as ADA,
   KMDIcon as KMD,
   UNKNOWIcon as UNKNOW,
-  COQUIIcon as COQUI
+  COQUIIcon as COQUI,
+  BEERIcon as BEER
 };
 
 const coins = {
@@ -75,6 +77,7 @@ const coins = {
   kmd: KMDIcon,
   unknow: UNKNOWIcon,
   coqui: COQUIIcon,
+  beer: BEERIcon,
 
   AION: AionIcon,
   BTC: BTCIcon,
@@ -98,7 +101,8 @@ const coins = {
   ADA: CARDANOIcon,
   KMD: KMDIcon,
   UNKNOW: UNKNOWIcon,
-  COQUI: COQUIIcon
+  COQUI: COQUIIcon,
+  BEER: BEERIcon
 };
 
 const coinsRender = {
@@ -125,6 +129,7 @@ const coinsRender = {
   kmd: <KMDIcon />,
   unknow: <UNKNOWIcon />,
   coqui: <COQUIIcon />,
+  beer: <BEERIcon />,
 
   AION: <AionIcon />,
   BTC: <BTCIcon />,
@@ -148,7 +153,8 @@ const coinsRender = {
   ADA: <CARDANOIcon />,
   KMD: <KMDIcon />,
   UNKNOW: <UNKNOWIcon />,
-  COQUI: <COQUIIcon />
+  COQUI: <COQUIIcon />,
+  BEER: <BEERIcon />
 };
 
 export function getCoinIcon(symbol) {
