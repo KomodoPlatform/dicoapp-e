@@ -80,8 +80,7 @@ const styles = () => ({
   loginContainer__loginButton: {
     boxShadow: 'none',
     border: 0,
-    height: 36,
-    backgroundColor: '#005194'
+    height: 36
   },
 
   loginContainer__bottomButton: {
