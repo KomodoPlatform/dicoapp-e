@@ -123,7 +123,7 @@ const coinsRender = {
   xmr: <MONEROIcon />,
   ada: <CARDANOIcon />,
   kmd: <KMDIcon />,
-  dsec: <DSECIcon />,
+  dsec: <DSECIcon style={{ height: 32, width: 32 }} />,
   unknow: <UNKNOWIcon />,
 
   AION: <AionIcon />,
@@ -147,7 +147,7 @@ const coinsRender = {
   XMR: <MONEROIcon />,
   ADA: <CARDANOIcon />,
   KMD: <KMDIcon />,
-  DSEC: <DSECIcon />,
+  DSEC: <DSECIcon style={{ height: 32, width: 32 }} />,
   UNKNOW: <UNKNOWIcon />
 };
 

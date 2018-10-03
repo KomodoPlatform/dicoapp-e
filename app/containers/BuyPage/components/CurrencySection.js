@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 // import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
-import Icons from '../../../components/CryptoIcons';
+import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line } from '../../../components/placeholder';
 import { floor } from '../utils';
 import getConfig from '../../../utils/config';
@@ -13,15 +13,6 @@ const debug = require('debug')('dicoapp:containers:BuyPage:CurrencySection');
 const config = getConfig();
 const COIN_BASE = config.get('marketmaker.tokenconfig');
 const symbol = COIN_BASE.coin;
-const Icon = Icons[symbol];
-const icon = (
-  <Icon
-    style={{
-      width: 32,
-      height: 32
-    }}
-  />
-);
 const line = (
   <Line
     width={60}
@@ -47,6 +38,7 @@ class CurrencySection extends PureComponent<Props> {
     debug(`render`);
     const { balance } = this.props;
     const b = balance.get(symbol);
+    const icon = getCoinIcon(symbol);
     if (!b) {
       // not found in balance
       return (
