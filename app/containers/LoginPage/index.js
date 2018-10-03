@@ -18,7 +18,7 @@ import swal from 'sweetalert';
 import getConfig from '../../utils/config';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
-import CryptoIcons from '../../components/CryptoIcons';
+import CryptoIcons, { UNKNOW } from '../../components/CryptoIcons';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import routes from '../../constants/routes.json';
 import { EmptyLayout } from '../Layout';
@@ -173,7 +173,11 @@ class LoginPage extends Component<Props, State> {
     const { loading, classes } = this.props;
     const { passphrase } = this.state;
     const symbol = COIN_BASE.coin;
-    const Icon = CryptoIcons[symbol];
+    let Icon = CryptoIcons[symbol];
+    if (!Icon) {
+      Icon = UNKNOW;
+    }
+
     return (
       <div className={classes.loginContainer}>
         <div className={classes.loginContainer__center}>
