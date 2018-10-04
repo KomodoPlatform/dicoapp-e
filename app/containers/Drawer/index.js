@@ -76,9 +76,9 @@ const styles = theme => ({
 
   drawer__iconSelected: {
     '& svg': {
-      fill: '#4285f4'
+      fill: theme.palette.primary.light
     },
-    color: '#4285f4'
+    color: theme.palette.primary.light
   },
 
   drawer__text: {
