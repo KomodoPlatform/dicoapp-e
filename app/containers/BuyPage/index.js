@@ -31,7 +31,7 @@ import { loadBalance } from '../App/actions';
 import AmountSection from './components/AmountSection';
 import CurrencySection from './components/CurrencySection';
 import PaymentSection from './components/PaymentSection';
-import TestSwap from './components/TestSwap';
+// import TestSwap from './components/TestSwap';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
 import saga from './saga';
@@ -210,7 +210,7 @@ class BuyPage extends Component<Props, State> {
             {/* </Card> */}
           </Grid>
         </Grid>
-        <TestSwap />
+        {/* <TestSwap /> */}
       </React.Fragment>
     );
   }
