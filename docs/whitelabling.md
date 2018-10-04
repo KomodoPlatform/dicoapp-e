@@ -2,7 +2,7 @@ To whitelabel the dICOApp:
 
 1. Edit `app/main/config/tokenconfig.js`. This file will be to edit the information regarding the coin that will be on sale. Also it will pull the logo to the login screen.
 
-2. Edit `app/main/config/coins-data.js. This file will be to edit the coins accepted as payment method.
+2. Edit `app/main/config/coins-data.js`. This file will be to edit the coins accepted as payment method.
 
 3. Add `icon.svg` file with the name of your coin to `app/components/CryptoIcons` directory.
 
