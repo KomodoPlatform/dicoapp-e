@@ -1,12 +1,16 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { List } from 'immutable';
+import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import type { List, Map } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
+import { createStructuredSelector } from 'reselect';
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line, Circle } from '../../../components/placeholder';
 import getConfig from '../../../utils/config';
 import { covertSymbolToName, floor } from '../utils';
 import CoinSelectable from './CoinSelectable';
+import { makeSelectBalanceList, makeSelectPricesEntities } from '../selectors';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:PaymentSection');
 
@@ -66,7 +70,7 @@ type Props = {
   list: List<*>
 };
 
-class PaymentSection extends PureComponent<Props> {
+class PaymentSection extends React.PureComponent<Props> {
   static defaultProps = {};
 
   renderPaymentCoin = symbol => {
@@ -134,4 +138,17 @@ class PaymentSection extends PureComponent<Props> {
 
 PaymentSection.displayName = 'PaymentSection';
 
-export default withStyles(styles)(PaymentSection);
+const mapStateToProps = createStructuredSelector({
+  list: makeSelectBalanceList(),
+  entities: makeSelectPricesEntities()
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  null
+);
+
+export default compose(
+  withConnect,
+  withStyles(styles)
+)(PaymentSection);
