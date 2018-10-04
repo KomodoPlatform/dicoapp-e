@@ -96,9 +96,8 @@ class PaymentSection extends React.PureComponent<Props> {
           icon={icon}
           title={name}
           subTitle={`${floor(b.get('balance'), 3)} ${b.get('coin')}`}
-        >
-          {lineContent}
-        </CoinSelectable>
+          price={lineContent}
+        />
       );
     }
     return (
@@ -111,19 +110,19 @@ class PaymentSection extends React.PureComponent<Props> {
         icon={icon}
         title={name}
         subTitle={`${floor(b.get('balance'), 3)} ${b.get('coin')}`}
+        price={`1 ${COIN_BASE.coin} = ${c.get('bestPrice')} ${symbol}`}
         onClick={onClick}
-      >
-        <span>
-          1 {COIN_BASE.coin} = {c.get('bestPrice')} {symbol}
-        </span>
-      </CoinSelectable>
+      />
     );
   };
 
   renderLoading = () => (
-    <CoinSelectable icon={circle} title={lineTitle} subTitle={line}>
-      {lineContent}
-    </CoinSelectable>
+    <CoinSelectable
+      icon={circle}
+      title={lineTitle}
+      subTitle={line}
+      price={lineContent}
+    />
   );
 
   render() {
