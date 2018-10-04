@@ -8,7 +8,7 @@ const theme = createMuiTheme({
     type: 'light',
     primary: {
       // This is a main color for button
-      main: '#5bb600'
+      main: '#3f51b5'
     }
   }
 });

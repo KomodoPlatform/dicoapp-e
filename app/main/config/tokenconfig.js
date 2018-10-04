@@ -1,18 +1,18 @@
 module.exports = {
-  coin: 'COQUI',
-  name: 'Coqui Cash',
-  asset: 'COQUI',
+  coin: 'DSEC',
+  name: 'DEVSEC',
+  asset: 'DSEC',
   rpcport: 11557,
   electrumServers: [
     {
       host: 'electrum1.cipig.net',
-      port: 10011
+      port: 10027
     },
     {
       host: 'electrum2.cipig.net',
-      port: 10011
+      port: 10027
     }
   ],
-  pubkey: '01c1b9f76447ce8aef87e55e10f8480ddec704ea16a2f14b834276b6257bc768',
+  pubkey: '2c8f6931843ae7729ad7fdd963541228c42cab8a855e8d7409fdab9efbe0f077',
   active: 1
 };
