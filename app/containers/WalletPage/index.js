@@ -27,8 +27,9 @@ type Props = {
 // const styles = theme => ({
 const styles = () => ({
   container: {
-    padding: 24,
-    marginTop: 65
+    // marginTop: 65,
+    marginTop: 112,
+    padding: '40px 24px 24px 24px'
   },
 
   containerSection: {

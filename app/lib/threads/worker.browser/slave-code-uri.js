@@ -1,7 +1,8 @@
 import slaveCode from './slave-code';
 
-let slaveCodeDataUri =
-  'data:text/javascript;charset=utf-8,' + encodeURI(slaveCode);
+let slaveCodeDataUri = `data:text/javascript;charset=utf-8,${encodeURI(
+  slaveCode
+)}`;
 let createBlobURL = window.createBlobURL || window.createObjectURL;
 
 if (!createBlobURL) {

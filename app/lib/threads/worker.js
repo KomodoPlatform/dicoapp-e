@@ -4,8 +4,9 @@
  * Loading the browser worker into the browser bundle is done in the gulpfile by
  * configuring a browserify override.
  */
+const { is } = require('electron-util');
 
-if (typeof process !== 'undefined' && 'pid' in process) {
+if (is.main) {
   module.exports = require('./worker.node/worker');
 } else {
   module.exports = require('./worker.browser/worker');

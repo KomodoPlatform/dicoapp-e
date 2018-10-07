@@ -7,6 +7,11 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = () => ({
   buyTabs__tab: {
     minWidth: 100
+  },
+
+  labelContainer: {
+    paddingLeft: 12,
+    paddingRight: 12
   }
 });
 
@@ -39,8 +44,14 @@ class BuyTabs extends React.Component<Props, State> {
         textColor="primary"
         onChange={this.handleChange}
       >
-        <Tab label="Place Order" className={classes.buyTabs__tab} />
-        <Tab label="My Orders" className={classes.buyTabs__tab} />
+        <Tab
+          classes={{
+            labelContainer: classes.labelContainer
+          }}
+          label={<span>Place Order</span>}
+          className={classes.buyTabs__tab}
+        />
+        <Tab label={<span>My Orders</span>} className={classes.buyTabs__tab} />
       </Tabs>
     );
   }

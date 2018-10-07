@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import Job from './job';
 import defaults from './defaults';
-import { spawn } from './';
+import { spawn } from '.';
 
 export default class Pool extends EventEmitter {
   constructor(threads, options = {}) {

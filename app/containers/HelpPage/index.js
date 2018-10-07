@@ -10,8 +10,9 @@ import { NavigationLayout } from '../Layout';
 
 const styles = {
   container: {
-    marginTop: 65,
-    padding: 24
+    // marginTop: 65,
+    marginTop: 112,
+    padding: '40px 24px 24px 24px'
   },
 
   containerSection: {

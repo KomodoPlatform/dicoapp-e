@@ -33,6 +33,7 @@ export default class Worker extends EventEmitter {
     // `importScripts` cannot be consumed, it's just there to keep the API compatible to the browser worker
     super();
 
+    console.log(path.join(__dirname, 'slave.js'));
     this.slave = child.fork(
       path.join(__dirname, 'slave.js'),
       [],
@@ -67,6 +68,8 @@ export default class Worker extends EventEmitter {
     if (!script) {
       throw new Error('Must pass a function or a script path to run().');
     }
+
+    console.log(getConfig(), 'getConfig()');
 
     const prefixedScriptPath = path.join(getConfig().basepath.node, script);
 

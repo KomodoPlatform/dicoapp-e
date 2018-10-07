@@ -43,7 +43,8 @@ const styles = () => ({
     maxWidth: 72,
     height: '100%',
     overflow: 'hidden',
-    contain: 'strict'
+    contain: 'strict',
+    backgroundColor: '#F6F6F6'
   }
 });
 

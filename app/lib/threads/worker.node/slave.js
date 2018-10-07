@@ -19,7 +19,7 @@ function setupErrorCatcher() {
 }
 
 function runAsSandboxedModule(code) {
-  var sandbox = {
+  const sandbox = {
     Buffer,
     console,
     clearInterval,
@@ -57,13 +57,13 @@ function isPromise(thing) {
   return thing && typeof thing.then === 'function';
 }
 
-process.on('message', function(data) {
+process.on('message', data => {
   if (data.initByScript) {
     messageHandler = require(data.script);
   }
 
   if (data.initByMethod) {
-    messageHandler = runAsSandboxedModule('module.exports = ' + data.method);
+    messageHandler = runAsSandboxedModule(`module.exports = ${data.method}`);
   }
 
   if (data.doRun) {

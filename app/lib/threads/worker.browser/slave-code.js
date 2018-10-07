@@ -2,18 +2,20 @@
 /*global importScripts*/
 /*eslint-disable no-console*/
 self.module = {
-  exports : function() {
-    if (console) { console.error('No thread logic initialized.'); }
+  exports: function() {
+    if (console) {
+      console.error('No thread logic initialized.');
+    }
   }
 };
 
 function handlerDone() {
   var args = Array.prototype.slice.call(arguments, 0);
-  this.postMessage({ response : args });
+  this.postMessage({ response: args });
 }
 
 function handlerProgress(progress) {
-  this.postMessage({ progress : progress });
+  this.postMessage({ progress: progress });
 }
 
 function handlerError(error) {
@@ -23,7 +25,7 @@ function handlerError(error) {
     name: error.name,
     stack: error.stack
   };
-  this.postMessage({ error : cloned });
+  this.postMessage({ error: cloned });
 }
 
 function handlerDoneTransfer() {
@@ -31,17 +33,20 @@ function handlerDoneTransfer() {
   var lastArg = args.pop();
 
   if (!(lastArg instanceof Array) && this.console) {
-    console.error('Expected 2nd parameter of <doneCallback>.transfer() to be an array. Got:', lastArg);
+    console.error(
+      'Expected 2nd parameter of <doneCallback>.transfer() to be an array. Got:',
+      lastArg
+    );
   }
 
-  this.postMessage({ response : args }, lastArg);
+  this.postMessage({ response: args }, lastArg);
 }
 
-function isPromise (thing) {
+function isPromise(thing) {
   return thing && typeof thing.then === 'function';
 }
 
-self.onmessage = function (event) {
+self.onmessage = function(event) {
   var scripts = event.data.scripts;
   if (scripts && scripts.length > 0 && typeof importScripts !== 'function') {
     throw new Error('importScripts() not supported.');
@@ -52,9 +57,9 @@ self.onmessage = function (event) {
   }
 
   if (event.data.initByMethod) {
-    // Clear `this.module.exports` first, to avoid trouble with importScripts' CommonJS detection
-    delete this.module.exports;
-  
+    // Clear `this.module.exports` first, to avoid trouble with importScripts' CommonJS detection
+    delete this.module.exports;
+
     if (scripts && scripts.length > 0) {
       importScripts.apply(null, scripts);
     }
@@ -65,7 +70,6 @@ self.onmessage = function (event) {
 
   if (event.data.doRun) {
     var handler = this.module.exports;
-
     if (typeof handler !== 'function') {
       throw new Error('Cannot run thread logic. No handler has been exported.');
     }
@@ -73,7 +77,12 @@ self.onmessage = function (event) {
     var preparedHandlerDone = handlerDone.bind(this);
     preparedHandlerDone.transfer = handlerDoneTransfer.bind(this);
 
-    var returned = handler.call(this, event.data.param, preparedHandlerDone, handlerProgress.bind(this));
+    var returned = handler.call(
+      this,
+      event.data.param,
+      preparedHandlerDone,
+      handlerProgress.bind(this)
+    );
 
     if (isPromise(returned)) {
       returned.then(preparedHandlerDone, handlerError.bind(this));

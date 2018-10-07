@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-// import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
@@ -43,8 +43,9 @@ const debug = require('debug')('dicoapp:containers:BuyPage');
 
 const styles = () => ({
   container: {
-    marginTop: 65,
-    padding: '15px 24px 24px 24px'
+    // marginTop: 65,
+    marginTop: 112,
+    padding: '40px 24px 24px 24px'
   },
 
   containerSection: {
@@ -137,9 +138,10 @@ class BuyPage extends Component<Props, State> {
           <Grid item xs={12} className={classes.containerSection}>
             {/* <Card> */}
             {loading && <LinearProgress />}
-            <CardContent className={classes.cardContent}>
+            {/* <CardContent className={classes.cardContent}>
               <Tabs />
-            </CardContent>
+              <Divider className={classes.hr} />
+            </CardContent> */}
             <CardContent className={classes.cardContent}>
               <PageSectionTitle
                 title={

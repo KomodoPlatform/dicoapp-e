@@ -1,4 +1,4 @@
-/*eslint-env node*/
+/* eslint-env node */
 /*
  * This file is only a stub to make './defaults' resolve the './defaults.node' module.
  * Loading the browser defaults into the browser bundle is done in the gulpfile by

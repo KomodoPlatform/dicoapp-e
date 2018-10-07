@@ -19,16 +19,18 @@ function configDeepMerge(destObj, srcObj, ancestorProps = []) {
         typeof destObj[propKey] !== 'object'
       ) {
         throw new Error(
-          'Expected config property not to be an object: ' +
-            ancestorPropsAndThis.join('.')
+          `Expected config property not to be an object: ${ancestorPropsAndThis.join(
+            '.'
+          )}`
         );
       }
       configDeepMerge(destObj[propKey], srcValue, ancestorPropsAndThis);
     } else {
       if (typeof destObj[propKey] === 'object') {
         throw new Error(
-          'Expected config property to be an object: ' +
-            ancestorPropsAndThis.join('.')
+          `Expected config property to be an object: ${ancestorPropsAndThis.join(
+            '.'
+          )}`
         );
       }
       destObj[propKey] = srcValue;

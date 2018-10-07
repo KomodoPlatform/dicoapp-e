@@ -8,11 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
+import Tabs from './Tabs';
 
 const styles = () => ({
   appBar: {
     boxShadow: 'none',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    left: 72
   },
 
   appBar__button: {
@@ -38,18 +40,26 @@ class MDCAppBar extends React.PureComponent<Props> {
     return (
       <AppBar position="fixed" color="default" className={classes.appBar}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             className={classes.appBar__button}
             color="inherit"
             aria-label="Menu"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="title" color="inherit">
             {title}
           </Typography>
         </Toolbar>
-        <Divider />
+        <Toolbar
+          style={{
+            minHeight: 48,
+            paddingLeft: 12
+          }}
+        >
+          <Tabs />
+          <Divider />
+        </Toolbar>
       </AppBar>
     );
   }

@@ -12,12 +12,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
-// import HomeIcon from '@material-ui/icons/Home';
+import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
 import { showLogoutDialog } from '../LogoutDialog/actions';
 import routes from '../../constants/routes.json';
@@ -166,12 +166,12 @@ class DICDrawer extends Component<Props, State> {
         anchor={anchor}
       >
         <div className={classes.toolbar}>
-          {/* <IconButton
+          <IconButton
             className={classes.logoButton}
             onClick={this.gotoHomePage}
           >
-            <HomeIcon />
-          </IconButton> */}
+            <MenuIcon />
+          </IconButton>
         </div>
         <List>
           {/* <ListItem button selected onClick={this.gotoDashboardPage}>

@@ -81,7 +81,7 @@ export default class Worker extends EventEmitter {
       // don't re-initialize with the new logic if it already has been
       return this;
     }
-
+    console.log(toRun, importScripts, 'run(toRun, importScripts = []) {');
     if (typeof toRun === 'function') {
       this.runMethod(toRun, importScripts);
     } else {
@@ -103,6 +103,8 @@ export default class Worker extends EventEmitter {
       methodStr.indexOf('{') + 1,
       methodStr.lastIndexOf('}')
     );
+
+    console.log(body, args, 'body, args');
 
     this.worker.postMessage({
       initByMethod: true,
