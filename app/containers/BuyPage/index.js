@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
 // import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,6 +20,7 @@ import injectWebsocket from '../../utils/inject-websocket';
 import { WEBSOCKET_DAEMON } from '../../utils/constants';
 import MDCAppBar from '../../components/AppBar';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
 import {
   makeSelectBalanceEntities,
@@ -30,6 +30,7 @@ import { loadBalance } from '../App/actions';
 import AmountSection from './components/AmountSection';
 import CurrencySection from './components/CurrencySection';
 import PaymentSection from './components/PaymentSection';
+import Tabs from './components/Tabs';
 // import TestSwap from './components/TestSwap';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
@@ -43,7 +44,7 @@ const debug = require('debug')('dicoapp:containers:BuyPage');
 const styles = () => ({
   container: {
     marginTop: 65,
-    padding: 24
+    padding: '15px 24px 24px 24px'
   },
 
   containerSection: {
@@ -65,10 +66,6 @@ const styles = () => ({
     position: 'absolute',
     right: 0,
     top: -12
-  },
-
-  cardContent__title: {
-    marginBottom: 25
   }
 });
 
@@ -141,32 +138,30 @@ class BuyPage extends Component<Props, State> {
             {/* <Card> */}
             {loading && <LinearProgress />}
             <CardContent className={classes.cardContent}>
-              <Typography
-                variant="title"
-                gutterBottom
-                className={classes.cardContent__title}
-              >
-                <FormattedMessage id="dicoapp.containers.BuyPage.currency">
-                  {(...content) => content}
-                </FormattedMessage>
-              </Typography>
+              <Tabs />
+            </CardContent>
+            <CardContent className={classes.cardContent}>
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.BuyPage.currency">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
               {/* <Divider className={classes.hr} /> */}
-
               <CurrencySection
                 balance={balance}
                 onClick={this.onReloadPrices}
               />
             </CardContent>
             <CardContent className={classes.cardContent}>
-              <Typography
-                variant="title"
-                gutterBottom
-                className={classes.cardContent__title}
-              >
-                <FormattedMessage id="dicoapp.containers.BuyPage.payment">
-                  {(...content) => content}
-                </FormattedMessage>
-              </Typography>
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.BuyPage.payment">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
               <IconButton
                 aria-label="Reload prices"
                 className={classes.cardContent__rightBtn}
@@ -184,15 +179,13 @@ class BuyPage extends Component<Props, State> {
               />
             </CardContent>
             <CardContent className={classes.cardContent}>
-              <Typography
-                variant="title"
-                gutterBottom
-                className={classes.cardContent__title}
-              >
-                <FormattedMessage id="dicoapp.containers.BuyPage.amount">
-                  {(...content) => content}
-                </FormattedMessage>
-              </Typography>
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.BuyPage.amount">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
               {/* <Divider className={classes.hr} /> */}
               <AmountSection paymentCoin={paymentCoin} />
             </CardContent>

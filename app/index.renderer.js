@@ -66,4 +66,27 @@ if (!window.Intl) {
 } else {
   render(Routes, translationMessages);
 }
+
+// import { spawn } from './lib/threads';
+// const thread = spawn(function ([a, b]) {
+//   // Remember that this function will be run in another execution context.
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve(a + b), 1000)
+//   })
+// });
+
+// thread
+//   .send([ 9, 12 ])
+//   // The handlers come here: (none of them is mandatory)
+//   .on('message', function(response) {
+//     console.log('9 + 12 = ', response);
+//     thread.kill();
+//   })
+//   .on('error', function(error) {
+//     console.error('Worker errored:', error);
+//   })
+//   .on('exit', function() {
+//     console.log('Worker has been terminated.');
+//   });
+
 /* eslint-enable import/no-named-as-default */

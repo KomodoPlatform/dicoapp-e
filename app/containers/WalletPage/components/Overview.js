@@ -42,23 +42,31 @@ class Overview extends PureComponent<Props> {
     dispatchLoadBalance();
   };
 
+  renderWallet = (t, k) => {
+    const { classes, entities, dispatchLoadWithdraw } = this.props;
+    const data = entities.get(t);
+    return (
+      <Grid
+        key={`wallet_page_overview${k}`}
+        item
+        xs={12}
+        className={classes.containerSection}
+      >
+        <Wallet
+          key={data.get('coin')}
+          data={data}
+          dispatchLoadWithdraw={dispatchLoadWithdraw}
+        />
+      </Grid>
+    );
+  };
+
   render() {
     debug(`render`);
 
-    const { classes, list, entities, dispatchLoadWithdraw } = this.props;
+    const { list } = this.props;
 
-    return (
-      <React.Fragment>
-        {list.map((t, k) => (
-          <Grid key={k} item xs={12} className={classes.containerSection}>
-            <Wallet
-              data={entities.get(t)}
-              dispatchLoadWithdraw={dispatchLoadWithdraw}
-            />
-          </Grid>
-        ))}
-      </React.Fragment>
-    );
+    return list.map(this.renderWallet);
   }
 }
 

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import QRCode from 'qrcode.react';
 // import Avatar from '@material-ui/core/Avatar';
@@ -148,7 +148,7 @@ type State = {
   expanded: boolean
 };
 
-class Wallet extends Component<Props, State> {
+class Wallet extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
