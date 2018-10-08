@@ -10,6 +10,17 @@ const styles = () => ({
     boxShadow: 'none',
     backgroundColor: '#fff',
     left: 72
+  },
+
+  appBar__divider: {
+    bottom: -5,
+    boxShadow: 'inset 0px 4px 8px -3px rgba(17, 17, 17, .06)',
+    height: 5,
+    left: 0,
+    opacity: 1,
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: 0
   }
 });
 
@@ -31,7 +42,7 @@ class MDCAppBar extends React.PureComponent<Props> {
     return (
       <AppBar position="fixed" color="default" className={classes.appBar}>
         {children}
-        <Divider />
+        <Divider className={classes.appBar__divider} />
       </AppBar>
     );
   }
