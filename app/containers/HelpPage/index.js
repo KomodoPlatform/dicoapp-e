@@ -32,13 +32,6 @@ class HelpPage extends Component<Props> {
 
     return (
       <React.Fragment>
-        <MDCAppBar
-          title={
-            <FormattedMessage id="dicoapp.containers.HelpPage.title">
-              {(...content) => content}
-            </FormattedMessage>
-          }
-        />
         <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} className={classes.containerSection}>
             <Typography variant="title" gutterBottom>
@@ -114,6 +107,13 @@ const HelpPageWapper = withStyles(styles)(HelpPage);
 const Index = () => (
   <NavigationLayout>
     <ErrorBoundary>
+      <MDCAppBar
+        title={
+          <FormattedMessage id="dicoapp.containers.HelpPage.title">
+            {(...content) => content}
+          </FormattedMessage>
+        }
+      />
       <HelpPageWapper />
     </ErrorBoundary>
   </NavigationLayout>
