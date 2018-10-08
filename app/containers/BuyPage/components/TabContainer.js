@@ -28,14 +28,14 @@ type Props = {
 type State = {};
 
 class TabContainer extends React.Component<Props, State> {
-  shouldComponentUpdate(nextProps) {
-    // NOTE: always render when selected === true
-    const { selected } = this.props;
-    if (selected !== nextProps.selected || nextProps.selected) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   // NOTE: always render when selected === true
+  //   const { selected } = this.props;
+  //   if (selected !== nextProps.selected || nextProps.selected) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   render() {
     debug('render');

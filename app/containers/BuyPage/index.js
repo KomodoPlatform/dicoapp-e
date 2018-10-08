@@ -15,6 +15,7 @@ import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TabContainer from './components/TabContainer';
 // import TestSwap from './components/TestSwap';
+import MyOrders from './MyOrders';
 import PlaceOrder from './PlaceOrder';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
@@ -64,7 +65,9 @@ class BuyPage extends Component<Props, State> {
           <TabContainer selected={value === 0}>
             <PlaceOrder />
           </TabContainer>
-          <TabContainer selected={value === 1}>Item Two</TabContainer>
+          <TabContainer selected={value === 1}>
+            <MyOrders />
+          </TabContainer>
         </ErrorBoundary>
         {/* <TestSwap /> */}
       </NavigationLayout>
