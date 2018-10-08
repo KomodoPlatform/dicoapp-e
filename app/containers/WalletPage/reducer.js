@@ -36,7 +36,7 @@ const walletReducer = handleActions(
         const t = transaction[i];
         // step one: update list
         if (!list.find(e => e === t.tx_hash)) {
-          list = list.unshift(t.tx_hash);
+          list = list.push(t.tx_hash);
         }
         // step two: update entities
         if (!entities.get(t.tx_hash)) {
