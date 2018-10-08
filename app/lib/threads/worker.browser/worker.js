@@ -10,14 +10,11 @@ if (typeof window.Worker !== 'object' && typeof window.Worker !== 'function') {
 function joinPaths(path1, path2) {
   if (!path1 || !path2) {
     return path1 + path2;
-  } else if (
-    path1.charAt(path1.length - 1) === '/' ||
-    path2.charAt(0) === '/'
-  ) {
-    return path1 + path2;
-  } else {
-    return path1 + '/' + path2;
   }
+  if (path1.charAt(path1.length - 1) === '/' || path2.charAt(0) === '/') {
+    return path1 + path2;
+  }
+  return `${path1}/${path2}`;
 }
 
 function prependScriptUrl(scriptUrl) {
@@ -36,7 +33,7 @@ function logError(error) {
     const fileName =
       error.filename.match(/^data:text\/javascript/) &&
       error.filename.length > 50
-        ? error.filename.substr(0, 50) + '...'
+        ? `${error.filename.substr(0, 50)}...`
         : error.filename;
     console.error(`${error.message} @${fileName}:${error.lineno}`); // eslint-disable-line no-console
   } else {
@@ -144,7 +141,8 @@ export default class Worker extends EventEmitter {
 
   promise() {
     return new Promise((resolve, reject) => {
-      let resolved, rejected;
+      let resolved;
+      let rejected;
       resolved = result => {
         this.removeListener('error', rejected);
         resolve(result);

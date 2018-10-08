@@ -95,7 +95,8 @@ export default class Worker extends EventEmitter {
 
   promise() {
     return new Promise((resolve, reject) => {
-      let resolved, rejected;
+      let resolved;
+      let rejected;
       resolved = result => {
         this.removeListener('error', rejected);
         resolve(result);

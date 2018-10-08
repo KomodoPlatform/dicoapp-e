@@ -1,4 +1,4 @@
-/*eslint-env node*/
+/* eslint-env node */
 /*
  * This file is only a stub to make './worker' resolve the './worker.node/worker' module.
  * Loading the browser worker into the browser bundle is done in the gulpfile by
