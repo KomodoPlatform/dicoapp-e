@@ -4,7 +4,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
-import TabContainer from './TabContainer';
 
 const styles = theme => ({
   buyTabs__tab: {
@@ -30,58 +29,44 @@ const styles = theme => ({
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
-  classes: Object
-};
-
-type State = {
+  classes: Object,
+  // eslint-disable-next-line flowtype/no-weak-types
+  handleChange: Function,
   value: number
 };
 
-class HeaderTabs extends React.Component<Props, State> {
-  state = {
-    value: 0
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
+class HeaderTabs extends React.PureComponent<Props> {
   render() {
-    const { classes } = this.props;
-    const { value } = this.state;
+    const { value, classes, handleChange } = this.props;
 
     return (
-      <React.Fragment>
-        <Tabs
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={this.handleChange}
-        >
-          <Tab
-            classes={{
-              labelContainer: classes.buyTabs__labelContainer
-            }}
-            label={<span>Place Order</span>}
-            className={classes.buyTabs__tab}
-          />
-          <Tab
-            label={
-              <Badge
-                className={classes.padding}
-                color="secondary"
-                badgeContent={4}
-                classes={{ badge: classes.buyTabs__badge }}
-              >
-                My Orders
-              </Badge>
-            }
-            className={classes.buyTabs__tab}
-          />
-        </Tabs>
-        <TabContainer selected={value === 0}>Item One</TabContainer>
-        <TabContainer selected={value === 1}>Item Two</TabContainer>
-      </React.Fragment>
+      <Tabs
+        value={value}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={handleChange}
+      >
+        <Tab
+          classes={{
+            labelContainer: classes.buyTabs__labelContainer
+          }}
+          label={<span>Place Order</span>}
+          className={classes.buyTabs__tab}
+        />
+        <Tab
+          label={
+            <Badge
+              className={classes.padding}
+              color="secondary"
+              badgeContent={4}
+              classes={{ badge: classes.buyTabs__badge }}
+            >
+              My Orders
+            </Badge>
+          }
+          className={classes.buyTabs__tab}
+        />
+      </Tabs>
     );
   }
 }

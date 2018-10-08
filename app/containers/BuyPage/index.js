@@ -13,7 +13,9 @@ import MDCTabBar from '../../components/AppBar/TabBar';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
+import TabContainer from './components/TabContainer';
 // import TestSwap from './components/TestSwap';
+import PlaceOrder from './PlaceOrder';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,13 +27,24 @@ const styles = () => ({});
 
 type Props = {};
 
-type State = {};
+type State = {
+  value: number
+};
 
 class BuyPage extends Component<Props, State> {
   props: Props;
 
+  state = {
+    value: 0
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   render() {
     debug('render');
+    const { value } = this.state;
 
     return (
       <NavigationLayout>
@@ -45,11 +58,15 @@ class BuyPage extends Component<Props, State> {
               }
             />
             <MDCTabBar>
-              <HeaderTabs />
+              <HeaderTabs handleChange={this.handleChange} value={value} />
             </MDCTabBar>
           </MDCAppBar>
-          {/* <BuyPageWapper /> */}
+          <TabContainer selected={value === 0}>
+            <PlaceOrder />
+          </TabContainer>
+          <TabContainer selected={value === 1}>Item Two</TabContainer>
         </ErrorBoundary>
+        {/* <TestSwap /> */}
       </NavigationLayout>
     );
   }
