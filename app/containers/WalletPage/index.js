@@ -10,6 +10,7 @@ import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import MDCAppBar from '../../components/AppBar';
+import MDCHeader from '../../components/AppBar/Header';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
 
@@ -27,8 +28,7 @@ type Props = {
 // const styles = theme => ({
 const styles = () => ({
   container: {
-    // marginTop: 65,
-    marginTop: 112,
+    marginTop: 65,
     padding: '40px 24px 24px 24px'
   },
 
@@ -83,13 +83,15 @@ const WalletPageWapper = compose(
 const Index = () => (
   <NavigationLayout background="#eeeeee">
     <ErrorBoundary>
-      <MDCAppBar
-        title={
-          <FormattedMessage id="dicoapp.containers.Wallet.title">
-            {(...content) => content}
-          </FormattedMessage>
-        }
-      />
+      <MDCAppBar>
+        <MDCHeader
+          title={
+            <FormattedMessage id="dicoapp.containers.Wallet.title">
+              {(...content) => content}
+            </FormattedMessage>
+          }
+        />
+      </MDCAppBar>
       <WalletPageWapper />
     </ErrorBoundary>
   </NavigationLayout>

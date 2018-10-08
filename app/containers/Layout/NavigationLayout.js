@@ -49,7 +49,6 @@ const styles = () => ({
 });
 
 type Props = {
-  background?: string,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -62,33 +61,19 @@ class NavigationLayout extends PureComponent<Props> {
   //   setAppWindowBounds();
   // }
 
-  static defaultProps = {
-    background: '#fff'
-  };
+  static defaultProps = {};
 
   render() {
     debug(`render`);
 
-    const { background, children, classes } = this.props;
+    const { children, classes } = this.props;
 
     return (
       <React.Fragment>
-        <aside
-          className={classes.dicoDrawer}
-          // style={{
-          //   background
-          // }}
-        >
+        <aside className={classes.dicoDrawer}>
           <DICDrawer />
         </aside>
-        <main
-          className={classes.content}
-          style={{
-            background
-          }}
-        >
-          {children}
-        </main>
+        <main className={classes.content}>{children}</main>
         {/* <div className={classes.root}> */}
         {/* <DICTypography> */}
         {/* <header className="mdc-toolbar mdc-toolbar--fixed fl-empty-layout__header"> */}

@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
@@ -19,6 +18,8 @@ import injectSaga from '../../utils/inject-saga';
 import injectWebsocket from '../../utils/inject-websocket';
 import { WEBSOCKET_DAEMON } from '../../utils/constants';
 import MDCAppBar from '../../components/AppBar';
+import MDCHeader from '../../components/AppBar/Header';
+import MDCTabBar from '../../components/AppBar/TabBar';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
@@ -239,13 +240,18 @@ const BuyPageWapper = compose(
 const Index = () => (
   <NavigationLayout>
     <ErrorBoundary>
-      <MDCAppBar
-        title={
-          <FormattedMessage id="dicoapp.containers.BuyPage.title">
-            {(...content) => content}
-          </FormattedMessage>
-        }
-      />
+      <MDCAppBar>
+        <MDCHeader
+          title={
+            <FormattedMessage id="dicoapp.containers.BuyPage.title">
+              {(...content) => content}
+            </FormattedMessage>
+          }
+        />
+        <MDCTabBar>
+          <Tabs />
+        </MDCTabBar>
+      </MDCAppBar>
       <BuyPageWapper />
     </ErrorBoundary>
   </NavigationLayout>
