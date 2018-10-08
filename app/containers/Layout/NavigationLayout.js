@@ -75,9 +75,9 @@ class NavigationLayout extends PureComponent<Props> {
       <React.Fragment>
         <aside
           className={classes.dicoDrawer}
-          style={{
-            background
-          }}
+          // style={{
+          //   background
+          // }}
         >
           <DICDrawer />
         </aside>
