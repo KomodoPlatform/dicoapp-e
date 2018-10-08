@@ -20,7 +20,8 @@ const styles = () => ({
     opacity: 1,
     pointerEvents: 'none',
     position: 'absolute',
-    right: 0
+    right: 0,
+    backgroundColor: 'transparent'
   }
 });
 
