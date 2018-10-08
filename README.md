@@ -1,5 +1,7 @@
 # dicoapp-e
 
+#### whitelabel instructions: https://github.com/KomodoPlatform/dicoapp-e/blob/master/docs/whitelabel.md
+
 ## Install dependencies
 
 ```
