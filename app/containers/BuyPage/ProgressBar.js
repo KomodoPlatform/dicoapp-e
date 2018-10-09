@@ -31,8 +31,10 @@ class ProgressBar extends PureComponent<Props> {
     debug('render');
 
     const { classes, balanceLoading, priceLoading } = this.props;
-    console.log(balanceLoading, priceLoading);
-    return <LinearProgress className={classes.linearprogress} />;
+    if (balanceLoading || priceLoading) {
+      return <LinearProgress className={classes.linearprogress} />;
+    }
+    return null;
   }
 }
 
