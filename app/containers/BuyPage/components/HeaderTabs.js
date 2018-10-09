@@ -1,9 +1,14 @@
 // @flow
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import type { Map } from 'immutable';
+import { createStructuredSelector } from 'reselect';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+import { makeSelectCurrentSwaps } from '../selectors';
 
 const styles = theme => ({
   buyTabs__tab: {
@@ -29,6 +34,8 @@ const styles = theme => ({
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
+  currentSwaps: Map<*, *>,
+  // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
   handleChange: Function,
@@ -37,8 +44,8 @@ type Props = {
 
 class HeaderTabs extends React.PureComponent<Props> {
   render() {
-    const { value, classes, handleChange } = this.props;
-
+    const { value, classes, currentSwaps, handleChange } = this.props;
+    const { size } = currentSwaps;
     return (
       <Tabs
         value={value}
@@ -55,14 +62,18 @@ class HeaderTabs extends React.PureComponent<Props> {
         />
         <Tab
           label={
-            <Badge
-              className={classes.padding}
-              color="secondary"
-              badgeContent={4}
-              classes={{ badge: classes.buyTabs__badge }}
-            >
-              My Orders
-            </Badge>
+            size > 0 ? (
+              <Badge
+                className={classes.padding}
+                color="secondary"
+                badgeContent={size}
+                classes={{ badge: classes.buyTabs__badge }}
+              >
+                My Orders
+              </Badge>
+            ) : (
+              'My Orders'
+            )
           }
           className={classes.buyTabs__tab}
         />
@@ -71,4 +82,18 @@ class HeaderTabs extends React.PureComponent<Props> {
   }
 }
 
-export default withStyles(styles)(HeaderTabs);
+const mapStateToProps = createStructuredSelector({
+  currentSwaps: makeSelectCurrentSwaps()
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  null
+);
+
+const HeaderTabsWapper = compose(
+  withConnect,
+  withStyles(styles)
+)(HeaderTabs);
+
+export default HeaderTabsWapper;

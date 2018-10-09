@@ -47,6 +47,18 @@ const makeSelectSwapsList = () =>
 const makeSelectSwapsEntities = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('entities'));
 
+// NOTE: need optimize this, just worked now
+const makeSelectCurrentSwaps = () =>
+  createSelector(makeSelectSwapsEntities(), swapsState =>
+    swapsState.filter(e => e.get('status') !== 'finished').toList()
+  );
+
+// NOTE: need optimize this, just worked now
+const makeSelectFinishedSwaps = () =>
+  createSelector(makeSelectSwapsEntities(), swapsState =>
+    swapsState.filter(e => e.get('status') === 'finished').toList()
+  );
+
 const makeSelectBalanceList = () =>
   createSelector(makeSelectBalanceListApp(), balanceList => {
     const symbol = COIN_BASE.coin;
@@ -67,5 +79,7 @@ export {
   makeSelectSwapsError,
   makeSelectSwapsList,
   makeSelectSwapsEntities,
+  makeSelectCurrentSwaps,
+  makeSelectFinishedSwaps,
   makeSelectBalanceList
 };

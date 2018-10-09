@@ -128,6 +128,16 @@ const buyReducer = handleActions(
         .setIn(['buying', 'loading'], false),
 
     [LOAD_RECENT_SWAPS_COIN]: (state, { payload }) => {
+      // NOTE: still not hanle this case
+      // error: "swap never started"
+      // uuid: ""
+      // status: "finished"
+      // bob: ""
+      // src: ""
+      // alice: ""
+      // dest: ""
+      // requestid: 1999249337
+      // quoteid: 2452050470
       const {
         tradeid,
         uuid,
@@ -141,6 +151,8 @@ const buyReducer = handleActions(
         sentflags,
         status
       } = payload;
+      // stop when not found uuid
+      if (!uuid && uuid === '') return state;
       // step one: update list
       const list = state.getIn(['swaps', 'list']);
       // if (!list.find(e => e === uuid) && status === 'pending') {
@@ -265,7 +277,7 @@ const buyReducer = handleActions(
     [REMOVE_SWAPS_DATA]: state =>
       state
         .setIn(['swaps', 'list'], fromJS([]))
-        .setIn(['swaps', 'entities'], fromJS({}))
+        // .setIn(['swaps', 'entities'], fromJS({}))
         .setIn(['swaps', 'error'], false)
         .setIn(['swaps', 'loading'], false)
         .setIn(['buying', 'error'], false)

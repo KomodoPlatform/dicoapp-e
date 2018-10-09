@@ -525,7 +525,7 @@ class AmountSection extends Component<Props, State> {
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <BuyButton
-            disabled={swapsLoading}
+            // disabled={swapsLoading}
             color="primary"
             variant="contained"
             className={classes.amountform__item}
