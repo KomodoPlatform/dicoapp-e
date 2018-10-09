@@ -7,7 +7,7 @@ const TIMEOUT = 10000;
 // export default function isReadyFactory(state: StateType) {
 export default function isReadyFactory() {
   return {
-    isready() {
+    isready(time: number = TIMEOUT) {
       return new Promise((resolve, reject) => {
         const interval = setInterval(async () => {
           try {
@@ -21,7 +21,7 @@ export default function isReadyFactory() {
         setTimeout(() => {
           clearInterval(interval);
           reject(new Error('Giving up trying to connect to marketmaker'));
-        }, TIMEOUT);
+        }, time);
       });
     }
   };
