@@ -81,7 +81,7 @@ const WalletPageWapper = compose(
 )(WalletPage);
 
 const Index = () => (
-  <NavigationLayout background="#eeeeee">
+  <NavigationLayout>
     <ErrorBoundary>
       <MDCAppBar>
         <MDCHeader

@@ -1,7 +1,7 @@
 {
   "name": "dicoapp-e",
   "productName": "dICOApp",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Lightweight GUI wallet with barterDEX swap capabilities",
   "main": "./main.prod.js",
   "author": {

@@ -29,7 +29,7 @@ type Props = {
   priceLoading: boolean
 };
 
-class ProgressBar extends PureComponent<Props> {
+export class ProgressBar extends PureComponent<Props> {
   props: Props;
 
   render() {
