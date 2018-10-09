@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import {
   makeSelectBalanceEntities,
@@ -24,7 +23,7 @@ import PaymentSection from './components/PaymentSection';
 import { loadPrices, loadPrice } from './actions';
 import { makeSelectPricesLoading } from './selectors';
 
-const debug = require('debug')('dicoapp:containers:PlaceOrder');
+const debug = require('debug')('dicoapp:containers:BuyPage:PlaceOrder');
 
 const styles = () => ({
   container: {
@@ -118,66 +117,61 @@ class PlaceOrder extends Component<Props, State> {
     const { paymentCoin } = this.state;
 
     return (
-      <React.Fragment>
-        <Grid container spacing={0} className={classes.container}>
-          <Grid item xs={12} className={classes.containerSection}>
-            {loading && <LinearProgress />}
-            {/* <CardContent className={classes.cardContent}>
-              <Tabs />
-              <Divider className={classes.hr} />
-            </CardContent> */}
-            <CardContent className={classes.cardContent}>
-              <PageSectionTitle
-                title={
-                  <FormattedMessage id="dicoapp.containers.BuyPage.currency">
-                    {(...content) => content}
-                  </FormattedMessage>
-                }
-              />
-              {/* <Divider className={classes.hr} /> */}
-              <CurrencySection
-                balance={balance}
-                onClick={this.onReloadPrices}
-              />
-            </CardContent>
-            <CardContent className={classes.cardContent}>
-              <PageSectionTitle
-                title={
-                  <FormattedMessage id="dicoapp.containers.BuyPage.payment">
-                    {(...content) => content}
-                  </FormattedMessage>
-                }
-              />
-              <IconButton
-                aria-label="Reload prices"
-                className={classes.cardContent__rightBtn}
-                onClick={this.onReloadPrices}
-              >
-                <Icon>cached</Icon>
-              </IconButton>
-              {/* <Divider className={classes.hr} /> */}
-              <PaymentSection
-                onClick={this.onClickPaymentCoin}
-                paymentCoin={paymentCoin}
-                balance={balance}
-                dispatchLoadPrice={dispatchLoadPrice}
-                loading={balanceLoading}
-              />
-            </CardContent>
-            <CardContent className={classes.cardContent}>
-              <PageSectionTitle
-                title={
-                  <FormattedMessage id="dicoapp.containers.BuyPage.amount">
-                    {(...content) => content}
-                  </FormattedMessage>
-                }
-              />
-              {/* <Divider className={classes.hr} /> */}
-              <AmountSection paymentCoin={paymentCoin} />
-            </CardContent>
-          </Grid>
+      <Grid container spacing={0} className={classes.container}>
+        <Grid item xs={12} className={classes.containerSection}>
+          {loading && <LinearProgress />}
+          {/* <CardContent className={classes.cardContent}>
+            <Tabs />
+            <Divider className={classes.hr} />
+          </CardContent> */}
+          <CardContent className={classes.cardContent}>
+            <PageSectionTitle
+              title={
+                <FormattedMessage id="dicoapp.containers.BuyPage.currency">
+                  {(...content) => content}
+                </FormattedMessage>
+              }
+            />
+            {/* <Divider className={classes.hr} /> */}
+            <CurrencySection balance={balance} onClick={this.onReloadPrices} />
+          </CardContent>
+          <CardContent className={classes.cardContent}>
+            <PageSectionTitle
+              title={
+                <FormattedMessage id="dicoapp.containers.BuyPage.payment">
+                  {(...content) => content}
+                </FormattedMessage>
+              }
+            />
+            <IconButton
+              aria-label="Reload prices"
+              className={classes.cardContent__rightBtn}
+              onClick={this.onReloadPrices}
+            >
+              <Icon>cached</Icon>
+            </IconButton>
+            {/* <Divider className={classes.hr} /> */}
+            <PaymentSection
+              onClick={this.onClickPaymentCoin}
+              paymentCoin={paymentCoin}
+              balance={balance}
+              dispatchLoadPrice={dispatchLoadPrice}
+              loading={balanceLoading}
+            />
+          </CardContent>
+          <CardContent className={classes.cardContent}>
+            <PageSectionTitle
+              title={
+                <FormattedMessage id="dicoapp.containers.BuyPage.amount">
+                  {(...content) => content}
+                </FormattedMessage>
+              }
+            />
+            {/* <Divider className={classes.hr} /> */}
+            <AmountSection paymentCoin={paymentCoin} />
+          </CardContent>
         </Grid>
-      </React.Fragment>
+      </Grid>
     );
   }
 }

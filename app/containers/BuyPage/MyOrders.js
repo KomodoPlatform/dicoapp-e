@@ -8,10 +8,9 @@ import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import PageSectionTitle from '../../components/PageSectionTitle';
 
-const debug = require('debug')('dicoapp:containers:MyOrders');
+const debug = require('debug')('dicoapp:containers:BuyPage:MyOrders');
 
 const styles = () => ({
   container: {

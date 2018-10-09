@@ -17,6 +17,7 @@ import TabContainer from './components/TabContainer';
 // import TestSwap from './components/TestSwap';
 import MyOrders from './MyOrders';
 import PlaceOrder from './PlaceOrder';
+import ProgressBar from './ProgressBar';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
 import saga from './saga';
@@ -48,29 +49,32 @@ class BuyPage extends Component<Props, State> {
     const { value } = this.state;
 
     return (
-      <NavigationLayout>
-        <ErrorBoundary>
-          <MDCAppBar>
-            <MDCHeader
-              title={
-                <FormattedMessage id="dicoapp.containers.BuyPage.title">
-                  {(...content) => content}
-                </FormattedMessage>
-              }
-            />
-            <MDCTabBar>
-              <HeaderTabs handleChange={this.handleChange} value={value} />
-            </MDCTabBar>
-          </MDCAppBar>
-          <TabContainer selected={value === 0}>
-            <PlaceOrder />
-          </TabContainer>
-          <TabContainer selected={value === 1}>
-            <MyOrders />
-          </TabContainer>
-        </ErrorBoundary>
-        {/* <TestSwap /> */}
-      </NavigationLayout>
+      <React.Fragment>
+        <ProgressBar />
+        <NavigationLayout>
+          <ErrorBoundary>
+            <MDCAppBar>
+              <MDCHeader
+                title={
+                  <FormattedMessage id="dicoapp.containers.BuyPage.title">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
+              <MDCTabBar>
+                <HeaderTabs handleChange={this.handleChange} value={value} />
+              </MDCTabBar>
+            </MDCAppBar>
+            <TabContainer selected={value === 0}>
+              <PlaceOrder />
+            </TabContainer>
+            <TabContainer selected={value === 1}>
+              <MyOrders />
+            </TabContainer>
+          </ErrorBoundary>
+          {/* <TestSwap /> */}
+        </NavigationLayout>
+      </React.Fragment>
     );
   }
 }
