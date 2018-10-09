@@ -27,7 +27,7 @@ type Props = {
 
 type State = {};
 
-class TabContainer extends React.Component<Props, State> {
+export class TabContainer extends React.PureComponent<Props, State> {
   // shouldComponentUpdate(nextProps) {
   //   // NOTE: always render when selected === true
   //   const { selected } = this.props;
