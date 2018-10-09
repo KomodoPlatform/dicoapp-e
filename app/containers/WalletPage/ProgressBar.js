@@ -1,28 +1,28 @@
 /* eslint-disable import/no-named-as-default */
 // @flow
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import LinearProgress from '../../components/ProgressBar';
 import { makeSelectBalanceLoading } from '../App/selectors';
-import { makeSelectPricesLoading } from './selectors';
+import { makeSelectTransactionsLoading } from './selectors';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:ProgressBar');
 
 type Props = {
   balanceLoading: boolean,
-  priceLoading: boolean
+  transactionsLoading: boolean
 };
 
-export class ProgressBar extends React.PureComponent<Props> {
+export class ProgressBar extends PureComponent<Props> {
   props: Props;
 
   render() {
     debug('render');
 
-    const { balanceLoading, priceLoading } = this.props;
-    if (balanceLoading || priceLoading) {
+    const { balanceLoading, transactionsLoading } = this.props;
+    if (balanceLoading || transactionsLoading) {
       return <LinearProgress />;
     }
     return null;
@@ -30,7 +30,7 @@ export class ProgressBar extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = createStructuredSelector({
-  priceLoading: makeSelectPricesLoading(),
+  transactionsLoading: makeSelectTransactionsLoading(),
   balanceLoading: makeSelectBalanceLoading()
 });
 

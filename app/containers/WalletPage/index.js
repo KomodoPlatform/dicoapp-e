@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 // @flow
 import React, { Component } from 'react';
 import classNames from 'classnames';
@@ -5,7 +6,6 @@ import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -13,9 +13,9 @@ import MDCAppBar from '../../components/AppBar';
 import MDCHeader from '../../components/AppBar/Header';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
-
 import Overview from './components/Overview';
 import Transactions from './components/Transactions';
+import ProgressBar from './ProgressBar';
 import reducer from './reducer';
 import saga from './saga';
 import { APP_STATE_NAME } from './constants';
@@ -49,23 +49,37 @@ class WalletPage extends Component<Props> {
 
     return (
       <React.Fragment>
-        <Grid
-          container
-          spacing={0}
-          className={classNames(classes.container, classes.container)}
-        >
-          {/* <Grid item xs={12} className={classes.containerSection}> */}
-          <PageSectionTitle
-            title={
-              <FormattedMessage id="dicoapp.containers.Wallet.overview">
-                {(...content) => content}
-              </FormattedMessage>
-            }
-          />
-          {/* </Grid> */}
-          <Overview />
-          <Transactions />
-        </Grid>
+        <ProgressBar />
+        <NavigationLayout>
+          <ErrorBoundary>
+            <MDCAppBar>
+              <MDCHeader
+                title={
+                  <FormattedMessage id="dicoapp.containers.Wallet.title">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
+            </MDCAppBar>
+            <Grid
+              container
+              spacing={0}
+              className={classNames(classes.container, classes.container)}
+            >
+              {/* <Grid item xs={12} className={classes.containerSection}> */}
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.Wallet.overview">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
+              {/* </Grid> */}
+              <Overview />
+              <Transactions />
+            </Grid>
+          </ErrorBoundary>
+        </NavigationLayout>
       </React.Fragment>
     );
   }
@@ -80,25 +94,5 @@ const WalletPageWapper = compose(
   withStyles(styles)
 )(WalletPage);
 
-const Index = () => (
-  <NavigationLayout>
-    <ErrorBoundary>
-      <MDCAppBar>
-        <MDCHeader
-          title={
-            <FormattedMessage id="dicoapp.containers.Wallet.title">
-              {(...content) => content}
-            </FormattedMessage>
-          }
-        />
-      </MDCAppBar>
-      <WalletPageWapper />
-    </ErrorBoundary>
-  </NavigationLayout>
-);
-
-Index.propTypes = {};
-
-Index.defaultProps = {};
-
-export default Index;
+export default WalletPageWapper;
+/* eslint-enable import/no-named-as-default */
