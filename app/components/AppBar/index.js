@@ -5,10 +5,10 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 
-const styles = () => ({
+const styles = theme => ({
   appBar: {
     boxShadow: 'none',
-    backgroundColor: '#fff',
+    backgroundColor: theme.appbar.background,
     left: 72
   },
 

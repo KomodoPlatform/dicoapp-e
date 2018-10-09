@@ -10,6 +10,15 @@ const theme = createMuiTheme({
       // This is a main color for button
       main: '#3f51b5'
     }
+  },
+
+  drawer: {
+    background: '#F6F6F6',
+    color: 'rgba(0, 0, 0, .87)'
+  },
+
+  appbar: {
+    background: '#fff'
   }
 });
 

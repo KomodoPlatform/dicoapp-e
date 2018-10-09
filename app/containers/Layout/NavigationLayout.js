@@ -20,8 +20,7 @@ const debug = require('debug')('dicoapp:containers:layout:NavigationLayout');
 //   win.center();
 // };
 
-// const styles = theme => ({
-const styles = () => ({
+const styles = theme => ({
   content: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.default,
@@ -33,7 +32,7 @@ const styles = () => ({
   },
 
   dicoDrawer: {
-    color: 'rgba(0, 0, 0, .87)',
+    color: theme.drawer.color,
     position: 'fixed',
     top: 0,
     left: 0,
@@ -44,7 +43,7 @@ const styles = () => ({
     height: '100%',
     overflow: 'hidden',
     contain: 'strict',
-    backgroundColor: '#F6F6F6'
+    backgroundColor: theme.drawer.background
   }
 });
 
