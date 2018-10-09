@@ -25,10 +25,19 @@ export const initialState = fromJS({
     error: false,
     entities: {}
   },
+
+  // This data struct answers those question:
+  // Can I make another swap?
+  // Did current swap timeout?
   buying: {
     loading: false,
     error: false
   },
+  // This data struct answers those question:
+  // How many are swap currently processing?
+  // How many did swap finished?
+  // Current swap?
+  //
   swaps: {
     loading: false,
     error: false,

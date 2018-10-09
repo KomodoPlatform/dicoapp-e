@@ -1,6 +1,8 @@
 // @flow
-
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 // import { FormattedMessage } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +11,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import PageSectionTitle from '../../components/PageSectionTitle';
+import {
+  makeSelectBalanceEntities,
+  makeSelectBalanceLoading
+} from '../App/selectors';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:MyOrders');
 
@@ -50,12 +56,8 @@ type Props = {
   classes: Object
 };
 
-type State = {};
-
-class MyOrders extends Component<Props, State> {
+class MyOrders extends React.PureComponent<Props> {
   props: Props;
-
-  state = {};
 
   render() {
     debug('render');
@@ -96,4 +98,24 @@ class MyOrders extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(MyOrders);
+// eslint-disable-next-line flowtype/no-weak-types
+// export function mapDispatchToProps(dispatch: Dispatch<Object>) {
+//   return {};
+// }
+
+const mapStateToProps = createStructuredSelector({
+  balance: makeSelectBalanceEntities(),
+  balanceLoading: makeSelectBalanceLoading()
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  null
+);
+
+const MyOrdersWapper = compose(
+  withConnect,
+  withStyles(styles)
+)(MyOrders);
+
+export default MyOrdersWapper;

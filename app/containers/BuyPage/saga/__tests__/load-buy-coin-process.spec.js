@@ -17,8 +17,66 @@ const TEST_URL = 'http://127.0.0.1:7783';
 
 describe('containers/BuyPage/saga/load-buy-coin-process', () => {
   api.setUserpass('userpass');
+  // Scenario: Normal swap
   it(
     'should handle loadBuyCoinProcess correctly',
+    async done => {
+      let listunspentstep = 0;
+      let buystep = 0;
+      // const scope = nock(TEST_URL)
+      nock(TEST_URL)
+        .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+        .persist()
+        .post('/', () => true)
+        .reply(200, (uri, body, cb) => {
+          const { method } = JSON.parse(body);
+
+          if (method === 'listunspent' && listunspentstep === 0) {
+            listunspentstep = 1;
+            cb(null, listunspentstep2);
+          }
+
+          if (method === 'buy' && buystep === 0) {
+            buystep = 1;
+            cb(null, buy2);
+          }
+        });
+
+      const dispatched = [];
+
+      const saga = await runSaga(
+        {
+          dispatch: action => dispatched.push(action),
+          getState: () => fromJS(data)
+        },
+        loadBuyCoinProcess,
+        {
+          payload: {
+            basecoin: 'COQUI',
+            paymentcoin: 'BEER',
+            amount: 10
+          },
+          time: 0
+        }
+      ).done;
+
+      expect(saga).toEqual(1);
+      expect(dispatched).toEqual([
+        {
+          type: 'dicoapp/BuyPage/LOAD_BUY_COIN_SUCCESS',
+          payload: buy2.pending
+        }
+      ]);
+
+      nock.cleanAll();
+      nock.enableNetConnect();
+      done();
+    },
+    90 * 1000
+  );
+  // Scenario: Auto splitting
+  it(
+    'should handle loadBuyCoinProcess correctly (Auto splitting)',
     async done => {
       let listunspentstep = 0;
       let buystep = 0;
@@ -69,24 +127,7 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
       expect(dispatched).toEqual([
         {
           type: 'dicoapp/BuyPage/LOAD_BUY_COIN_SUCCESS',
-          payload: {
-            uuid:
-              'bc5e1509b2aea898b8dff71ecc3fa7d5bc7c361fb14187fe9bc06916fae63811',
-            expiration: 1536603425,
-            timeleft: 59,
-            tradeid: 3624682363,
-            requestid: 0,
-            quoteid: 0,
-            bob: 'COQUI',
-            base: 'COQUI',
-            basevalue: 85.74334186,
-            alice: 'BEER',
-            rel: 'BEER',
-            relvalue: 0.92602593,
-            desthash:
-              'c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833',
-            aliceid: '7904046646222061569'
-          }
+          payload: buy2.pending
         }
       ]);
 
