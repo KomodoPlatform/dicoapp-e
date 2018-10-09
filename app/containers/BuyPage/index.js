@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 // @flow
 import React, { Component } from 'react';
 import { compose } from 'redux';
@@ -14,7 +15,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TabContainer from './components/TabContainer';
-// import TestSwap from './components/TestSwap';
+import TestSwap from './components/TestSwap';
 import MyOrders from './MyOrders';
 import PlaceOrder from './PlaceOrder';
 import ProgressBar from './ProgressBar';
@@ -72,7 +73,7 @@ class BuyPage extends Component<Props, State> {
               <MyOrders />
             </TabContainer>
           </ErrorBoundary>
-          {/* <TestSwap /> */}
+          <TestSwap />
         </NavigationLayout>
       </React.Fragment>
     );
@@ -95,3 +96,4 @@ const BuyPageWapper = compose(
 )(BuyPage);
 
 export default BuyPageWapper;
+/* eslint-enable import/no-named-as-default */
