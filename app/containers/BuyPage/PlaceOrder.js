@@ -8,7 +8,6 @@ import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import PageSectionTitle from '../../components/PageSectionTitle';
@@ -21,7 +20,6 @@ import AmountSection from './components/AmountSection';
 import CurrencySection from './components/CurrencySection';
 import PaymentSection from './components/PaymentSection';
 import { loadPrices, loadPrice } from './actions';
-import { makeSelectPricesLoading } from './selectors';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:PlaceOrder');
 
@@ -55,7 +53,6 @@ const styles = () => ({
 });
 
 type Props = {
-  loading: boolean,
   balanceLoading: boolean,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
@@ -107,19 +104,12 @@ class PlaceOrder extends Component<Props, State> {
   render() {
     debug('render');
 
-    const {
-      classes,
-      loading,
-      balanceLoading,
-      balance,
-      dispatchLoadPrice
-    } = this.props;
+    const { classes, balanceLoading, balance, dispatchLoadPrice } = this.props;
     const { paymentCoin } = this.state;
 
     return (
       <Grid container spacing={0} className={classes.container}>
         <Grid item xs={12} className={classes.containerSection}>
-          {loading && <LinearProgress />}
           {/* <CardContent className={classes.cardContent}>
             <Tabs />
             <Divider className={classes.hr} />
@@ -186,7 +176,6 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectPricesLoading(),
   balance: makeSelectBalanceEntities(),
   balanceLoading: makeSelectBalanceLoading()
 });
