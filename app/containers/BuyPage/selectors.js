@@ -41,29 +41,25 @@ const makeSelectSwapsLoading = () =>
 const makeSelectSwapsError = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('error'));
 
+// NOTE: REMOVE THIS
 const makeSelectSwapsList = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('list'));
 
 const makeSelectSwapsEntities = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('entities'));
 
-// NOTE: need optimize this, just worked now
 const makeSelectCurrentSwaps = () =>
-  createSelector(makeSelectSwapsEntities(), swapsState =>
-    swapsState.filter(e => e.get('status') !== 'finished').toList()
+  createSelector(makeSelectSwaps(), swapsState =>
+    swapsState.get('processingList')
   );
 
-// NOTE: need optimize this, just worked now
 const makeSelectFinishedSwaps = () =>
-  createSelector(makeSelectSwapsEntities(), swapsState =>
-    swapsState.filter(e => e.get('status') === 'finished').toList()
+  createSelector(makeSelectSwaps(), swapsState =>
+    swapsState.get('finishedList')
   );
 
-// NOTE: not implement yet
 const makeSelectCurrentSwap = () =>
-  createSelector(makeSelectSwapsEntities(), swapsState =>
-    swapsState.filter(e => e.get('status') === 'finished').toList()
-  );
+  createSelector(makeSelectCurrentSwaps(), swapsState => swapsState.last());
 
 const makeSelectBalanceList = () =>
   createSelector(makeSelectBalanceListApp(), balanceList => {
