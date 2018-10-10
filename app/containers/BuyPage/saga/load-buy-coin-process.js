@@ -9,8 +9,8 @@ import {
 } from '../../App/selectors';
 import {
   loadBuyCoinError,
-  loadBuyCoinSuccess
-  // checkTimeoutEvent,
+  loadBuyCoinSuccess,
+  checkTimeoutEvent
   // checkUpdateSwapEvent
 } from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
@@ -25,7 +25,6 @@ const txfee = 10000;
 const intervalTime = 45 * 1000; // 45s
 
 export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
-  // yield put(checkTimeoutEvent());
   // yield put(checkUpdateSwapEvent());
   // return;
   // eslint-disable-next-line no-unreachable
@@ -118,7 +117,7 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
         }
         if (result.pending) {
           // NOTE
-          // checkTimeoutEvent
+          yield put(checkTimeoutEvent());
           // checkUpdateSwapEvent
           return yield put(loadBuyCoinSuccess(result.pending));
         }
