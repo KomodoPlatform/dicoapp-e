@@ -11,7 +11,7 @@ import {
   loadBuyCoinError,
   loadBuyCoinSuccess
   // checkTimeoutEvent,
-  // handleUpdateSwapEvent
+  // checkUpdateSwapEvent
 } from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
 import { APPROPRIATE_ERROR_UTXOS } from '../constants';
@@ -26,7 +26,7 @@ const intervalTime = 45 * 1000; // 45s
 
 export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
   // yield put(checkTimeoutEvent());
-  // yield put(handleUpdateSwapEvent());
+  // yield put(checkUpdateSwapEvent());
   // return;
   // eslint-disable-next-line no-unreachable
   try {
@@ -119,7 +119,7 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
         if (result.pending) {
           // NOTE
           // checkTimeoutEvent
-          // handleUpdateSwapEvent
+          // checkUpdateSwapEvent
           return yield put(loadBuyCoinSuccess(result.pending));
         }
       }

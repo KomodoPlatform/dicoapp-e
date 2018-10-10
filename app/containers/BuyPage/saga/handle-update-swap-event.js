@@ -10,14 +10,20 @@ USECASE UPDATE STATUS TASK
 import { call, cancelled } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';
-import { HANDLE_UPDATE_SWAP_EVENT } from '../constants';
+import { CHECK_UPDATE_SWAP_EVENT } from '../constants';
 
 const DELAY_TIME = 20 * 1000; // 20s
 let i = 1;
 
-function* handleUpdateStateEvent() {
+function* checkUpdateStateEvent() {
   try {
     while (true) {
+      // step one: get current swap
+
+      // if not found stop
+
+      // dispatch loadRecentSwapsProcess action
+
       console.log('run handle update state event', i);
       i += 1;
       if (i >= 5) {
@@ -41,5 +47,5 @@ function* handleUpdateStateEvent() {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield takeFirst(HANDLE_UPDATE_SWAP_EVENT, handleUpdateStateEvent);
+  yield takeFirst(CHECK_UPDATE_SWAP_EVENT, checkUpdateStateEvent);
 }

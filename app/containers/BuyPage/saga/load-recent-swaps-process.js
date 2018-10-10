@@ -4,6 +4,8 @@ import api from '../../../lib/barter-dex-api';
 import { loadRecentSwapsCoin, loadRecentSwapsError } from '../actions';
 import { makeSelectSwapsEntities } from '../selectors';
 
+// NOTE: MOVE THIS TO handle-update-swap-event.js
+
 const debug = require('debug')(
   'dicoapp:containers:BuyPage:saga:load-recent-swaps-process'
 );

@@ -6,9 +6,9 @@ Object {
 }
 `;
 
-exports[`containers/BuyPage/actions/handleUpdateSwapEvent should handleUpdateSwapEvent should create handleUpdateSwapEvent action 1`] = `
+exports[`containers/BuyPage/actions/checkUpdateSwapEvent should checkUpdateSwapEvent should create checkUpdateSwapEvent action 1`] = `
 Object {
-  "type": "dicoapp/BuyPage/HANDLE_UPDATE_SWAP_EVENT",
+  "type": "dicoapp/BuyPage/CHECK_UPDATE_SWAP_EVENT",
 }
 `;
 

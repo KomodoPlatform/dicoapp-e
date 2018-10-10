@@ -16,7 +16,7 @@ import {
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   LOAD_RECENT_SWAPS_ERROR,
   CHECK_TIMEOUT_EVENT,
-  HANDLE_UPDATE_SWAP_EVENT,
+  CHECK_UPDATE_SWAP_EVENT,
   REMOVE_SWAPS_DATA
 } from './constants';
 import type { BuyCoinPayload, BestPricePayload } from './schema';
@@ -131,8 +131,8 @@ export function checkTimeoutEvent() {
   };
 }
 
-export function handleUpdateSwapEvent() {
+export function checkUpdateSwapEvent() {
   return {
-    type: HANDLE_UPDATE_SWAP_EVENT
+    type: CHECK_UPDATE_SWAP_EVENT
   };
 }
