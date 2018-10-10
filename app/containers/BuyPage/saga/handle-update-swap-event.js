@@ -7,22 +7,26 @@ USECASE UPDATE STATUS TASK
 
 - Still watch even switch router
  */
-import { call, cancel, cancelled } from 'redux-saga/effects';
+import { call, cancelled } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';
 import { HANDLE_UPDATE_SWAP_EVENT } from '../constants';
 
 const DELAY_TIME = 20 * 1000; // 20s
-let i = 3;
+let i = 1;
 
-function* handleUpdateStateEvent(time = DELAY_TIME) {
+function* handleUpdateStateEvent() {
   try {
-    console.log('run handle update state event');
-    i += 1;
-    if (i >= 3) {
-      yield cancel();
-    } else {
-      yield call(delay, time);
+    while (true) {
+      console.log('run handle update state event', i);
+      i += 1;
+      if (i >= 5) {
+        i = 1;
+        break;
+        // yield cancel();
+      } else {
+        yield call(delay, DELAY_TIME);
+      }
     }
   } catch (err) {
     // eslint-disable-next-line no-empty
@@ -37,6 +41,5 @@ function* handleUpdateStateEvent(time = DELAY_TIME) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  i = 1;
   yield takeFirst(HANDLE_UPDATE_SWAP_EVENT, handleUpdateStateEvent);
 }

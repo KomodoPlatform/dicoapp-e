@@ -7,7 +7,12 @@ import {
   makeSelectCurrentUser,
   makeSelectBalanceEntities
 } from '../../App/selectors';
-import { loadBuyCoinError, loadBuyCoinSuccess } from '../actions';
+import {
+  loadBuyCoinError,
+  loadBuyCoinSuccess,
+  handleTimeoutEvent,
+  handleUpdateSwapEvent
+} from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
 import { APPROPRIATE_ERROR_UTXOS } from '../constants';
 
@@ -20,6 +25,10 @@ const txfee = 10000;
 const intervalTime = 45 * 1000; // 45s
 
 export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
+  yield put(handleTimeoutEvent());
+  yield put(handleUpdateSwapEvent());
+  return;
+  // eslint-disable-next-line no-unreachable
   try {
     // step one: load user data
     const user = yield select(makeSelectCurrentUser());
