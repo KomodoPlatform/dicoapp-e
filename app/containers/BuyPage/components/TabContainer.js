@@ -21,8 +21,7 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   children: Element<any>,
   className: string,
-  selected: boolean,
-  href: string
+  selected: boolean
 };
 
 type State = {};

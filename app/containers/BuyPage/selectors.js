@@ -59,6 +59,12 @@ const makeSelectFinishedSwaps = () =>
     swapsState.filter(e => e.get('status') === 'finished').toList()
   );
 
+// NOTE: not implement yet
+const makeSelectCurrentSwap = () =>
+  createSelector(makeSelectSwapsEntities(), swapsState =>
+    swapsState.filter(e => e.get('status') === 'finished').toList()
+  );
+
 const makeSelectBalanceList = () =>
   createSelector(makeSelectBalanceListApp(), balanceList => {
     const symbol = COIN_BASE.coin;
@@ -81,5 +87,6 @@ export {
   makeSelectSwapsEntities,
   makeSelectCurrentSwaps,
   makeSelectFinishedSwaps,
+  makeSelectCurrentSwap,
   makeSelectBalanceList
 };

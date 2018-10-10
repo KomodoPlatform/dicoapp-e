@@ -18,6 +18,9 @@ export const LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET =
 export const LOAD_RECENT_SWAPS_ERROR =
   'dicoapp/BuyPage/LOAD_RECENT_SWAPS_ERROR';
 export const REMOVE_SWAPS_DATA = 'dicoapp/BuyPage/REMOVE_SWAPS_DATA';
+export const HANDLE_TIMEOUT_EVENT = 'dicoapp/BuyPage/HANDLE_TIMEOUT_EVENT';
+export const HANDLE_UPDATE_STATE_EVENT =
+  'dicoapp/BuyPage/HANDLE_UPDATE_STATE_EVENT';
 export const AUTO_HIDE_SNACKBAR_TIME = 6000;
 export const TIME_LOOP = 20000;
 export const STATE_SWAPS = [

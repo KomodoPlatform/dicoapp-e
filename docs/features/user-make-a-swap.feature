@@ -13,6 +13,13 @@ Feature: User make a swap
     WHEN user click buy
     THEN swap is processing
 
+  Scenario: Cant find a deposit that is close enough in size
+    GIVEN utxos is large than 2
+    WHEN user select payment coin
+    WHEN user set amount large than balance
+    WHEN user click buy
+    THEN swap throw new error "cant find a deposit that is close enough in size. make another deposit that is just a bit larger than what you want to trade"
+
   Scenario: Auto splitting
     GIVEN utxos is less than 2
     WHEN user select payment coin

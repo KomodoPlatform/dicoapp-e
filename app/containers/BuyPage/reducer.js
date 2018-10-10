@@ -33,6 +33,7 @@ export const initialState = fromJS({
     loading: false,
     error: false
   },
+
   // This data struct answers those question:
   // How many are swap currently processing?
   // How many did swap finished?
@@ -41,7 +42,9 @@ export const initialState = fromJS({
   swaps: {
     loading: false,
     error: false,
-    list: [],
+    processingList: [],
+    finishedList: [],
+    list: [], // REMOVE ???
     entities: {}
   }
 });

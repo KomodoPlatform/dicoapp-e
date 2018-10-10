@@ -2,13 +2,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import type { Map } from 'immutable';
+import type { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 // import { FormattedMessage } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
-import List from '@material-ui/core/List';
+import MDCList from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import PageSectionTitle from '../../components/PageSectionTitle';
@@ -56,8 +56,8 @@ const styles = () => ({
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
-  currentSwaps: Map<*, *>,
-  finishedSwaps: Map<*, *>
+  currentSwaps: List<*>,
+  finishedSwaps: List<*>
 };
 
 class MyOrders extends React.PureComponent<Props> {
@@ -100,13 +100,13 @@ class MyOrders extends React.PureComponent<Props> {
           <CardContent className={classes.cardContent}>
             <PageSectionTitle title="Swap in progress" />
 
-            <List dense={false}>{this.renderCurrentSwaps()}</List>
+            <MDCList dense={false}>{this.renderCurrentSwaps()}</MDCList>
           </CardContent>
 
           <CardContent className={classes.cardContent}>
             <PageSectionTitle title="History" />
 
-            <List dense={false}>{this.renderfinishedSwaps()}</List>
+            <MDCList dense={false}>{this.renderfinishedSwaps()}</MDCList>
           </CardContent>
         </Grid>
       </Grid>

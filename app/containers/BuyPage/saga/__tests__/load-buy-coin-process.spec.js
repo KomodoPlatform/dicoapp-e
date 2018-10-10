@@ -138,6 +138,7 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
     90 * 1000
   );
 
+  // Scenario: Cant find a deposit that is close enough in size
   it(
     'should dispatch appropriate error when handle loadBuyCoinProcess',
     async done => {
