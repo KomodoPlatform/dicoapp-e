@@ -11,7 +11,7 @@ import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';
 import { CHECK_TIMEOUT_EVENT, TIME_LOOP } from '../constants';
 import { timeoutSwap } from '../actions';
-import { makeSelectSwapsEntities, makeSelectCurrentSwaps } from '../selectors';
+import { makeSelectCurrentSwaps } from '../selectors';
 
 const DELAY_TIME = 20 * 1000; // 20s
 
@@ -26,8 +26,6 @@ export function* checkTimeoutEvent(payload, times) {
     while (true) {
       // step one: get current swap
       let currentSwaps = yield select(makeSelectCurrentSwaps());
-      const swapsEntities = yield select(makeSelectSwapsEntities());
-      currentSwaps = currentSwaps.map(e => swapsEntities.get(e));
       // if not found stop
       if (currentSwaps.size === 0) {
         break;

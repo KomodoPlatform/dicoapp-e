@@ -74,31 +74,36 @@ describe('containers/BuyPage/selectors/makeSelectBuying', () => {
 describe('containers/BuyPage/selectors/makeSelectSwaps', () => {
   it('should select the swaps state', () => {
     const uuid = 'uuid';
-    let processingList = initialState.getIn(['swaps', 'processingList']);
+    let store = initialState;
+    let processingList = store.getIn(['swaps', 'processingList']);
+    let entities = initialState.getIn(['swaps', 'entities']);
+    processingList = processingList.push(uuid);
+    const entity = fromJS({
+      uuid
+    });
+    const expectedResult = fromJS([entity]);
+    entities = entities.set(uuid, entity);
+    store = store
+      .setIn(['swaps', 'processingList'], processingList)
+      .setIn(['swaps', 'entities'], entities);
+
     let mockedState = fromJS({
-      [APP_STATE_NAME]: initialState
+      [APP_STATE_NAME]: store
     });
     const selectCurrentSwaps = makeSelectCurrentSwaps();
-    expect(selectCurrentSwaps(mockedState)).toEqual(
-      initialState.getIn(['swaps', 'processingList'])
-    );
+    expect(selectCurrentSwaps(mockedState)).toEqual(expectedResult);
 
     const selectFinishedSwaps = makeSelectFinishedSwaps();
-    expect(selectFinishedSwaps(mockedState)).toEqual(
-      initialState.getIn(['swaps', 'finishedList'])
-    );
+    expect(selectFinishedSwaps(mockedState)).toEqual(fromJS([]));
 
     const selectCurrentSwap = makeSelectCurrentSwap();
-    expect(selectCurrentSwap(mockedState)).toEqual(undefined);
+    expect(selectCurrentSwap(mockedState)).toEqual(entity);
 
     processingList = processingList.push('random_uuid');
     processingList = processingList.push(uuid);
     mockedState = fromJS({
-      [APP_STATE_NAME]: initialState.setIn(
-        ['swaps', 'processingList'],
-        processingList
-      )
+      [APP_STATE_NAME]: store.setIn(['swaps', 'processingList'], processingList)
     });
-    expect(selectCurrentSwap(mockedState)).toEqual(uuid);
+    expect(selectCurrentSwap(mockedState)).toEqual(entity);
   });
 });

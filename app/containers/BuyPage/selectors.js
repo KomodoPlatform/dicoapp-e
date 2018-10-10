@@ -49,13 +49,19 @@ const makeSelectSwapsEntities = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('entities'));
 
 const makeSelectCurrentSwaps = () =>
-  createSelector(makeSelectSwaps(), swapsState =>
-    swapsState.get('processingList')
+  createSelector(
+    makeSelectSwaps(),
+    makeSelectSwapsEntities(),
+    (swapsState, swapsEntities) =>
+      swapsState.get('processingList').map(e => swapsEntities.get(e))
   );
 
 const makeSelectFinishedSwaps = () =>
-  createSelector(makeSelectSwaps(), swapsState =>
-    swapsState.get('finishedList')
+  createSelector(
+    makeSelectSwaps(),
+    makeSelectSwapsEntities(),
+    (swapsState, swapsEntities) =>
+      swapsState.get('finishedList').map(e => swapsEntities.get(e))
   );
 
 const makeSelectCurrentSwap = () =>
