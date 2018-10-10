@@ -3,6 +3,7 @@ import buyReducer, { initialState } from '../reducer';
 import {
   loadPrices,
   loadBuyCoin,
+  loadBuyCoinSuccess,
   loadBuyCoinError,
   loadRecentSwapsDataFromWebsocket,
   loadRecentSwapsCoin
@@ -351,6 +352,41 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_THREE));
     expect(store).toEqual(expectedResult);
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_TWO));
+    expect(store).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
+  it('should handle the loadBuyCoinSuccess action correctly', () => {
+    const list = initialState.getIn(['swaps', 'list']);
+    const entities = initialState.getIn(['swaps', 'entities']);
+    const expectedResult = initialState
+      .setIn(['swaps', 'loading'], true)
+      .setIn(['swaps', 'error'], false)
+      .setIn(['swaps', 'list'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(
+        ['swaps', 'entities'],
+        entities.set(
+          SWAP_STATE_ZERO.uuid,
+          fromJS({
+            id: SWAP_STATE_ZERO.tradeid,
+            uuid: SWAP_STATE_ZERO.uuid,
+            requestid: SWAP_STATE_ZERO.requestid,
+            quoteid: SWAP_STATE_ZERO.quoteid,
+            expiration: SWAP_STATE_ZERO.expiration,
+            bob: SWAP_STATE_ZERO.bob,
+            alice: SWAP_STATE_ZERO.alice,
+            bobamount: SWAP_STATE_ZERO.basevalue,
+            aliceamount: SWAP_STATE_ZERO.relvalue,
+            sentflags: [],
+            status: 'pending'
+          })
+        )
+      );
+    let store = buyReducer(initialState, loadBuyCoinSuccess(SWAP_STATE_ZERO));
+    expect(store).toEqual(expectedResult);
+    store = buyReducer(store, loadBuyCoinSuccess(SWAP_STATE_ZERO));
     expect(store).toEqual(expectedResult);
   });
 });

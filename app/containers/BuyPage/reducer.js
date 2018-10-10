@@ -93,11 +93,18 @@ const buyReducer = handleActions(
         basevalue,
         relvalue
       } = payload;
-      const list = state.getIn(['swaps', 'list']);
+      let list = state.getIn(['swaps', 'list']);
+      let processingList = state.getIn(['swaps', 'processingList']);
       const entities = state.getIn(['swaps', 'entities']);
+      if (!processingList.includes(uuid)) {
+        processingList = processingList.push(uuid);
+        list = list.push(uuid);
+      }
+
       // step one: update date
       return state
-        .setIn(['swaps', 'list'], list.unshift(uuid))
+        .setIn(['swaps', 'list'], list)
+        .setIn(['swaps', 'processingList'], processingList)
         .setIn(
           ['swaps', 'entities'],
           entities.set(
