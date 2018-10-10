@@ -6,14 +6,14 @@ USECASE TIMEOUT BACKGROUND TASK
 
 - Still watch even switch router
 */
-import { put, call, cancelled } from 'redux-saga/effects';
+import { select, put, call, cancelled } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';
-import { CHECK_TIMEOUT_EVENT } from '../constants';
-import { removeSwapsData } from '../actions';
+import { CHECK_TIMEOUT_EVENT, TIME_LOOP } from '../constants';
+import { timeoutSwap } from '../actions';
+import { makeSelectSwapsEntities, makeSelectCurrentSwaps } from '../selectors';
 
 const DELAY_TIME = 20 * 1000; // 20s
-let i = 1;
 
 // function* handleTimeoutSwap() {
 // Todo
@@ -21,27 +21,44 @@ let i = 1;
 // notification to user
 // }
 
-function* checkTimeoutEvent() {
+export function* checkTimeoutEvent(payload, times) {
   try {
+    let n = times;
     while (true) {
       // step one: get current swap
-
+      let currentSwaps = yield select(makeSelectCurrentSwaps());
+      const swapsEntities = yield select(makeSelectSwapsEntities());
+      currentSwaps = currentSwaps.map(e => swapsEntities.get(e));
       // if not found stop
-
-      // step two: compare now() with expiration field
-
-      // dispatch timeout event
-
-      console.log('run handle timeout event', i);
-      i += 1;
-      if (i >= 5) {
-        i = 1;
-        yield put(removeSwapsData());
+      if (currentSwaps.size === 0) {
         break;
-        // yield cancel();
-      } else {
-        yield call(delay, DELAY_TIME);
       }
+      // step two: compare now() with expiration field
+      const now = (Date.now() - TIME_LOOP) / 1000;
+      currentSwaps = currentSwaps.filter(
+        entity => entity.get('expiration') - now <= 0
+      );
+      // dispatch timeout event
+      if (currentSwaps.size >= 0) {
+        for (let i = 0; i < currentSwaps.size; i += 1) {
+          const entity = currentSwaps.get(i);
+          yield put(
+            timeoutSwap({
+              id: entity.get('id'),
+              uuid: entity.get('uuid'),
+              requestid: entity.get('requestid'),
+              quoteid: entity.get('quoteid'),
+              bob: entity.get('bob'),
+              alice: entity.get('alice')
+            })
+          );
+        }
+      }
+      if (n) {
+        n -= 1;
+        if (n <= 0) break;
+      }
+      yield call(delay, DELAY_TIME);
     }
   } catch (err) {
     // eslint-disable-next-line no-empty

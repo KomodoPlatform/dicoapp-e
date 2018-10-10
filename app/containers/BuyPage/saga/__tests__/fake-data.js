@@ -282,6 +282,8 @@ export default {
       loading: true,
       error: false,
       list: [],
+      processingList: [],
+      finishedList: [],
       entities: {
         '153a5b01fe56576c3cc4c69256b65a68decd2c407e85d84deb119085c020e2de': {
           alice: 'BEER',

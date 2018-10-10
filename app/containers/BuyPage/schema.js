@@ -60,4 +60,13 @@ type SwapCoin = {
   updatedAt?: Date
 };
 
-export type { BuyCoinPayload, BestPricePayload, SwapCoin };
+type TimeoutPayload = {
+  id: number, // the unique id, alias trade id
+  uuid: string, // the unique id
+  requestid: number,
+  quoteid: number,
+  bob: string, // eg: KMD, BTC, LTC
+  alice: string // eg: KMD, BTC, LTC
+};
+
+export type { BuyCoinPayload, BestPricePayload, SwapCoin, TimeoutPayload };

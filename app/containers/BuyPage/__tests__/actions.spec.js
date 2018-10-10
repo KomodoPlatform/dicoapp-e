@@ -7,7 +7,8 @@ import {
   loadBuyCoinError,
   removeSwapsData,
   checkTimeoutEvent,
-  checkUpdateSwapEvent
+  checkUpdateSwapEvent,
+  timeoutSwap
 } from '../actions';
 import {
   LOAD_PRICE,
@@ -18,7 +19,8 @@ import {
   LOAD_BUY_COIN_ERROR,
   REMOVE_SWAPS_DATA,
   CHECK_TIMEOUT_EVENT,
-  CHECK_UPDATE_SWAP_EVENT
+  CHECK_UPDATE_SWAP_EVENT,
+  SWAP_TIMEOUT
 } from '../constants';
 
 describe('containers/BuyPage/actions/loadPrice', () => {
@@ -176,5 +178,28 @@ describe('containers/BuyPage/actions/checkUpdateSwapEvent', () => {
     };
 
     expect(checkUpdateSwapEvent()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/timeoutSwap', () => {
+  const payload = {
+    alice: 'BEER',
+    bob: 'COQUI',
+    id: 3624682363,
+    quoteid: 0,
+    requestid: 0,
+    uuid: 'bc5e1509b2aea898b8dff71ecc3fa7d5bc7c361fb14187fe9bc06916fae63811'
+  };
+  it('should timeoutSwap should create timeoutSwap action', () => {
+    expect(timeoutSwap(payload)).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_TIMEOUT,
+      payload
+    };
+
+    expect(timeoutSwap(payload)).toEqual(expectedResult);
   });
 });

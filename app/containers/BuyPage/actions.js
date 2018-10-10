@@ -17,9 +17,14 @@ import {
   LOAD_RECENT_SWAPS_ERROR,
   CHECK_TIMEOUT_EVENT,
   CHECK_UPDATE_SWAP_EVENT,
-  REMOVE_SWAPS_DATA
+  REMOVE_SWAPS_DATA,
+  SWAP_TIMEOUT
 } from './constants';
-import type { BuyCoinPayload, BestPricePayload } from './schema';
+import type {
+  BuyCoinPayload,
+  BestPricePayload,
+  TimeoutPayload
+} from './schema';
 
 export function loadPrice(coin: string) {
   return {
@@ -134,5 +139,12 @@ export function checkTimeoutEvent() {
 export function checkUpdateSwapEvent() {
   return {
     type: CHECK_UPDATE_SWAP_EVENT
+  };
+}
+
+export function timeoutSwap(payload: TimeoutPayload) {
+  return {
+    type: SWAP_TIMEOUT,
+    payload
   };
 }
