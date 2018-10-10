@@ -117,9 +117,9 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
         }
         if (result.pending) {
           // NOTE
-          yield put(checkTimeoutEvent());
+          yield put(loadBuyCoinSuccess(result.pending));
           // checkUpdateSwapEvent
-          return yield put(loadBuyCoinSuccess(result.pending));
+          return yield put(checkTimeoutEvent());
         }
       }
       yield call(delay, time);

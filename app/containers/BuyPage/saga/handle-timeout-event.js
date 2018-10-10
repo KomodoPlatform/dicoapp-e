@@ -15,6 +15,10 @@ import { makeSelectCurrentSwaps } from '../selectors';
 
 const DELAY_TIME = 20 * 1000; // 20s
 
+const debug = require('debug')(
+  'dicoapp:containers:BuyPage:saga:handle-timeout-event'
+);
+
 // function* handleTimeoutSwap() {
 // Todo
 // notification to user
@@ -24,8 +28,10 @@ export function* checkTimeoutEvent(payload, times) {
   try {
     let n = times;
     while (true) {
+      debug('start');
       // step one: get current swap
       let currentSwaps = yield select(makeSelectCurrentSwaps());
+      debug('currentSwaps', currentSwaps.toJS());
       // if not found stop
       if (currentSwaps.size === 0) {
         break;

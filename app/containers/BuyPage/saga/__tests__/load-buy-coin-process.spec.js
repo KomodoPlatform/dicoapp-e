@@ -66,11 +66,11 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
       expect(saga).toEqual(2);
       expect(dispatched).toEqual([
         {
-          type: CHECK_TIMEOUT_EVENT
-        },
-        {
           type: LOAD_BUY_COIN_SUCCESS,
           payload: buy2.pending
+        },
+        {
+          type: CHECK_TIMEOUT_EVENT
         }
       ]);
 
@@ -132,11 +132,11 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
       expect(saga).toEqual(2);
       expect(dispatched).toEqual([
         {
-          type: CHECK_TIMEOUT_EVENT
-        },
-        {
           type: LOAD_BUY_COIN_SUCCESS,
           payload: buy2.pending
+        },
+        {
+          type: CHECK_TIMEOUT_EVENT
         }
       ]);
 
