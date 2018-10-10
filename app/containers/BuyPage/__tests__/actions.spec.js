@@ -5,7 +5,9 @@ import {
   loadBestPrice,
   loadBuyCoin,
   loadBuyCoinError,
-  removeSwapsData
+  removeSwapsData,
+  handleTimeoutEvent,
+  handleUpdateSwapEvent
 } from '../actions';
 import {
   LOAD_PRICE,
@@ -14,7 +16,9 @@ import {
   LOAD_BEST_PRICE,
   LOAD_BUY_COIN,
   LOAD_BUY_COIN_ERROR,
-  REMOVE_SWAPS_DATA
+  REMOVE_SWAPS_DATA,
+  HANDLE_TIMEOUT_EVENT,
+  HANDLE_UPDATE_SWAP_EVENT
 } from '../constants';
 
 describe('containers/BuyPage/actions/loadPrice', () => {
@@ -144,5 +148,33 @@ describe('containers/BuyPage/actions/removeSwapsData', () => {
     };
 
     expect(removeSwapsData()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/handleTimeoutEvent', () => {
+  it('should handleTimeoutEvent should create handleTimeoutEvent action', () => {
+    expect(handleTimeoutEvent()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: HANDLE_TIMEOUT_EVENT
+    };
+
+    expect(handleTimeoutEvent()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/handleUpdateSwapEvent', () => {
+  it('should handleUpdateSwapEvent should create handleUpdateSwapEvent action', () => {
+    expect(handleUpdateSwapEvent()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: HANDLE_UPDATE_SWAP_EVENT
+    };
+
+    expect(handleUpdateSwapEvent()).toEqual(expectedResult);
   });
 });

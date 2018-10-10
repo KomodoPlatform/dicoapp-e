@@ -1,3 +1,12 @@
+/**
+USECASE TIMEOUT BACKGROUND TASK
+- Trigger when have a new buy
+
+- Auto cancel when there is no buy
+
+- Still watch even switch router
+*/
+
 import { call, cancelled } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';

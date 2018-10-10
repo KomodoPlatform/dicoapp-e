@@ -15,9 +15,10 @@ import {
   // LOAD_RECENT_SWAPS_SUCCESS,
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   LOAD_RECENT_SWAPS_ERROR,
+  HANDLE_TIMEOUT_EVENT,
+  HANDLE_UPDATE_SWAP_EVENT,
   REMOVE_SWAPS_DATA
 } from './constants';
-
 import type { BuyCoinPayload, BestPricePayload } from './schema';
 
 export function loadPrice(coin: string) {
@@ -121,5 +122,17 @@ export function loadRecentSwapsError(message: string) {
 export function removeSwapsData() {
   return {
     type: REMOVE_SWAPS_DATA
+  };
+}
+
+export function handleTimeoutEvent() {
+  return {
+    type: HANDLE_TIMEOUT_EVENT
+  };
+}
+
+export function handleUpdateSwapEvent() {
+  return {
+    type: HANDLE_UPDATE_SWAP_EVENT
   };
 }

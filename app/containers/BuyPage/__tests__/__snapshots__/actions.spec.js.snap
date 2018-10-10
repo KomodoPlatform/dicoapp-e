@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`containers/BuyPage/actions/handleTimeoutEvent should handleTimeoutEvent should create handleTimeoutEvent action 1`] = `
+Object {
+  "type": "dicoapp/BuyPage/HANDLE_TIMEOUT_EVENT",
+}
+`;
+
+exports[`containers/BuyPage/actions/handleUpdateSwapEvent should handleUpdateSwapEvent should create handleUpdateSwapEvent action 1`] = `
+Object {
+  "type": "dicoapp/BuyPage/HANDLE_UPDATE_SWAP_EVENT",
+}
+`;
+
 exports[`containers/BuyPage/actions/loadBestPrice should loadBestPrice should create loadBestPrice action 1`] = `
 Object {
   "payload": Object {
