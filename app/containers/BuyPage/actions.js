@@ -15,7 +15,7 @@ import {
   // LOAD_RECENT_SWAPS_SUCCESS,
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   LOAD_RECENT_SWAPS_ERROR,
-  HANDLE_TIMEOUT_EVENT,
+  CHECK_TIMEOUT_EVENT,
   HANDLE_UPDATE_SWAP_EVENT,
   REMOVE_SWAPS_DATA
 } from './constants';
@@ -125,9 +125,9 @@ export function removeSwapsData() {
   };
 }
 
-export function handleTimeoutEvent() {
+export function checkTimeoutEvent() {
   return {
-    type: HANDLE_TIMEOUT_EVENT
+    type: CHECK_TIMEOUT_EVENT
   };
 }
 

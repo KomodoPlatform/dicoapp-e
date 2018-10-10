@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`containers/BuyPage/actions/handleTimeoutEvent should handleTimeoutEvent should create handleTimeoutEvent action 1`] = `
+exports[`containers/BuyPage/actions/checkTimeoutEvent should checkTimeoutEvent should create checkTimeoutEvent action 1`] = `
 Object {
-  "type": "dicoapp/BuyPage/HANDLE_TIMEOUT_EVENT",
+  "type": "dicoapp/BuyPage/CHECK_TIMEOUT_EVENT",
 }
 `;
 

@@ -9,9 +9,9 @@ import {
 } from '../../App/selectors';
 import {
   loadBuyCoinError,
-  loadBuyCoinSuccess,
-  handleTimeoutEvent,
-  handleUpdateSwapEvent
+  loadBuyCoinSuccess
+  // checkTimeoutEvent,
+  // handleUpdateSwapEvent
 } from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
 import { APPROPRIATE_ERROR_UTXOS } from '../constants';
@@ -25,9 +25,9 @@ const txfee = 10000;
 const intervalTime = 45 * 1000; // 45s
 
 export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
-  yield put(handleTimeoutEvent());
-  yield put(handleUpdateSwapEvent());
-  return;
+  // yield put(checkTimeoutEvent());
+  // yield put(handleUpdateSwapEvent());
+  // return;
   // eslint-disable-next-line no-unreachable
   try {
     // step one: load user data
@@ -117,6 +117,9 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
           throw new Error(result.error);
         }
         if (result.pending) {
+          // NOTE
+          // checkTimeoutEvent
+          // handleUpdateSwapEvent
           return yield put(loadBuyCoinSuccess(result.pending));
         }
       }

@@ -9,15 +9,29 @@ USECASE TIMEOUT BACKGROUND TASK
 import { put, call, cancelled } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import takeFirst from '../../../utils/sagas/take-first';
-import { HANDLE_TIMEOUT_EVENT } from '../constants';
+import { CHECK_TIMEOUT_EVENT } from '../constants';
 import { removeSwapsData } from '../actions';
 
 const DELAY_TIME = 20 * 1000; // 20s
 let i = 1;
 
-function* handleTimeoutEvent() {
+// function* handleTimeoutSwap() {
+// Todo
+// remove swap from processingList
+// notification to user
+// }
+
+function* checkTimeoutEvent() {
   try {
     while (true) {
+      // step one: get current swap
+
+      // if not found stop
+
+      // step two: compare now() with expiration field
+
+      // dispatch timeout event
+
       console.log('run handle timeout event', i);
       i += 1;
       if (i >= 5) {
@@ -42,5 +56,5 @@ function* handleTimeoutEvent() {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield takeFirst(HANDLE_TIMEOUT_EVENT, handleTimeoutEvent);
+  yield takeFirst(CHECK_TIMEOUT_EVENT, checkTimeoutEvent);
 }

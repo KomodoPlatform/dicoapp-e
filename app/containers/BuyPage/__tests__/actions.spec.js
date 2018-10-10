@@ -6,7 +6,7 @@ import {
   loadBuyCoin,
   loadBuyCoinError,
   removeSwapsData,
-  handleTimeoutEvent,
+  checkTimeoutEvent,
   handleUpdateSwapEvent
 } from '../actions';
 import {
@@ -17,7 +17,7 @@ import {
   LOAD_BUY_COIN,
   LOAD_BUY_COIN_ERROR,
   REMOVE_SWAPS_DATA,
-  HANDLE_TIMEOUT_EVENT,
+  CHECK_TIMEOUT_EVENT,
   HANDLE_UPDATE_SWAP_EVENT
 } from '../constants';
 
@@ -151,17 +151,17 @@ describe('containers/BuyPage/actions/removeSwapsData', () => {
   });
 });
 
-describe('containers/BuyPage/actions/handleTimeoutEvent', () => {
-  it('should handleTimeoutEvent should create handleTimeoutEvent action', () => {
-    expect(handleTimeoutEvent()).toMatchSnapshot();
+describe('containers/BuyPage/actions/checkTimeoutEvent', () => {
+  it('should checkTimeoutEvent should create checkTimeoutEvent action', () => {
+    expect(checkTimeoutEvent()).toMatchSnapshot();
   });
 
   it('should return the correct type and the passed name', () => {
     const expectedResult = {
-      type: HANDLE_TIMEOUT_EVENT
+      type: CHECK_TIMEOUT_EVENT
     };
 
-    expect(handleTimeoutEvent()).toEqual(expectedResult);
+    expect(checkTimeoutEvent()).toEqual(expectedResult);
   });
 });
 

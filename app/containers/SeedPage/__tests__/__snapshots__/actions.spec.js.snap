@@ -15,25 +15,7 @@ Object {
 }
 `;
 
-exports[`containers/SeedPage/actions/generatePassphrase should generatePassphrase should generatePassphrase login action 1`] = `
-Object {
-  "payload": Object {
-    "passphrase": "passphrase",
-  },
-  "type": "dicoapp/SeedPage/GENERATE_PASSPHRASE",
-}
-`;
-
 exports[`containers/SeedPage/actions/generateWif should generateWif should generateWif action 1`] = `
-Object {
-  "payload": Object {
-    "wif": "wif",
-  },
-  "type": "dicoapp/SeedPage/GENERATE_WIF",
-}
-`;
-
-exports[`containers/SeedPage/actions/generateWif should generateWif should generateWif login action 1`] = `
 Object {
   "payload": Object {
     "wif": "wif",
