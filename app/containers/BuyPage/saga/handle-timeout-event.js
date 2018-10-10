@@ -17,7 +17,6 @@ const DELAY_TIME = 20 * 1000; // 20s
 
 // function* handleTimeoutSwap() {
 // Todo
-// remove swap from processingList
 // notification to user
 // }
 

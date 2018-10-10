@@ -13,7 +13,8 @@ import {
   LOAD_RECENT_SWAPS_COIN,
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   LOAD_RECENT_SWAPS_ERROR,
-  REMOVE_SWAPS_DATA
+  REMOVE_SWAPS_DATA,
+  SWAP_TIMEOUT
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -292,6 +293,22 @@ const buyReducer = handleActions(
         .setIn(['swaps', 'loading'], false)
         .setIn(['buying', 'error'], false)
         .setIn(['buying', 'loading'], false),
+
+    [SWAP_TIMEOUT]: (state, { payload }) => {
+      // NOTE: Todo
+      // notification to user
+      const { uuid } = payload;
+      // step one: get data
+      let list = state.getIn(['swaps', 'list']);
+      let processingList = state.getIn(['swaps', 'processingList']);
+      // step two: remove swap from processingList
+      processingList = processingList.filter(o => o !== uuid);
+      list = list.filter(o => o !== uuid);
+
+      return state
+        .setIn(['swaps', 'list'], list)
+        .setIn(['swaps', 'processingList'], processingList);
+    },
 
     [LOGOUT]: () => initialState
   },

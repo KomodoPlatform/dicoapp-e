@@ -6,7 +6,8 @@ import {
   loadBuyCoinSuccess,
   loadBuyCoinError,
   loadRecentSwapsDataFromWebsocket,
-  loadRecentSwapsCoin
+  loadRecentSwapsCoin,
+  timeoutSwap
 } from '../actions';
 import {
   WEBSOCKET_STATE_ZERO,
@@ -387,6 +388,52 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
     let store = buyReducer(initialState, loadBuyCoinSuccess(SWAP_STATE_ZERO));
     expect(store).toEqual(expectedResult);
     store = buyReducer(store, loadBuyCoinSuccess(SWAP_STATE_ZERO));
+    expect(store).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/reducers/timeoutSwap', () => {
+  it('should handle the timeoutSwap action correctly', () => {
+    const list = initialState.getIn(['swaps', 'list']);
+    let store = initialState
+      .setIn(['swaps', 'list'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid));
+
+    const expectedResult = initialState;
+
+    const payload = {
+      id: SWAP_STATE_ZERO.tradeid,
+      uuid: SWAP_STATE_ZERO.uuid,
+      requestid: SWAP_STATE_ZERO.requestid,
+      quoteid: SWAP_STATE_ZERO.quoteid,
+      bob: SWAP_STATE_ZERO.bob,
+      alice: SWAP_STATE_ZERO.alice
+    };
+    store = buyReducer(store, timeoutSwap(payload));
+    expect(store).toEqual(expectedResult);
+    store = buyReducer(store, timeoutSwap(payload));
+    expect(store).toEqual(expectedResult);
+  });
+
+  it('should not remove uuid in processingList', () => {
+    const list = initialState.getIn(['swaps', 'list']);
+    let store = initialState
+      .setIn(['swaps', 'list'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid));
+
+    const expectedResult = store;
+
+    const payload = {
+      id: SWAP_STATE_ZERO.tradeid,
+      uuid: 'uuid',
+      requestid: SWAP_STATE_ZERO.requestid,
+      quoteid: SWAP_STATE_ZERO.quoteid,
+      bob: SWAP_STATE_ZERO.bob,
+      alice: SWAP_STATE_ZERO.alice
+    };
+    store = buyReducer(store, timeoutSwap(payload));
+    expect(store).toEqual(expectedResult);
+    store = buyReducer(store, timeoutSwap(payload));
     expect(store).toEqual(expectedResult);
   });
 });
