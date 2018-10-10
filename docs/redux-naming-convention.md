@@ -55,15 +55,15 @@ Use [Ducks](https://github.com/erikras/ducks-modular-redux)
 
 Use [redux-actions](https://github.com/acdlite/redux-actions)
 
-action name: **_<NOUN>_<VERB>\_**
+action name: **_\<NOUN\>_\<VERB\>\_**
 
-action creator name: **_<verb><Noun>_**
+action creator name: **_\<verb\>\<Noun\>_**
 
-selector name: **_get<Noun>_**
+selector name: **_get\<Noun\>_**
 
 ### Actions
 
-- **DO** name each action (constant) as **_<NOUN>_<VERB>\_** with the present tense
+- **DO** name each action (constant) as **_\<NOUN\>_\<VERB\>\_** with the present tense
 - **Why?** For namespacing and sorting your reducers
 
 ```
@@ -77,7 +77,7 @@ TODO_ADD
 createAction( ‘TODO_ADD’ )
 ```
 
-- **DO** name each action creator as **_<verb><Noun>_**
+- **DO** name each action creator as **_\<verb\>\<Noun\>_**
 - **Why?** As a convention to clearly identify what type of function it is
 
 ```
@@ -86,7 +86,7 @@ const addTodo = createAction( ‘TODO_ADD’ )
 
 ### Selectors
 
-- **DO** name each selector as **_get<Noun>_**
+- **DO** name each selector as **_get\<Noun\>_**
 - **Why?** As a convention to clearly identify what type of function it is
 
 ```
