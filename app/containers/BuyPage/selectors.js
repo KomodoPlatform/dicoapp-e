@@ -41,10 +41,6 @@ const makeSelectSwapsLoading = () =>
 const makeSelectSwapsError = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('error'));
 
-// NOTE: REMOVE THIS
-const makeSelectSwapsList = () =>
-  createSelector(makeSelectSwaps(), swapsState => swapsState.get('list'));
-
 const makeSelectSwapsEntities = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('entities'));
 
@@ -85,7 +81,6 @@ export {
   makeSelectSwaps,
   makeSelectSwapsLoading,
   makeSelectSwapsError,
-  makeSelectSwapsList,
   makeSelectSwapsEntities,
   makeSelectCurrentSwaps,
   makeSelectFinishedSwaps,

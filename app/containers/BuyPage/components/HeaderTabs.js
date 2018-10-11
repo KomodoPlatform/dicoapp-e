@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import type { Map } from 'immutable';
+import type { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -34,7 +34,7 @@ const styles = theme => ({
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
-  currentSwaps: Map<*, *>,
+  currentSwaps: List<*>,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types

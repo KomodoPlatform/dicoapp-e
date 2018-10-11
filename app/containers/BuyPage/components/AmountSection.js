@@ -128,7 +128,7 @@ type Props = {
   buyingLoading: boolean,
   // eslint-dis,able-next-line flowtype/no-weak-types
   // buyingError: boolean | Object,
-  entity: Map<*, *>,
+  entity?: Map<*, *>,
   // eslint-disable-next-line flowtype/no-weak-types
   buyingError: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -146,7 +146,9 @@ type State = {
 };
 
 class AmountSection extends Component<Props, State> {
-  static defaultProps = {};
+  static defaultProps = {
+    entity: null
+  };
 
   constructor(props) {
     super(props);

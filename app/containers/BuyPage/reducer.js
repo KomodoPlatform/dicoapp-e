@@ -168,6 +168,7 @@ const buyReducer = handleActions(
       let list = state.getIn(['swaps', 'list']);
       let processingList = state.getIn(['swaps', 'processingList']);
       let finishedList = state.getIn(['swaps', 'finishedList']);
+
       // if (!list.find(e => e === uuid) && status === 'pending') {
       //   list = list.unshift(uuid);
       // }
