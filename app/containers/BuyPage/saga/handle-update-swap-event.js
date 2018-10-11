@@ -97,6 +97,7 @@ export function* checkUpdateStateEvent(payload, times) {
       debug('currentSwaps', currentSwaps.toJS());
       // if not found stop
       if (currentSwaps.size === 0) {
+        debug('stop');
         break;
       }
 

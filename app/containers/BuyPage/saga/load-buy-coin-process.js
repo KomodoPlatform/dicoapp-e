@@ -11,7 +11,7 @@ import {
   loadBuyCoinError,
   loadBuyCoinSuccess,
   checkUpdateSwapEvent,
-  checkTimeoutEvent,
+  checkTimeoutEvent
 } from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
 import { APPROPRIATE_ERROR_UTXOS } from '../constants';

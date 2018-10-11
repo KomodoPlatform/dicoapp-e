@@ -146,11 +146,6 @@ type State = {
 };
 
 class AmountSection extends Component<Props, State> {
-  // eslint-disable-next-line flowtype/no-weak-types
-  checkSwapStatusLoops: Object | null;
-
-  idHandleTimeoutError: TimeoutID | null;
-
   static defaultProps = {};
 
   constructor(props) {

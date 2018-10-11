@@ -35,6 +35,7 @@ export function* checkTimeoutEvent(payload, times) {
       debug('currentSwaps', currentSwaps.toJS());
       // if not found stop
       if (currentSwaps.size === 0) {
+        debug('stop');
         break;
       }
       // step two: compare now() with expiration field
