@@ -83,6 +83,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
   let store = initialState
     .setIn(['swaps', 'loading'], true)
     .setIn(['swaps', 'list'], fromJS([uuid]))
+    .setIn(['swaps', 'processingList'], fromJS([uuid]))
     .setIn(
       ['swaps', 'entities'],
       fromJS({
@@ -205,6 +206,9 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
       .set('expiration', WEBSOCKET_STATE_SEVEN.result.expiration)
       .set('status', 'finished');
     expectedResult = store
+      .setIn(['swaps', 'list'], fromJS([]))
+      .setIn(['swaps', 'processingList'], fromJS([]))
+      .setIn(['swaps', 'finishedList'], fromJS([uuid]))
       .setIn(['swaps', 'entities'], entities.set(uuid, entity))
       .setIn(['swaps', 'loading'], false);
     store = buyReducer(
@@ -231,30 +235,31 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
 });
 
 describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
+  const { uuid } = SWAP_STATE_ZERO;
+  let store = initialState
+    .setIn(['swaps', 'loading'], true)
+    .setIn(['swaps', 'list'], fromJS([uuid]))
+    .setIn(['swaps', 'processingList'], fromJS([uuid]))
+    .setIn(
+      ['swaps', 'entities'],
+      fromJS({
+        [uuid]: {
+          id: SWAP_STATE_ZERO.tradeid,
+          uuid,
+          requestid: SWAP_STATE_ZERO.requestid,
+          quoteid: SWAP_STATE_ZERO.quoteid,
+          expiration: SWAP_STATE_ZERO.expiration,
+          bob: SWAP_STATE_ZERO.bob,
+          alice: SWAP_STATE_ZERO.alice,
+          bobamount: SWAP_STATE_ZERO.basevalue,
+          aliceamount: SWAP_STATE_ZERO.relvalue,
+          sentflags: [],
+          status: 'pending'
+        }
+      })
+    );
+
   it('should handle the loadRecentSwapsCoin action correctly', () => {
-    const { uuid } = SWAP_STATE_ZERO;
-    let store = initialState
-      .setIn(['swaps', 'loading'], true)
-      .setIn(['swaps', 'list'], fromJS([SWAP_STATE_ZERO.uuid]))
-      .setIn(['swaps', 'processingList'], fromJS([SWAP_STATE_ZERO.uuid]))
-      .setIn(
-        ['swaps', 'entities'],
-        fromJS({
-          [SWAP_STATE_ZERO.uuid]: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            expiration: SWAP_STATE_ZERO.expiration,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice,
-            bobamount: SWAP_STATE_ZERO.basevalue,
-            aliceamount: SWAP_STATE_ZERO.relvalue,
-            sentflags: [],
-            status: 'pending'
-          }
-        })
-      );
     let entities = store.getIn(['swaps', 'entities']);
     let entity = entities.get(uuid);
     entity = entity
@@ -344,7 +349,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     expectedResult = store
       .setIn(['swaps', 'list'], fromJS([]))
       .setIn(['swaps', 'processingList'], fromJS([]))
-      .setIn(['swaps', 'finishedList'], fromJS([SWAP_STATE_ZERO.uuid]))
+      .setIn(['swaps', 'finishedList'], fromJS([uuid]))
       .setIn(['swaps', 'entities'], entities.set(uuid, entity))
       .setIn(['swaps', 'loading'], false);
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_FIVE));
