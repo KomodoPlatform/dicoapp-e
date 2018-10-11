@@ -120,7 +120,9 @@ const buyReducer = handleActions(
               status: 'pending'
             })
           )
-        );
+        )
+        .setIn(['buying', 'loading'], true)
+        .setIn(['buying', 'error'], false);
     },
 
     [LOAD_BUY_COIN_ERROR]: (state, { error }) =>
@@ -274,7 +276,8 @@ const buyReducer = handleActions(
     [REMOVE_SWAPS_DATA]: state =>
       state
         .setIn(['buying', 'error'], false)
-        .setIn(['buying', 'loading'], false),
+        .setIn(['buying', 'loading'], false)
+        .setIn(['swaps', 'currentSwap'], null),
 
     [SWAP_TIMEOUT]: (state, { payload }) => {
       // NOTE: Todo

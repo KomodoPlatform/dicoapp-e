@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -395,6 +396,7 @@ class AmountSection extends Component<Props, State> {
     const { classes, entity } = this.props;
     const swapsLoading = entity.get('status') !== 'finished';
     const swapsError = entity.get('error');
+    const confirmed = entity.get('sentflags').size > 1;
     return (
       <Grid
         container
@@ -452,7 +454,7 @@ class AmountSection extends Component<Props, State> {
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <BuyButton
-            disabled={swapsLoading}
+            disabled={swapsLoading && !confirmed}
             color="primary"
             variant="contained"
             className={classes.amountform__item}
@@ -575,3 +577,5 @@ export default compose(
   injectIntl,
   withStyles(styles)
 )(AmountSection);
+
+/* eslint-enable react/no-unescaped-entities */

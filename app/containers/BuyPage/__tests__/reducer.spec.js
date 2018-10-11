@@ -373,6 +373,8 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
     const list = initialState.getIn(['swaps', 'processingList']);
     const entities = initialState.getIn(['swaps', 'entities']);
     const expectedResult = initialState
+      .setIn(['buying', 'loading'], true)
+      .setIn(['buying', 'error'], false)
       .setIn(['swaps', 'currentSwap'], uuid)
       .setIn(['swaps', 'processingList'], list.push(uuid))
       .setIn(
