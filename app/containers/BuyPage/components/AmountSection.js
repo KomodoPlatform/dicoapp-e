@@ -22,14 +22,12 @@ import validate from '../../../components/Form/validate';
 import { makeSelectBalanceEntities } from '../../App/selectors';
 import getConfig from '../../../utils/config';
 import type { BuyCoinPayload } from '../schema';
-import { Loops } from '../utils';
-import { AUTO_HIDE_SNACKBAR_TIME, STATE_SWAPS, TIME_LOOP } from '../constants';
+import { AUTO_HIDE_SNACKBAR_TIME, STATE_SWAPS } from '../constants';
 import {
   loadBuyCoin,
   loadRecentSwaps,
   removeSwapsData,
-  clearBuyCoinError,
-  loadRecentSwapsError
+  clearBuyCoinError
 } from '../actions';
 import {
   makeSelectPricesLoading,
@@ -136,8 +134,6 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   swapsError: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchLoadRecentSwapsError: Function,
-  // eslint-disable-next-line flowtype/no-weak-types
   dispatchClearBuyCoinError: Function,
   swapsLoading: boolean,
   intl: IntlShape
@@ -231,7 +227,7 @@ class AmountSection extends Component<Props, State> {
       }
     }
   }
-   */
+  
   componentWillUnmount = () => {
     if (this.checkSwapStatusLoops) {
       this.checkSwapStatusLoops.cancel();
@@ -239,36 +235,7 @@ class AmountSection extends Component<Props, State> {
     }
     this.clearHandleTimeoutError();
   };
-
-  clearCheckSwapStatusLoops = () => {
-    if (this.checkSwapStatusLoops) {
-      this.checkSwapStatusLoops.cancel();
-      this.checkSwapStatusLoops = null;
-    }
-  };
-
-  setupCheckSwapStatusLoops = () => {
-    const { dispatchLoadRecentSwaps } = this.props;
-    this.checkSwapStatusLoops = new Loops(TIME_LOOP, dispatchLoadRecentSwaps);
-    this.checkSwapStatusLoops.setup();
-  };
-
-  clearHandleTimeoutError = () => {
-    if (this.idHandleTimeoutError) {
-      clearTimeout(this.idHandleTimeoutError);
-      this.idHandleTimeoutError = null;
-    }
-  };
-
-  setupHandleTimeoutError = delay => {
-    this.idHandleTimeoutError = setTimeout(this.handleTimeoutError, delay);
-  };
-
-  handleTimeoutError = () => {
-    this.clearCheckSwapStatusLoops();
-    const { dispatchLoadRecentSwapsError } = this.props;
-    dispatchLoadRecentSwapsError('Timeout');
-  };
+  */
 
   closeSnackbar = (evt, reason) => {
     if (reason !== 'clickaway') {
@@ -584,9 +551,7 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
       dispatch(loadBuyCoin(payload)),
     dispatchLoadRecentSwaps: () => dispatch(loadRecentSwaps()),
     dispatchRemoveSwapsData: () => dispatch(removeSwapsData()),
-    dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError()),
-    dispatchLoadRecentSwapsError: (message: string) =>
-      dispatch(loadRecentSwapsError(message))
+    dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError())
   };
 }
 

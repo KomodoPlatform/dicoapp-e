@@ -22,6 +22,7 @@ const debug = require('debug')(
 // function* handleTimeoutSwap() {
 // Todo
 // notification to user
+// dispatchLoadRecentSwapsError('Timeout');
 // }
 
 export function* checkTimeoutEvent(payload, times) {
