@@ -118,6 +118,7 @@ class PaymentSection extends React.PureComponent<Props> {
 
   renderLoading = () => (
     <CoinSelectable
+      key="paymentCoinLoading"
       icon={circle}
       title={lineTitle}
       subTitle={line}

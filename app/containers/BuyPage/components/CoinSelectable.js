@@ -79,7 +79,7 @@ type Props = {
   dispatchLoadPrice?: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   data?: string,
-  className: string,
+  className?: string,
   price?: Node | null
 };
 
@@ -92,6 +92,7 @@ class CoinSelectable extends PureComponent<Props> {
     disabled: false,
     onClick: null,
     data: '',
+    className: '',
     dispatchLoadPrice: () => {}
   };
 

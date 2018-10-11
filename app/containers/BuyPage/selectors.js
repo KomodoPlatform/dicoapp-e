@@ -35,12 +35,6 @@ const makeSelectBuyingError = () =>
 const makeSelectSwaps = () =>
   createSelector(selectBuy, buyState => buyState.get('swaps'));
 
-const makeSelectSwapsLoading = () =>
-  createSelector(makeSelectSwaps(), swapsState => swapsState.get('loading'));
-
-const makeSelectSwapsError = () =>
-  createSelector(makeSelectSwaps(), swapsState => swapsState.get('error'));
-
 const makeSelectSwapsEntities = () =>
   createSelector(makeSelectSwaps(), swapsState => swapsState.get('entities'));
 
@@ -66,7 +60,15 @@ const makeSelectFinishedSwaps = () =>
   );
 
 const makeSelectCurrentSwap = () =>
-  createSelector(makeSelectCurrentSwaps(), swapsState => swapsState.last());
+  createSelector(
+    makeSelectSwaps(),
+    makeSelectSwapsEntities(),
+    (swapsState, swapsEntities) => {
+      const c = swapsState.get('currentSwap');
+      if (!c) return null;
+      return swapsEntities.get(c);
+    }
+  );
 
 const makeSelectBalanceList = () =>
   createSelector(makeSelectBalanceListApp(), balanceList => {
@@ -84,8 +86,6 @@ export {
   makeSelectBuyingLoading,
   makeSelectBuyingError,
   makeSelectSwaps,
-  makeSelectSwapsLoading,
-  makeSelectSwapsError,
   makeSelectSwapsEntities,
   makeSelectCurrentSwapsList,
   makeSelectCurrentSwaps,

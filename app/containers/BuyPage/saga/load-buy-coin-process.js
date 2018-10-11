@@ -7,12 +7,7 @@ import {
   makeSelectCurrentUser,
   makeSelectBalanceEntities
 } from '../../App/selectors';
-import {
-  loadBuyCoinError,
-  loadBuyCoinSuccess,
-  checkUpdateSwapEvent,
-  checkTimeoutEvent
-} from '../actions';
+import { loadBuyCoinError, loadBuyCoinSuccess } from '../actions';
 import { makeSelectPricesEntities } from '../selectors';
 import { APPROPRIATE_ERROR_UTXOS } from '../constants';
 
@@ -113,9 +108,7 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
           throw new Error(result.error);
         }
         if (result.pending) {
-          yield put(loadBuyCoinSuccess(result.pending));
-          yield put(checkUpdateSwapEvent());
-          return yield put(checkTimeoutEvent());
+          return yield put(loadBuyCoinSuccess(result.pending));
         }
       }
       yield call(delay, time);

@@ -27,15 +27,15 @@ import {
   loadBuyCoin,
   loadRecentSwaps,
   removeSwapsData,
-  clearBuyCoinError
+  clearBuyCoinError,
+  checkUpdateSwapEvent,
+  checkTimeoutEvent
 } from '../actions';
 import {
   makeSelectPricesLoading,
   makeSelectPricesEntities,
   makeSelectBuyingLoading,
   makeSelectBuyingError,
-  makeSelectSwapsError,
-  makeSelectSwapsLoading,
   makeSelectCurrentSwap
 } from '../selectors';
 import AmountInput from './AmountInput';
@@ -123,6 +123,10 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchRemoveSwapsData: Function,
   // eslint-disable-next-line flowtype/no-weak-types
+  dispatchCheckUpdateSwapEvent: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchCheckTimeoutEvent: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
   balance: Object,
   entities: Map<*, *>,
   buyingLoading: boolean,
@@ -132,10 +136,7 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   buyingError: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  swapsError: boolean | Object,
-  // eslint-disable-next-line flowtype/no-weak-types
   dispatchClearBuyCoinError: Function,
-  swapsLoading: boolean,
   intl: IntlShape
 };
 
@@ -164,7 +165,7 @@ class AmountSection extends Component<Props, State> {
   }
 
   static getDerivedStateFromProps = (props, state) => {
-    const { buyingError, swapsError } = props;
+    const { buyingError } = props;
     const { openSnackbar } = state;
     if (openSnackbar === false && buyingError) {
       return {
@@ -178,18 +179,6 @@ class AmountSection extends Component<Props, State> {
         snackbarMessage: ''
       };
     }
-    if (openSnackbar === false && swapsError) {
-      return {
-        openSnackbar: true,
-        snackbarMessage: swapsError.message
-      };
-    }
-    if (openSnackbar === true && !swapsError) {
-      return {
-        openSnackbar: false,
-        snackbarMessage: ''
-      };
-    }
     return null;
   };
 
@@ -198,41 +187,23 @@ class AmountSection extends Component<Props, State> {
     dispatchLoadRecentSwaps();
   };
 
-  /**
-  componentDidUpdate(prevProps) {
-    const { swapsList, swapsEntities } = this.props;
+  // componentDidUpdate(prevProps) {
+  componentDidUpdate() {
+    const {
+      entity,
+      dispatchCheckUpdateSwapEvent,
+      dispatchCheckTimeoutEvent
+    } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
-    if (swapsList.size === 1) {
-      const entity = swapsEntities.get(swapsList.get(0));
-      const oldEntity = prevProps.swapsEntities.get(swapsList.get(0));
-      if (
-        oldEntity &&
-        oldEntity.get('sentflags').size === entity.get('sentflags').size
-      )
-        return;
-      // this.clearCheckSwapStatusLoops();
-      if (entity.get('status') === 'finished') {
-        return this.clearHandleTimeoutError();
-      }
-      // this.setupCheckSwapStatusLoops();
-      const delay =
-        (entity.get('expiration') - Date.now() / 1000) * 1000 + TIME_LOOP;
-      if (delay < 0) this.handleTimeoutError();
-      else {
-        this.clearHandleTimeoutError();
-        this.setupHandleTimeoutError(delay);
-      }
+    if (
+      entity &&
+      entity.get('status') === 'pending' &&
+      entity.get('sentflags').size === 0
+    ) {
+      dispatchCheckUpdateSwapEvent();
+      dispatchCheckTimeoutEvent();
     }
   }
-  
-  componentWillUnmount = () => {
-    if (this.checkSwapStatusLoops) {
-      this.checkSwapStatusLoops.cancel();
-      this.checkSwapStatusLoops = null;
-    }
-    this.clearHandleTimeoutError();
-  };
-  */
 
   closeSnackbar = (evt, reason) => {
     if (reason !== 'clickaway') {
@@ -366,16 +337,7 @@ class AmountSection extends Component<Props, State> {
   };
 
   renderConfirmForm = () => {
-    const { classes, paymentCoin, buyingLoading, intl } = this.props;
-    const { disabledBuyButton } = this.state;
-    const disabled = paymentCoin === '';
-    let label = intl.formatMessage({
-      defaultMessage: 'SELECT YOUR PAYMENT',
-      id: 'dicoapp.containers.BuyPage.select_payment'
-    });
-    if (paymentCoin !== '') {
-      label = paymentCoin;
-    }
+    const { classes } = this.props;
     return (
       <Grid container spacing={24}>
         <Grid item xs={6} className={classes.amountform__itemCenter}>
@@ -430,8 +392,9 @@ class AmountSection extends Component<Props, State> {
   };
 
   renderProcessingSwapForm = () => {
-    const { classes, swapsLoading, swapsError, entity } = this.props;
-
+    const { classes, entity } = this.props;
+    const swapsLoading = entity.get('status') !== 'finished';
+    const swapsError = entity.get('error');
     return (
       <Grid
         container
@@ -489,7 +452,7 @@ class AmountSection extends Component<Props, State> {
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <BuyButton
-            // disabled={swapsLoading}
+            disabled={swapsLoading}
             color="primary"
             variant="contained"
             className={classes.amountform__item}
@@ -587,7 +550,9 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
       dispatch(loadBuyCoin(payload)),
     dispatchLoadRecentSwaps: () => dispatch(loadRecentSwaps()),
     dispatchRemoveSwapsData: () => dispatch(removeSwapsData()),
-    dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError())
+    dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError()),
+    dispatchCheckUpdateSwapEvent: () => dispatch(checkUpdateSwapEvent()),
+    dispatchCheckTimeoutEvent: () => dispatch(checkTimeoutEvent())
   };
 }
 
@@ -597,8 +562,6 @@ const mapStateToProps = createStructuredSelector({
   balance: makeSelectBalanceEntities(),
   buyingLoading: makeSelectBuyingLoading(),
   buyingError: makeSelectBuyingError(),
-  swapsError: makeSelectSwapsError(),
-  swapsLoading: makeSelectSwapsLoading(),
   entity: makeSelectCurrentSwap()
 });
 
