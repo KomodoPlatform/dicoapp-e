@@ -307,13 +307,35 @@ const buyReducer = handleActions(
       // step one: get data
       let list = state.getIn(['swaps', 'list']);
       let processingList = state.getIn(['swaps', 'processingList']);
+      let finishedList = state.getIn(['swaps', 'finishedList']);
+      let entities = state.getIn(['swaps', 'entities']);
+      let entity = entities.get(uuid);
       // step two: remove swap from processingList
       processingList = processingList.filter(o => o !== uuid);
       list = list.filter(o => o !== uuid);
-
+      if (!finishedList.includes(uuid)) finishedList = finishedList.push(uuid);
+      // step three: add error message and update swap's status
+      if (entity) {
+        entity = entity
+          .set(
+            'error',
+            fromJS({
+              message: 'Timeout'
+            })
+          )
+          .set('status', 'finished');
+        entities = entities.set(uuid, entity);
+      }
       return state
         .setIn(['swaps', 'list'], list)
-        .setIn(['swaps', 'processingList'], processingList);
+        .setIn(['swaps', 'finishedList'], finishedList)
+        .setIn(['swaps', 'processingList'], processingList)
+        .setIn(['swaps', 'entities'], entities)
+
+        .setIn(['swaps', 'error'], false)
+        .setIn(['swaps', 'loading'], false)
+        .setIn(['buying', 'error'], false)
+        .setIn(['buying', 'loading'], false);
     },
 
     [LOGOUT]: () => initialState

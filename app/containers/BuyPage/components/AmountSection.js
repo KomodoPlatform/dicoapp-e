@@ -93,7 +93,7 @@ const styles = () => ({
   amountform__switchBtn: {
     position: 'absolute',
     textAlign: 'center',
-    top: '25%',
+    top: '35%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     fontSize: 25,
@@ -310,7 +310,7 @@ class AmountSection extends Component<Props, State> {
     dispatchRemoveSwapsData();
   };
 
-  renderForm = () => {
+  renderSubmitForm = () => {
     const { classes, paymentCoin, buyingLoading, intl } = this.props;
     const { disabledBuyButton } = this.state;
     const disabled = paymentCoin === '';
@@ -323,105 +323,113 @@ class AmountSection extends Component<Props, State> {
     }
 
     return (
-      <React.Fragment>
-        {!buyingLoading && (
-          <form>
-            <ValidationBaseInput
-              label={COIN_BASE.coin}
-              id={COIN_BASE.coin}
-              type="number"
-              disabled={disabled}
-              className={classes.amountform__item}
-              ref={this.baseInput}
-              onChange={this.onChangeBaseInput}
-            />
-            <br />
-            <br />
-            <SwapHorizIcon />
-            <br />
-            <br />
-            <ValidationPaymentInput
-              label={label}
-              id={label}
-              type="number"
-              balance={this.getBalance()}
-              disabled={disabled}
-              className={classes.amountform__item}
-              ref={this.paymentInput}
-              onChange={this.onChangePaymentInput}
-            />
-            <br />
-            <br />
-            <BuyButton
-              disabled={disabledBuyButton || buyingLoading}
-              color="primary"
-              variant="contained"
-              className={classes.amountform__item}
-              onClick={this.onClickBuyCoinButton}
-            >
-              <FormattedMessage id="dicoapp.containers.BuyPage.execute_buy">
-                {(...content) => `${content} (${COIN_BASE.coin})`}
-              </FormattedMessage>
-            </BuyButton>
-          </form>
-        )}
-
-        {buyingLoading && (
-          <Grid container spacing={24}>
-            <Grid item xs={6} className={classes.amountform__itemCenter}>
-              <CoinSelectable
-                icon={<Circle />}
-                title="Deposit"
-                subTitle={
-                  <Line
-                    width={60}
-                    style={{
-                      margin: '10px auto'
-                    }}
-                  />
-                }
-              />
-            </Grid>
-            <Grid item xs={6} className={classes.amountform__itemCenter}>
-              <CoinSelectable
-                icon={<Circle />}
-                title="Receive"
-                subTitle={
-                  <Line
-                    width={60}
-                    style={{
-                      margin: '10px auto'
-                    }}
-                  />
-                }
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.amountform__itemCenter}>
-              <Typography variant="body2" gutterBottom>
-                Step {0}
-                /6: {STATE_SWAPS[0]}
-              </Typography>
-              <LinearProgress color="primary" variant="determinate" value={0} />
-            </Grid>
-            <Grid item xs={12} className={classes.amountform__itemCenter}>
-              <BuyButton
-                disabled
-                color="primary"
-                variant="contained"
-                className={classes.amountform__item}
-              >
-                <FormattedMessage id="dicoapp.containers.BuyPage.loading">
-                  {(...content) => content}
-                </FormattedMessage>
-              </BuyButton>
-            </Grid>
-          </Grid>
-        )}
-      </React.Fragment>
+      <form>
+        <ValidationBaseInput
+          label={COIN_BASE.coin}
+          id={COIN_BASE.coin}
+          type="number"
+          disabled={disabled}
+          className={classes.amountform__item}
+          ref={this.baseInput}
+          onChange={this.onChangeBaseInput}
+        />
+        <br />
+        <br />
+        <SwapHorizIcon />
+        <br />
+        <br />
+        <ValidationPaymentInput
+          label={label}
+          id={label}
+          type="number"
+          balance={this.getBalance()}
+          disabled={disabled}
+          className={classes.amountform__item}
+          ref={this.paymentInput}
+          onChange={this.onChangePaymentInput}
+        />
+        <br />
+        <br />
+        <BuyButton
+          disabled={disabledBuyButton || buyingLoading}
+          color="primary"
+          variant="contained"
+          className={classes.amountform__item}
+          onClick={this.onClickBuyCoinButton}
+        >
+          <FormattedMessage id="dicoapp.containers.BuyPage.execute_buy">
+            {(...content) => `${content} (${COIN_BASE.coin})`}
+          </FormattedMessage>
+        </BuyButton>
+      </form>
     );
   };
 
-  renderProcess = () => {
+  renderConfirmForm = () => {
+    const { classes, paymentCoin, buyingLoading, intl } = this.props;
+    const { disabledBuyButton } = this.state;
+    const disabled = paymentCoin === '';
+    let label = intl.formatMessage({
+      defaultMessage: 'SELECT YOUR PAYMENT',
+      id: 'dicoapp.containers.BuyPage.select_payment'
+    });
+    if (paymentCoin !== '') {
+      label = paymentCoin;
+    }
+    return (
+      <Grid container spacing={24}>
+        <Grid item xs={6} className={classes.amountform__itemCenter}>
+          <CoinSelectable
+            icon={<Circle />}
+            title="Deposit"
+            subTitle={
+              <Line
+                width={60}
+                style={{
+                  margin: '10px auto'
+                }}
+              />
+            }
+          />
+        </Grid>
+        <Grid item xs={6} className={classes.amountform__itemCenter}>
+          <CoinSelectable
+            icon={<Circle />}
+            title="Receive"
+            subTitle={
+              <Line
+                width={60}
+                style={{
+                  margin: '10px auto'
+                }}
+              />
+            }
+          />
+        </Grid>
+        <Grid item xs={12} className={classes.amountform__itemCenter}>
+          <Typography variant="body2" gutterBottom>
+            Step {0}
+            /6: {STATE_SWAPS[0]}
+          </Typography>
+          <LinearProgress color="primary" variant="determinate" value={0} />
+        </Grid>
+        <Grid item xs={12} className={classes.amountform__itemCenter}>
+          <BuyButton
+            disabled
+            color="primary"
+            variant="contained"
+            className={classes.amountform__item}
+          >
+            <FormattedMessage id="dicoapp.containers.BuyPage.loading">
+              {(...content) => content}
+            </FormattedMessage>
+          </BuyButton>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  renderProcessingSwapForm = () => {
     const { classes, swapsLoading, swapsError, entity } = this.props;
 
     return (
@@ -432,11 +440,11 @@ class AmountSection extends Component<Props, State> {
           position: 'relative'
         }}
       >
-        {/* {swapsLoading && (
-          <Grid item xs={12} className={classes.amountform__itemCenter}>
-            <Typography gutterBottom className={classes.amountform__warning}>The swap is running, don't exit the application</Typography>
-          </Grid>
-        )} */}
+        <Grid item xs={12} className={classes.amountform__itemCenter}>
+          <Typography gutterBottom className={classes.amountform__warning}>
+            The swap is running, don't exit the application
+          </Typography>
+        </Grid>
 
         <Grid item xs={6} className={classes.amountform__itemCenter}>
           <CoinSelectable
@@ -502,15 +510,46 @@ class AmountSection extends Component<Props, State> {
     );
   };
 
+  renderProcessing = () => {
+    const { entity } = this.props;
+    if (!entity) return this.renderConfirmForm();
+    return this.renderProcessingSwapForm();
+  };
+
+  // renderForm = () => {
+  //   const { classes, paymentCoin, buyingLoading, intl } = this.props;
+  //   const { disabledBuyButton } = this.state;
+  //   const disabled = paymentCoin === '';
+  //   let label = intl.formatMessage({
+  //     defaultMessage: 'SELECT YOUR PAYMENT',
+  //     id: 'dicoapp.containers.BuyPage.select_payment'
+  //   });
+  //   if (paymentCoin !== '') {
+  //     label = paymentCoin;
+  //   }
+
+  //   return (
+  //     <React.Fragment>
+  //       {!buyingLoading && (
+
+  //       )}
+
+  //       {buyingLoading && (
+
+  //       )}
+  //     </React.Fragment>
+  //   );
+  // };
+
   render() {
     debug(`render`);
-    const { classes, entity } = this.props;
+    const { classes, buyingLoading } = this.props;
     const { openSnackbar, snackbarMessage } = this.state;
 
     return (
       <div className={classes.amountform}>
-        {!entity && this.renderForm()}
-        {entity && this.renderProcess()}
+        {!buyingLoading && this.renderSubmitForm()}
+        {buyingLoading && this.renderProcessing()}
 
         <Snackbar
           anchorOrigin={{

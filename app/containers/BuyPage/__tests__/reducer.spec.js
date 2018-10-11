@@ -400,9 +400,51 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
     const list = initialState.getIn(['swaps', 'list']);
     let store = initialState
       .setIn(['swaps', 'list'], list.push(SWAP_STATE_ZERO.uuid))
-      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid));
+      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(
+        ['swaps', 'entities'],
+        fromJS({
+          [SWAP_STATE_ZERO.uuid]: {
+            id: SWAP_STATE_ZERO.tradeid,
+            uuid: SWAP_STATE_ZERO.uuid,
+            requestid: SWAP_STATE_ZERO.requestid,
+            quoteid: SWAP_STATE_ZERO.quoteid,
+            expiration: SWAP_STATE_ZERO.expiration,
+            bob: SWAP_STATE_ZERO.bob,
+            alice: SWAP_STATE_ZERO.alice,
+            bobamount: SWAP_STATE_ZERO.basevalue,
+            aliceamount: SWAP_STATE_ZERO.relvalue,
+            sentflags: [],
+            status: 'pending'
+          }
+        })
+      );
 
-    const expectedResult = initialState;
+    const expectedResult = store
+      .setIn(['swaps', 'list'], fromJS([]))
+      .setIn(['swaps', 'processingList'], fromJS([]))
+      .setIn(['swaps', 'finishedList'], fromJS([SWAP_STATE_ZERO.uuid]))
+      .setIn(
+        ['swaps', 'entities'],
+        fromJS({
+          [SWAP_STATE_ZERO.uuid]: {
+            id: SWAP_STATE_ZERO.tradeid,
+            uuid: SWAP_STATE_ZERO.uuid,
+            requestid: SWAP_STATE_ZERO.requestid,
+            quoteid: SWAP_STATE_ZERO.quoteid,
+            expiration: SWAP_STATE_ZERO.expiration,
+            bob: SWAP_STATE_ZERO.bob,
+            alice: SWAP_STATE_ZERO.alice,
+            bobamount: SWAP_STATE_ZERO.basevalue,
+            aliceamount: SWAP_STATE_ZERO.relvalue,
+            sentflags: [],
+            error: {
+              message: 'Timeout'
+            },
+            status: 'finished'
+          }
+        })
+      );
 
     const payload = {
       id: SWAP_STATE_ZERO.tradeid,
@@ -422,9 +464,30 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
     const list = initialState.getIn(['swaps', 'list']);
     let store = initialState
       .setIn(['swaps', 'list'], list.push(SWAP_STATE_ZERO.uuid))
-      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid));
+      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(
+        ['swaps', 'entities'],
+        fromJS({
+          [SWAP_STATE_ZERO.uuid]: {
+            id: SWAP_STATE_ZERO.tradeid,
+            uuid: SWAP_STATE_ZERO.uuid,
+            requestid: SWAP_STATE_ZERO.requestid,
+            quoteid: SWAP_STATE_ZERO.quoteid,
+            expiration: SWAP_STATE_ZERO.expiration,
+            bob: SWAP_STATE_ZERO.bob,
+            alice: SWAP_STATE_ZERO.alice,
+            bobamount: SWAP_STATE_ZERO.basevalue,
+            aliceamount: SWAP_STATE_ZERO.relvalue,
+            sentflags: [],
+            status: 'pending'
+          }
+        })
+      );
 
-    const expectedResult = store;
+    const expectedResult = store.setIn(
+      ['swaps', 'finishedList'],
+      fromJS(['uuid'])
+    );
 
     const payload = {
       id: SWAP_STATE_ZERO.tradeid,
