@@ -165,7 +165,9 @@ const buyReducer = handleActions(
       // stop when not found uuid
       if (!uuid && uuid === '') return state;
       // step one: update list
-      const list = state.getIn(['swaps', 'list']);
+      let list = state.getIn(['swaps', 'list']);
+      let processingList = state.getIn(['swaps', 'processingList']);
+      let finishedList = state.getIn(['swaps', 'finishedList']);
       // if (!list.find(e => e === uuid) && status === 'pending') {
       //   list = list.unshift(uuid);
       // }
@@ -213,13 +215,16 @@ const buyReducer = handleActions(
         );
       }
       entities = entities.set(uuid, entity);
-      if (status === 'finished' && list.get(0) === uuid) {
-        return (
-          state
-            // .setIn(['swaps', 'list'], list)
-            .setIn(['swaps', 'entities'], entities)
-            .setIn(['swaps', 'loading'], false)
-        );
+      if (status === 'finished' && processingList.contains(uuid)) {
+        processingList = processingList.filter(o => o !== uuid);
+        list = list.filter(o => o !== uuid);
+        finishedList = finishedList.push(uuid);
+        return state
+          .setIn(['swaps', 'list'], list)
+          .setIn(['swaps', 'processingList'], processingList)
+          .setIn(['swaps', 'finishedList'], finishedList)
+          .setIn(['swaps', 'entities'], entities)
+          .setIn(['swaps', 'loading'], false);
       }
       return (
         state

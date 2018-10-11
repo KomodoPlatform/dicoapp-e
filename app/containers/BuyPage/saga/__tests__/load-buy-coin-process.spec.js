@@ -5,7 +5,11 @@ import { fromJS } from 'immutable';
 import { runSaga } from 'redux-saga';
 import api from '../../../../lib/barter-dex-api';
 import loadBuyCoinProcess from '../load-buy-coin-process';
-import { CHECK_TIMEOUT_EVENT, LOAD_BUY_COIN_SUCCESS } from '../../constants';
+import {
+  CHECK_TIMEOUT_EVENT,
+  CHECK_UPDATE_SWAP_EVENT,
+  LOAD_BUY_COIN_SUCCESS
+} from '../../constants';
 import data, {
   listunspentstep1,
   listunspentstep2,
@@ -16,7 +20,7 @@ import data, {
 
 const TEST_URL = 'http://127.0.0.1:7783';
 
-const TIMEOUT = 90 * 1000;
+const TIMEOUT = 10 * 1000;
 
 describe('containers/BuyPage/saga/load-buy-coin-process', () => {
   api.setUserpass('userpass');
@@ -63,11 +67,14 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
         }
       ).done;
 
-      expect(saga).toEqual(2);
+      expect(saga).toEqual(3);
       expect(dispatched).toEqual([
         {
           type: LOAD_BUY_COIN_SUCCESS,
           payload: buy2.pending
+        },
+        {
+          type: CHECK_UPDATE_SWAP_EVENT
         },
         {
           type: CHECK_TIMEOUT_EVENT
@@ -129,11 +136,14 @@ describe('containers/BuyPage/saga/load-buy-coin-process', () => {
         }
       ).done;
 
-      expect(saga).toEqual(2);
+      expect(saga).toEqual(3);
       expect(dispatched).toEqual([
         {
           type: LOAD_BUY_COIN_SUCCESS,
           payload: buy2.pending
+        },
+        {
+          type: CHECK_UPDATE_SWAP_EVENT
         },
         {
           type: CHECK_TIMEOUT_EVENT

@@ -236,6 +236,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     let store = initialState
       .setIn(['swaps', 'loading'], true)
       .setIn(['swaps', 'list'], fromJS([SWAP_STATE_ZERO.uuid]))
+      .setIn(['swaps', 'processingList'], fromJS([SWAP_STATE_ZERO.uuid]))
       .setIn(
         ['swaps', 'entities'],
         fromJS({
@@ -341,9 +342,11 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('aliceamount', SWAP_STATE_FIVE.destamount)
       .set('status', 'finished');
     expectedResult = store
+      .setIn(['swaps', 'list'], fromJS([]))
+      .setIn(['swaps', 'processingList'], fromJS([]))
+      .setIn(['swaps', 'finishedList'], fromJS([SWAP_STATE_ZERO.uuid]))
       .setIn(['swaps', 'entities'], entities.set(uuid, entity))
       .setIn(['swaps', 'loading'], false);
-
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_FIVE));
     expect(store).toEqual(expectedResult);
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_FOUR));

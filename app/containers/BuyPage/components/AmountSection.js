@@ -6,7 +6,7 @@ import type { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import type { IntlShape } from 'react-intl';
-import type { List, Map } from 'immutable';
+import type { Map } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import Grid from '@material-ui/core/Grid';
@@ -36,10 +36,9 @@ import {
   makeSelectPricesEntities,
   makeSelectBuyingLoading,
   makeSelectBuyingError,
-  makeSelectSwapsList,
-  makeSelectSwapsEntities,
   makeSelectSwapsError,
-  makeSelectSwapsLoading
+  makeSelectSwapsLoading,
+  makeSelectCurrentSwap
 } from '../selectors';
 import AmountInput from './AmountInput';
 import BuyButton from './BuyButton';
@@ -131,8 +130,7 @@ type Props = {
   buyingLoading: boolean,
   // eslint-dis,able-next-line flowtype/no-weak-types
   // buyingError: boolean | Object,
-  swapsList: List<*>,
-  swapsEntities: Map<*, *>,
+  entity: Map<*, *>,
   // eslint-disable-next-line flowtype/no-weak-types
   buyingError: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -207,6 +205,7 @@ class AmountSection extends Component<Props, State> {
     dispatchLoadRecentSwaps();
   };
 
+  /**
   componentDidUpdate(prevProps) {
     const { swapsList, swapsEntities } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
@@ -218,11 +217,11 @@ class AmountSection extends Component<Props, State> {
         oldEntity.get('sentflags').size === entity.get('sentflags').size
       )
         return;
-      this.clearCheckSwapStatusLoops();
+      // this.clearCheckSwapStatusLoops();
       if (entity.get('status') === 'finished') {
         return this.clearHandleTimeoutError();
       }
-      this.setupCheckSwapStatusLoops();
+      // this.setupCheckSwapStatusLoops();
       const delay =
         (entity.get('expiration') - Date.now() / 1000) * 1000 + TIME_LOOP;
       if (delay < 0) this.handleTimeoutError();
@@ -232,7 +231,7 @@ class AmountSection extends Component<Props, State> {
       }
     }
   }
-
+   */
   componentWillUnmount = () => {
     if (this.checkSwapStatusLoops) {
       this.checkSwapStatusLoops.cancel();
@@ -459,14 +458,7 @@ class AmountSection extends Component<Props, State> {
   };
 
   renderProcess = () => {
-    const {
-      classes,
-      swapsList,
-      swapsEntities,
-      swapsLoading,
-      swapsError
-    } = this.props;
-    const entity = swapsEntities.get(swapsList.get(0));
+    const { classes, swapsLoading, swapsError, entity } = this.props;
 
     return (
       <Grid
@@ -548,13 +540,13 @@ class AmountSection extends Component<Props, State> {
 
   render() {
     debug(`render`);
-    const { classes, swapsList } = this.props;
+    const { classes, entity } = this.props;
     const { openSnackbar, snackbarMessage } = this.state;
 
     return (
       <div className={classes.amountform}>
-        {swapsList.size === 0 && this.renderForm()}
-        {swapsList.size !== 0 && this.renderProcess()}
+        {!entity && this.renderForm()}
+        {entity && this.renderProcess()}
 
         <Snackbar
           anchorOrigin={{
@@ -604,10 +596,9 @@ const mapStateToProps = createStructuredSelector({
   balance: makeSelectBalanceEntities(),
   buyingLoading: makeSelectBuyingLoading(),
   buyingError: makeSelectBuyingError(),
-  swapsList: makeSelectSwapsList(),
-  swapsEntities: makeSelectSwapsEntities(),
   swapsError: makeSelectSwapsError(),
-  swapsLoading: makeSelectSwapsLoading()
+  swapsLoading: makeSelectSwapsLoading(),
+  entity: makeSelectCurrentSwap()
 });
 
 const withConnect = connect(
