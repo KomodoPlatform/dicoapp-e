@@ -5,29 +5,42 @@ import { checkTimeoutEvent } from '../handle-timeout-event';
 import { CHECK_TIMEOUT_EVENT, SWAP_TIMEOUT } from '../../constants';
 import { SWAP_STATE_ZERO } from '../../__tests__/fake-data';
 
+const TIMEOUT = 10 * 100;
+
 describe('containers/BuyPage/saga/handle-timeout-event', () => {
+  const {
+    uuid,
+    tradeid,
+    requestid,
+    quoteid,
+    expiration,
+    bob,
+    alice,
+    basevalue,
+    relvalue
+  } = SWAP_STATE_ZERO;
   it(
     'should handle handleTimeoutEvent correctly',
     async done => {
       const dispatched = [];
       let store = fromJS(data);
       let processingList = store.getIn(['buy', 'swaps', 'processingList']);
-      processingList = processingList.push(SWAP_STATE_ZERO.uuid);
+      processingList = processingList.push(uuid);
       let entities = store.getIn(['buy', 'swaps', 'entities']);
       const entity = fromJS({
-        id: SWAP_STATE_ZERO.tradeid,
-        uuid: SWAP_STATE_ZERO.uuid,
-        requestid: SWAP_STATE_ZERO.requestid,
-        quoteid: SWAP_STATE_ZERO.quoteid,
-        expiration: SWAP_STATE_ZERO.expiration,
-        bob: SWAP_STATE_ZERO.bob,
-        alice: SWAP_STATE_ZERO.alice,
-        bobamount: SWAP_STATE_ZERO.basevalue,
-        aliceamount: SWAP_STATE_ZERO.relvalue,
+        id: tradeid,
+        uuid,
+        requestid,
+        quoteid,
+        expiration,
+        bob,
+        alice,
+        bobamount: basevalue,
+        aliceamount: relvalue,
         sentflags: [],
         status: 'pending'
       });
-      entities = entities.set(SWAP_STATE_ZERO.uuid, entity);
+      entities = entities.set(uuid, entity);
       store = store.setIn(['buy', 'swaps', 'processingList'], processingList);
       store = store.setIn(['buy', 'swaps', 'entities'], entities);
 
@@ -49,12 +62,12 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
       expect(dispatched).toEqual([
         {
           payload: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            bob,
+            alice
           },
           type: SWAP_TIMEOUT
         }
@@ -62,7 +75,7 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
 
       done();
     },
-    90 * 1000
+    TIMEOUT
   );
 
   it(
@@ -71,23 +84,23 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
       const dispatched = [];
       let store = fromJS(data);
       let processingList = store.getIn(['buy', 'swaps', 'processingList']);
-      processingList = processingList.push(SWAP_STATE_ZERO.uuid);
-      processingList = processingList.push(SWAP_STATE_ZERO.uuid);
+      processingList = processingList.push(uuid);
+      processingList = processingList.push(uuid);
       let entities = store.getIn(['buy', 'swaps', 'entities']);
       const entity = fromJS({
-        id: SWAP_STATE_ZERO.tradeid,
-        uuid: SWAP_STATE_ZERO.uuid,
-        requestid: SWAP_STATE_ZERO.requestid,
-        quoteid: SWAP_STATE_ZERO.quoteid,
-        expiration: SWAP_STATE_ZERO.expiration,
-        bob: SWAP_STATE_ZERO.bob,
-        alice: SWAP_STATE_ZERO.alice,
-        bobamount: SWAP_STATE_ZERO.basevalue,
-        aliceamount: SWAP_STATE_ZERO.relvalue,
+        id: tradeid,
+        uuid,
+        requestid,
+        quoteid,
+        expiration,
+        bob,
+        alice,
+        bobamount: basevalue,
+        aliceamount: relvalue,
         sentflags: [],
         status: 'pending'
       });
-      entities = entities.set(SWAP_STATE_ZERO.uuid, entity);
+      entities = entities.set(uuid, entity);
       store = store.setIn(['buy', 'swaps', 'processingList'], processingList);
       store = store.setIn(['buy', 'swaps', 'entities'], entities);
 
@@ -109,23 +122,23 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
       expect(dispatched).toEqual([
         {
           payload: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            bob,
+            alice
           },
           type: SWAP_TIMEOUT
         },
         {
           payload: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            bob,
+            alice
           },
           type: SWAP_TIMEOUT
         }
@@ -133,7 +146,7 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
 
       done();
     },
-    90 * 1000
+    TIMEOUT
   );
 
   it(
@@ -161,6 +174,6 @@ describe('containers/BuyPage/saga/handle-timeout-event', () => {
 
       done();
     },
-    90 * 1000
+    TIMEOUT
   );
 });

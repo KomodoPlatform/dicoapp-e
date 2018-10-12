@@ -86,7 +86,7 @@ export function* loadRecentSwapsProcess() {
   }
 }
 
-export function* checkUpdateStateEvent(payload, times) {
+export function* checkUpdateSwapEvent(payload, times) {
   try {
     let n = times;
 
@@ -122,6 +122,6 @@ export function* checkUpdateStateEvent(payload, times) {
  * Root saga manages watcher lifecycle
  */
 export default function* root() {
-  yield takeFirst(CHECK_UPDATE_SWAP_EVENT, checkUpdateStateEvent);
+  yield takeFirst(CHECK_UPDATE_SWAP_EVENT, checkUpdateSwapEvent);
   yield takeFirst(LOAD_RECENT_SWAPS, loadRecentSwapsProcess);
 }
