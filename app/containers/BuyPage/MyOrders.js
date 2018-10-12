@@ -19,6 +19,7 @@ import {
   makeSelectBalanceLoading
 } from '../App/selectors';
 import { makeSelectCurrentSwaps, makeSelectFinishedSwaps } from './selectors';
+import { getMonth } from './utils';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:MyOrders');
 
@@ -87,6 +88,7 @@ class MyOrders extends React.PureComponent<Props> {
 
   renderSwap = swap => {
     const { classes } = this.props;
+    const date = new Date(swap.get('expiration') * 1000);
     return (
       <React.Fragment>
         <ListItem
@@ -95,8 +97,8 @@ class MyOrders extends React.PureComponent<Props> {
           className={classes.myOrder__listItem}
         >
           <ListItemText
-            primary="OCT"
-            secondary="15"
+            primary={getMonth(date)}
+            secondary={date.getDate()}
             className={classes.myOrder__ItemDay}
           />
           {/* {getCoinIcon(swap.get('alice'))} */}

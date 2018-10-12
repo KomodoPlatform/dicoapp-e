@@ -401,7 +401,7 @@ class AmountSection extends Component<Props, State> {
     const { classes, entity } = this.props;
     const swapsLoading = entity.get('status') !== 'finished';
     const swapsError = entity.get('error');
-    const confirmed = entity.get('sentflags').size > 1;
+    const confirmed = entity.get('sentflags').size > 0;
     return (
       <Grid
         container
