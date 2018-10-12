@@ -232,22 +232,32 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
 });
 
 describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
-  const { uuid } = SWAP_STATE_ZERO;
+  const {
+    uuid,
+    tradeid,
+    requestid,
+    quoteid,
+    expiration,
+    bob,
+    alice,
+    basevalue,
+    relvalue
+  } = SWAP_STATE_ZERO;
   let store = initialState
     .setIn(['swaps', 'processingList'], fromJS([uuid]))
     .setIn(
       ['swaps', 'entities'],
       fromJS({
         [uuid]: {
-          id: SWAP_STATE_ZERO.tradeid,
+          id: tradeid,
           uuid,
-          requestid: SWAP_STATE_ZERO.requestid,
-          quoteid: SWAP_STATE_ZERO.quoteid,
-          expiration: SWAP_STATE_ZERO.expiration,
-          bob: SWAP_STATE_ZERO.bob,
-          alice: SWAP_STATE_ZERO.alice,
-          bobamount: SWAP_STATE_ZERO.basevalue,
-          aliceamount: SWAP_STATE_ZERO.relvalue,
+          requestid,
+          quoteid,
+          expiration,
+          bob,
+          alice,
+          bobamount: basevalue,
+          aliceamount: relvalue,
           sentflags: [],
           status: 'pending'
         }
