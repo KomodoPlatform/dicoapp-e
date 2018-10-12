@@ -73,9 +73,9 @@ Object {
 }
 `;
 
-exports[`containers/BuyPage/actions/removeSwapsData should removeSwapsData should create removeSwapsData action 1`] = `
+exports[`containers/BuyPage/actions/makeANewSwap should makeANewSwap should create makeANewSwap action 1`] = `
 Object {
-  "type": "dicoapp/BuyPage/REMOVE_SWAPS_DATA",
+  "type": "dicoapp/BuyPage/SWAP_MAKE_A_NEW",
 }
 `;
 

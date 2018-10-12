@@ -13,8 +13,8 @@ import {
   LOAD_RECENT_SWAPS_COIN,
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   // LOAD_RECENT_SWAPS_ERROR,
-  REMOVE_SWAPS_DATA,
-  SWAP_TIMEOUT
+  SWAP_TIMEOUT,
+  SWAP_MAKE_A_NEW
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -273,7 +273,7 @@ const buyReducer = handleActions(
     // [LOAD_RECENT_SWAPS_ERROR]: (state, { error }) =>
     //   state.setIn(['swaps', 'error'], error).setIn(['swaps', 'loading'], false),
 
-    [REMOVE_SWAPS_DATA]: state =>
+    [SWAP_MAKE_A_NEW]: state =>
       state
         .setIn(['buying', 'error'], false)
         .setIn(['buying', 'loading'], false)

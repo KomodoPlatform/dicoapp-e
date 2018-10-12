@@ -27,7 +27,7 @@ import { AUTO_HIDE_SNACKBAR_TIME, STATE_SWAPS } from '../constants';
 import {
   loadBuyCoin,
   loadRecentSwaps,
-  removeSwapsData,
+  makeANewSwap,
   clearBuyCoinError,
   checkUpdateSwapEvent,
   checkTimeoutEvent
@@ -122,7 +122,7 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadRecentSwaps: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchRemoveSwapsData: Function,
+  dispatchMakeANewSwap: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchCheckUpdateSwapEvent: Function,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -278,8 +278,8 @@ class AmountSection extends Component<Props, State> {
 
   clickProcessButton = (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
-    const { dispatchRemoveSwapsData } = this.props;
-    dispatchRemoveSwapsData();
+    const { dispatchMakeANewSwap } = this.props;
+    dispatchMakeANewSwap();
   };
 
   renderSubmitForm = () => {
@@ -551,7 +551,7 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
     dispatchLoadBuyCoin: (payload: BuyCoinPayload) =>
       dispatch(loadBuyCoin(payload)),
     dispatchLoadRecentSwaps: () => dispatch(loadRecentSwaps()),
-    dispatchRemoveSwapsData: () => dispatch(removeSwapsData()),
+    dispatchMakeANewSwap: () => dispatch(makeANewSwap()),
     dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError()),
     dispatchCheckUpdateSwapEvent: () => dispatch(checkUpdateSwapEvent()),
     dispatchCheckTimeoutEvent: () => dispatch(checkTimeoutEvent())

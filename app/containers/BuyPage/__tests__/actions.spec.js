@@ -5,10 +5,10 @@ import {
   loadBestPrice,
   loadBuyCoin,
   loadBuyCoinError,
-  removeSwapsData,
   checkTimeoutEvent,
   checkUpdateSwapEvent,
-  timeoutSwap
+  timeoutSwap,
+  makeANewSwap
 } from '../actions';
 import {
   LOAD_PRICE,
@@ -17,10 +17,10 @@ import {
   LOAD_BEST_PRICE,
   LOAD_BUY_COIN,
   LOAD_BUY_COIN_ERROR,
-  REMOVE_SWAPS_DATA,
   CHECK_TIMEOUT_EVENT,
   CHECK_UPDATE_SWAP_EVENT,
-  SWAP_TIMEOUT
+  SWAP_TIMEOUT,
+  SWAP_MAKE_A_NEW
 } from '../constants';
 
 describe('containers/BuyPage/actions/loadPrice', () => {
@@ -139,20 +139,6 @@ describe('containers/BuyPage/actions/loadBuyCoinError', () => {
   });
 });
 
-describe('containers/BuyPage/actions/removeSwapsData', () => {
-  it('should removeSwapsData should create removeSwapsData action', () => {
-    expect(removeSwapsData()).toMatchSnapshot();
-  });
-
-  it('should return the correct type and the passed name', () => {
-    const expectedResult = {
-      type: REMOVE_SWAPS_DATA
-    };
-
-    expect(removeSwapsData()).toEqual(expectedResult);
-  });
-});
-
 describe('containers/BuyPage/actions/checkTimeoutEvent', () => {
   it('should checkTimeoutEvent should create checkTimeoutEvent action', () => {
     expect(checkTimeoutEvent()).toMatchSnapshot();
@@ -201,5 +187,19 @@ describe('containers/BuyPage/actions/timeoutSwap', () => {
     };
 
     expect(timeoutSwap(payload)).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/makeANewSwap', () => {
+  it('should makeANewSwap should create makeANewSwap action', () => {
+    expect(makeANewSwap()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_MAKE_A_NEW
+    };
+
+    expect(makeANewSwap()).toEqual(expectedResult);
   });
 });

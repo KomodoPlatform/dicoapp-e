@@ -17,8 +17,8 @@ import {
   LOAD_RECENT_SWAPS_ERROR,
   CHECK_TIMEOUT_EVENT,
   CHECK_UPDATE_SWAP_EVENT,
-  REMOVE_SWAPS_DATA,
-  SWAP_TIMEOUT
+  SWAP_TIMEOUT,
+  SWAP_MAKE_A_NEW
 } from './constants';
 import type {
   BuyCoinPayload,
@@ -124,12 +124,6 @@ export function loadRecentSwapsError(message: string) {
   };
 }
 
-export function removeSwapsData() {
-  return {
-    type: REMOVE_SWAPS_DATA
-  };
-}
-
 export function checkTimeoutEvent() {
   return {
     type: CHECK_TIMEOUT_EVENT
@@ -146,5 +140,11 @@ export function timeoutSwap(payload: TimeoutPayload) {
   return {
     type: SWAP_TIMEOUT,
     payload
+  };
+}
+
+export function makeANewSwap() {
+  return {
+    type: SWAP_MAKE_A_NEW
   };
 }

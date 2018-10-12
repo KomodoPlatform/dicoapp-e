@@ -7,7 +7,8 @@ import {
   loadBuyCoinError,
   loadRecentSwapsDataFromWebsocket,
   loadRecentSwapsCoin,
-  timeoutSwap
+  timeoutSwap,
+  makeANewSwap
 } from '../actions';
 import {
   WEBSOCKET_STATE_ZERO,
@@ -404,23 +405,34 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
 });
 
 describe('containers/BuyPage/reducers/timeoutSwap', () => {
+  const {
+    uuid,
+    tradeid,
+    requestid,
+    quoteid,
+    expiration,
+    bob,
+    alice,
+    basevalue,
+    relvalue
+  } = SWAP_STATE_ZERO;
   it('should handle the timeoutSwap action correctly', () => {
     const list = initialState.getIn(['swaps', 'processingList']);
     let store = initialState
-      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(['swaps', 'processingList'], list.push(uuid))
       .setIn(
         ['swaps', 'entities'],
         fromJS({
-          [SWAP_STATE_ZERO.uuid]: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            expiration: SWAP_STATE_ZERO.expiration,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice,
-            bobamount: SWAP_STATE_ZERO.basevalue,
-            aliceamount: SWAP_STATE_ZERO.relvalue,
+          [uuid]: {
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            expiration,
+            bob,
+            alice,
+            bobamount: basevalue,
+            aliceamount: relvalue,
             sentflags: [],
             status: 'pending'
           }
@@ -429,20 +441,20 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
 
     const expectedResult = store
       .setIn(['swaps', 'processingList'], fromJS([]))
-      .setIn(['swaps', 'finishedList'], fromJS([SWAP_STATE_ZERO.uuid]))
+      .setIn(['swaps', 'finishedList'], fromJS([uuid]))
       .setIn(
         ['swaps', 'entities'],
         fromJS({
-          [SWAP_STATE_ZERO.uuid]: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            expiration: SWAP_STATE_ZERO.expiration,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice,
-            bobamount: SWAP_STATE_ZERO.basevalue,
-            aliceamount: SWAP_STATE_ZERO.relvalue,
+          [uuid]: {
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            expiration,
+            bob,
+            alice,
+            bobamount: basevalue,
+            aliceamount: relvalue,
             sentflags: [],
             error: {
               message: 'Timeout'
@@ -453,12 +465,12 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
       );
 
     const payload = {
-      id: SWAP_STATE_ZERO.tradeid,
-      uuid: SWAP_STATE_ZERO.uuid,
-      requestid: SWAP_STATE_ZERO.requestid,
-      quoteid: SWAP_STATE_ZERO.quoteid,
-      bob: SWAP_STATE_ZERO.bob,
-      alice: SWAP_STATE_ZERO.alice
+      id: tradeid,
+      uuid,
+      requestid,
+      quoteid,
+      bob,
+      alice
     };
     store = buyReducer(store, timeoutSwap(payload));
     expect(store).toEqual(expectedResult);
@@ -469,20 +481,20 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
   it('should not remove uuid in processingList', () => {
     const list = initialState.getIn(['swaps', 'processingList']);
     let store = initialState
-      .setIn(['swaps', 'processingList'], list.push(SWAP_STATE_ZERO.uuid))
+      .setIn(['swaps', 'processingList'], list.push(uuid))
       .setIn(
         ['swaps', 'entities'],
         fromJS({
-          [SWAP_STATE_ZERO.uuid]: {
-            id: SWAP_STATE_ZERO.tradeid,
-            uuid: SWAP_STATE_ZERO.uuid,
-            requestid: SWAP_STATE_ZERO.requestid,
-            quoteid: SWAP_STATE_ZERO.quoteid,
-            expiration: SWAP_STATE_ZERO.expiration,
-            bob: SWAP_STATE_ZERO.bob,
-            alice: SWAP_STATE_ZERO.alice,
-            bobamount: SWAP_STATE_ZERO.basevalue,
-            aliceamount: SWAP_STATE_ZERO.relvalue,
+          [uuid]: {
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            expiration,
+            bob,
+            alice,
+            bobamount: basevalue,
+            aliceamount: relvalue,
             sentflags: [],
             status: 'pending'
           }
@@ -495,16 +507,63 @@ describe('containers/BuyPage/reducers/timeoutSwap', () => {
     );
 
     const payload = {
-      id: SWAP_STATE_ZERO.tradeid,
+      id: tradeid,
       uuid: 'uuid',
-      requestid: SWAP_STATE_ZERO.requestid,
-      quoteid: SWAP_STATE_ZERO.quoteid,
-      bob: SWAP_STATE_ZERO.bob,
-      alice: SWAP_STATE_ZERO.alice
+      requestid,
+      quoteid,
+      bob,
+      alice
     };
     store = buyReducer(store, timeoutSwap(payload));
     expect(store).toEqual(expectedResult);
     store = buyReducer(store, timeoutSwap(payload));
+    expect(store).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/reducers/makeANewSwap', () => {
+  const {
+    uuid,
+    tradeid,
+    requestid,
+    quoteid,
+    expiration,
+    bob,
+    alice,
+    basevalue,
+    relvalue
+  } = SWAP_STATE_ZERO;
+  it('should handle the makeANewSwap action correctly', () => {
+    const list = initialState.getIn(['swaps', 'processingList']);
+    let store = initialState
+      .setIn(['swaps', 'processingList'], list.push(uuid))
+      .setIn(
+        ['swaps', 'entities'],
+        fromJS({
+          [uuid]: {
+            id: tradeid,
+            uuid,
+            requestid,
+            quoteid,
+            expiration,
+            bob,
+            alice,
+            bobamount: basevalue,
+            aliceamount: relvalue,
+            sentflags: [],
+            status: 'pending'
+          }
+        })
+      );
+
+    const expectedResult = store
+      .setIn(['buying', 'error'], false)
+      .setIn(['buying', 'loading'], false)
+      .setIn(['swaps', 'currentSwap'], null);
+
+    store = buyReducer(store, makeANewSwap());
+    expect(store).toEqual(expectedResult);
+    store = buyReducer(store, makeANewSwap());
     expect(store).toEqual(expectedResult);
   });
 });

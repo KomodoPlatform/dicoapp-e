@@ -17,7 +17,6 @@ export const LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET =
   'dicoapp/BuyPage/LOAD_SWAP_DATA_FROM_WEBSOCKET';
 export const LOAD_RECENT_SWAPS_ERROR =
   'dicoapp/BuyPage/LOAD_RECENT_SWAPS_ERROR';
-export const REMOVE_SWAPS_DATA = 'dicoapp/BuyPage/REMOVE_SWAPS_DATA';
 export const CHECK_TIMEOUT_EVENT = 'dicoapp/BuyPage/CHECK_TIMEOUT_EVENT';
 export const CHECK_UPDATE_SWAP_EVENT =
   'dicoapp/BuyPage/CHECK_UPDATE_SWAP_EVENT';
@@ -37,3 +36,4 @@ export const APPROPRIATE_ERROR_UTXOS =
   'cant find a deposit that is close enough in size. make another deposit that is just a bit larger than what you want to trade';
 
 export const SWAP_TIMEOUT = 'dicoapp/BuyPage/SWAP_TIMEOUT';
+export const SWAP_MAKE_A_NEW = 'dicoapp/BuyPage/SWAP_MAKE_A_NEW';
