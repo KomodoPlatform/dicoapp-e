@@ -341,6 +341,11 @@ class AmountSection extends Component<Props, State> {
     const { classes } = this.props;
     return (
       <Grid container spacing={24}>
+        <Grid item xs={12} className={classes.amountform__itemCenter}>
+          <Typography gutterBottom className={classes.amountform__warning}>
+            The swap is running, don't exit the application
+          </Typography>
+        </Grid>
         <Grid item xs={6} className={classes.amountform__itemCenter}>
           <CoinSelectable
             icon={<Circle />}
@@ -460,7 +465,14 @@ class AmountSection extends Component<Props, State> {
             className={classes.amountform__item}
             onClick={this.clickProcessButton}
           >
-            {swapsLoading && <React.Fragment>Loading...</React.Fragment>}
+            {swapsLoading &&
+              !confirmed && <React.Fragment>Loading...</React.Fragment>}
+            {swapsLoading &&
+              confirmed && (
+                <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
+                  {(...content) => content}
+                </FormattedMessage>
+              )}
             {!swapsLoading &&
               swapsError && <React.Fragment>Cancel</React.Fragment>}
             {!swapsLoading &&

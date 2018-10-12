@@ -11,7 +11,9 @@ import CardContent from '@material-ui/core/CardContent';
 import MDCList from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import PageSectionTitle from '../../components/PageSectionTitle';
+import { getCoinIcon } from '../../components/CryptoIcons';
 import {
   makeSelectBalanceEntities,
   makeSelectBalanceLoading
@@ -50,6 +52,26 @@ const styles = () => ({
 
   myOrder__listItem: {
     paddingLeft: 0
+  },
+
+  myOrder__ItemDay: {
+    flex: 'none'
+  },
+
+  myOrder__ItemText: {
+    // flex: '5 1 auto'
+  },
+
+  myOrder__ItemTextRight: {
+    textAlign: 'right',
+    top: '50%',
+    right: 4,
+    position: 'absolute',
+    transform: 'translateY(-50%)'
+  },
+
+  myOrder__linearProgress: {
+    height: 2
   }
 });
 
@@ -66,16 +88,36 @@ class MyOrders extends React.PureComponent<Props> {
   renderSwap = swap => {
     const { classes } = this.props;
     return (
-      <ListItem
-        key={swap.get('uuid')}
-        button
-        className={classes.myOrder__listItem}
-      >
-        <ListItemText
-          primary={swap.get('uuid')}
-          secondary={`Step ${swap.get('sentflags').size + 1}/6`}
+      <React.Fragment>
+        <ListItem
+          key={swap.get('uuid')}
+          button
+          className={classes.myOrder__listItem}
+        >
+          <ListItemText
+            primary="OCT"
+            secondary="15"
+            className={classes.myOrder__ItemDay}
+          />
+          {/* {getCoinIcon(swap.get('alice'))} */}
+          {getCoinIcon(swap.get('bob'))}
+          <ListItemText
+            primary={swap.get('uuid')}
+            secondary={`Step ${swap.get('sentflags').size + 1}/6`}
+            className={classes.myOrder__ItemText}
+          />
+          <ListItemText
+            primary={`+ ${swap.get('bobamount')} ${swap.get('bob')}`}
+            secondary={`- ${swap.get('aliceamount')} ${swap.get('alice')}`}
+            className={classes.myOrder__ItemTextRight}
+          />
+        </ListItem>
+        <LinearProgress
+          variant="determinate"
+          value={swap.get('sentflags').size * 20}
+          className={classes.myOrder__linearProgress}
         />
-      </ListItem>
+      </React.Fragment>
     );
   };
 
