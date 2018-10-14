@@ -43,8 +43,15 @@ const styles = () => ({
 });
 
 export class Transaction extends React.PureComponent<Props> {
+  onClick = (evt: SyntheticInputEvent<>) => {
+    const { onClick, swap } = this.props;
+    // eslint-disable-next-line no-param-reassign
+    evt.target.value = swap.get('uuid');
+    onClick(evt);
+  };
+
   render() {
-    const { swap, classes, onClick } = this.props;
+    const { swap, classes } = this.props;
     const date = new Date(swap.get('expiration') * 1000);
 
     return (
@@ -53,7 +60,7 @@ export class Transaction extends React.PureComponent<Props> {
           key={swap.get('uuid')}
           button
           className={classes.transactionRecord__listItem}
-          onClick={onClick}
+          onClick={this.onClick}
         >
           <ListItemText
             primary={getMonth(date)}

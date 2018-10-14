@@ -9,14 +9,18 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import MDCList from '@material-ui/core/List';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import PageSectionTitle from '../../components/PageSectionTitle';
 import {
   makeSelectBalanceEntities,
   makeSelectBalanceLoading
 } from '../App/selectors';
+import {
+  makeSelectCurrentSwaps,
+  makeSelectFinishedSwaps,
+  makeSelectSwapsEntities
+} from './selectors';
+import PageSectionTitle from '../../components/PageSectionTitle';
+import SwapDetailModal from './components/SwapDetailModal';
 import TransactionRecord from './components/TransactionRecord';
-import { makeSelectCurrentSwaps, makeSelectFinishedSwaps } from './selectors';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:MyOrders');
 
@@ -46,6 +50,10 @@ const styles = () => ({
     position: 'absolute',
     right: 0,
     top: -12
+  },
+
+  swapform_button: {
+    margin: '0 auto'
   }
 });
 
@@ -53,24 +61,35 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   currentSwaps: List<*>,
-  finishedSwaps: List<*>
+  finishedSwaps: List<*>,
+  swapsEntities: Map<*, *>
 };
 
 type State = {
-  right: boolean
+  right: boolean,
+  uuid?: string | null
 };
 
 class MyOrders extends React.PureComponent<Props, State> {
   props: Props;
 
   state = {
-    right: false
+    right: false,
+    uuid: null
   };
 
-  openRight = () => {
-    this.setState({
-      right: true
-    });
+  openRight = evt => {
+    const { target } = evt;
+    if (target.value) {
+      this.setState({
+        right: true,
+        uuid: target.value
+      });
+    } else {
+      this.setState({
+        right: true
+      });
+    }
   };
 
   closeRight = () => {
@@ -79,16 +98,13 @@ class MyOrders extends React.PureComponent<Props, State> {
     });
   };
 
-  renderSwap = swap => {
-    console.log(swap.get('uuid'), 'uuid');
-    return (
-      <TransactionRecord
-        key={swap.get('uuid')}
-        onClick={this.openRight}
-        swap={swap}
-      />
-    );
-  };
+  renderSwap = swap => (
+    <TransactionRecord
+      key={swap.get('uuid')}
+      onClick={this.openRight}
+      swap={swap}
+    />
+  );
 
   renderCurrentSwaps = () => {
     const { currentSwaps } = this.props;
@@ -103,8 +119,8 @@ class MyOrders extends React.PureComponent<Props, State> {
   render() {
     debug('render');
 
-    const { classes } = this.props;
-    const { right } = this.state;
+    const { classes, swapsEntities } = this.props;
+    const { right, uuid } = this.state;
     return (
       <React.Fragment>
         <Grid container spacing={0} className={classes.container}>
@@ -122,21 +138,12 @@ class MyOrders extends React.PureComponent<Props, State> {
             </CardContent>
           </Grid>
         </Grid>
-        <SwipeableDrawer
-          anchor="right"
+        <SwapDetailModal
           open={right}
           onClose={this.closeRight}
           onOpen={this.openRight}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.closeRight}
-            onKeyDown={this.closeRight}
-          >
-            transaction time
-          </div>
-        </SwipeableDrawer>
+          swap={uuid ? swapsEntities.get(uuid) : null}
+        />
       </React.Fragment>
     );
   }
@@ -151,7 +158,8 @@ const mapStateToProps = createStructuredSelector({
   balance: makeSelectBalanceEntities(),
   balanceLoading: makeSelectBalanceLoading(),
   currentSwaps: makeSelectCurrentSwaps(),
-  finishedSwaps: makeSelectFinishedSwaps()
+  finishedSwaps: makeSelectFinishedSwaps(),
+  swapsEntities: makeSelectSwapsEntities()
 });
 
 const withConnect = connect(
