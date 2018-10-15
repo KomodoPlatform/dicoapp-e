@@ -300,9 +300,9 @@ describe('lib/date-format', () => {
     expect(formatDate(str1, 'SSS')).toEqual('000');
     expect(formatDate(str2, 'SSS')).toEqual('000');
 
-    expect(formatDate(d, TIME_FORMAT)).toEqual('2018-10-13 03:23:39.825 AM');
-    expect(formatDate(str1, TIME_FORMAT)).toEqual('1995-12-17 03:24:00.000 AM');
-    expect(formatDate(str2, TIME_FORMAT)).toEqual('1995-12-17 03:24:00.000 AM');
+    expect(formatDate(d, TIME_FORMAT)).toEqual('03:23:39 AM');
+    expect(formatDate(str1, TIME_FORMAT)).toEqual('03:24:00 AM');
+    expect(formatDate(str2, TIME_FORMAT)).toEqual('03:24:00 AM');
   });
 });
 /* eslint-enable camelcase */

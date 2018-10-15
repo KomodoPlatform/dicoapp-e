@@ -25,11 +25,11 @@ const DAY_OF_WEEK_ARRAY_LIST = [
   'Friday',
   'Saturday'
 ];
-export const ISO8601_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS';
-export const ISO8601_WITH_TZ_OFFSET_FORMAT = 'yyyy-MM-ddTHH:mm:ss.SSS K';
-export const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss.SSS tt';
-export const DATE_FORMAT = 'yyyy-MM-dd';
-export const TIME_FORMAT = 'hh:mm:ss tt';
+const ISO8601_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS';
+const ISO8601_WITH_TZ_OFFSET_FORMAT = 'yyyy-MM-ddTHH:mm:ss.SSS K';
+const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss.SSS tt';
+const DATE_FORMAT = 'yyyy-MM-dd';
+const TIME_FORMAT = 'hh:mm:ss tt';
 
 function isValidDate(date) {
   return (
@@ -240,7 +240,7 @@ function timeOffset(timezoneOffset) {
   return timezoneOffset < 0 ? `+${hour}${minute}` : `-${hour}${minute}`;
 }
 
-function formatDate(dateString: string, formatStyle, timezoneOffset) {
+function formatDate(dateString, formatStyle, timezoneOffset) {
   try {
     const dateObj = validateDate(dateString);
     if (!dateObj) throw new Error('Invalid Date');
@@ -322,7 +322,12 @@ module.exports = {
   getMilliseconds,
   getDayOfWeek,
   getAM_PM_Hours,
-  formatDate
+  formatDate,
+  ISO8601_FORMAT,
+  ISO8601_WITH_TZ_OFFSET_FORMAT,
+  DATETIME_FORMAT,
+  DATE_FORMAT,
+  TIME_FORMAT
 };
 
 /* eslint-enable no-param-reassign, camelcase */
