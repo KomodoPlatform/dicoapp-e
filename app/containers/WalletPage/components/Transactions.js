@@ -20,6 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CardContent from '@material-ui/core/CardContent';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import CachedIcon from '@material-ui/icons/Cached';
+import explorer from '../../../lib/explorer';
 import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
@@ -52,13 +53,6 @@ const styles = () => ({
     fontSize: 15
   }
 });
-
-const explorer = {
-  KMD: 'http://kmdexplorer.io/tx',
-  BTC: 'https://blockchain.com/tx',
-  LTC: 'https://live.blockcypher.com/ltc/tx',
-  GLXT: 'http://glx.info/tx'
-};
 
 let idInterval = null;
 const LOAD_TRANSACTION_TIME = 90000;
@@ -116,6 +110,7 @@ class Transactions extends PureComponent<Props> {
     const { entities } = this.props;
     const t = entities.get(v);
     if (!t) return null;
+    const linkExplorer = explorer(t.get('tx_hash'), t.get('coin'));
     return (
       <TableRow key={t.get('tx_hash')}>
         <TableCell>{k + 1}</TableCell>
@@ -123,10 +118,10 @@ class Transactions extends PureComponent<Props> {
         <TableCell>{t.get('height')}</TableCell>
         <TableCell>
           {/* eslint-disable-next-line react/jsx-no-target-blank */}
-          {explorer[t.get('coin')] && (
+          {linkExplorer && (
             <a
               style={{ color: '#000' }}
-              href={`${explorer[t.get('coin')]}/${t.get('tx_hash')}`}
+              href={linkExplorer}
               // target="_blank"
               // rel="noopener noreferrer"
               onClick={this.onClickTranstactions}
@@ -134,7 +129,7 @@ class Transactions extends PureComponent<Props> {
               {t.get('tx_hash')}
             </a>
           )}
-          {!explorer[t.get('coin')] && t.get('tx_hash')}
+          {!linkExplorer && t.get('tx_hash')}
         </TableCell>
       </TableRow>
     );
