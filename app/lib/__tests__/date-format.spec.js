@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const {
   validateDate,
   getYear,
@@ -8,7 +9,11 @@ const {
   getMinutes,
   getSeconds,
   getMilliseconds,
-  getDayOfWeek
+  getDayOfWeek,
+  getAM_PM_Hours,
+  formatDate,
+
+  TIME_FORMAT
 } = require('../date-format');
 
 describe('lib/date-format', () => {
@@ -93,10 +98,27 @@ describe('lib/date-format', () => {
   it('getMonth', () => {
     expect(typeof getMonth).toEqual('function');
 
-    expect(getMonth(d)).toEqual('Oct');
-    expect(getMonth(date)).toEqual('Oct');
-    expect(getMonth(str1)).toEqual('Dec');
-    expect(getMonth(str2)).toEqual('Dec');
+    expect(getMonth(d)).toEqual('10');
+    expect(getMonth(date)).toEqual('10');
+    expect(getMonth(str1)).toEqual('12');
+    expect(getMonth(str2)).toEqual('12');
+
+    expect(getMonth(d, { format: 'MMM' })).toEqual('Oct');
+    expect(getMonth(date, { format: 'MMM' })).toEqual('Oct');
+    expect(getMonth(str1, { format: 'MMM' })).toEqual('Dec');
+    expect(getMonth(str2, { format: 'MMM' })).toEqual('Dec');
+
+    expect(getMonth(d, { option: 'utc', format: 'MMM' })).toEqual('Oct');
+    expect(getMonth(date, { option: 'utc', format: 'MMM' })).toEqual('Oct');
+    expect(getMonth(str1, { option: 'utc', format: 'MMM' })).toEqual('Dec');
+    expect(getMonth(str2, { option: 'utc', format: 'MMM' })).toEqual('Dec');
+
+    expect(
+      getMonth('October 01, 2018 03:24:00', { option: 'utc', format: 'MMM' })
+    ).toEqual('Sep');
+    expect(
+      getMonth('October 01, 2018 03:24:00', { option: 'utc', format: 'MMMM' })
+    ).toEqual('September');
 
     expect(getMonth(d, { format: 'MMMM' })).toEqual('October');
     expect(getMonth(date, { format: 'MMMM' })).toEqual('October');
@@ -114,10 +136,10 @@ describe('lib/date-format', () => {
     expect(getDate(str1)).toEqual('17');
     expect(getDate(str2)).toEqual('17');
 
-    expect(getDate(d, { option: 'utc' })).toEqual('12');
-    expect(getDate(date, { option: 'utc' })).toEqual('12');
-    expect(getDate(str1, { option: 'utc' })).toEqual('16');
-    expect(getDate(str2, { option: 'utc' })).toEqual('16');
+    expect(getDate(d, 'utc')).toEqual('12');
+    expect(getDate(date, 'utc')).toEqual('12');
+    expect(getDate(str1, 'utc')).toEqual('16');
+    expect(getDate(str2, 'utc')).toEqual('16');
 
     expect(getMonth(str3)).toEqual(null);
   });
@@ -193,9 +215,6 @@ describe('lib/date-format', () => {
 
   it('getDayOfWeek', () => {
     expect(typeof getDayOfWeek).toEqual('function');
-    console.log(date.toString());
-    console.log(new Date(str1).toString());
-    console.log(new Date(str2).toString());
 
     expect(getDayOfWeek(d)).toEqual('Saturday');
     expect(getDayOfWeek(date)).toEqual('Saturday');
@@ -227,4 +246,63 @@ describe('lib/date-format', () => {
 
     expect(getDayOfWeek(str3)).toEqual(null);
   });
+
+  it('getAM_PM_Hours', () => {
+    expect(typeof getAM_PM_Hours).toEqual('function');
+
+    expect(getAM_PM_Hours(validateDate(d), 'hh')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+    expect(getAM_PM_Hours(validateDate(date), 'hh')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+    expect(getAM_PM_Hours(validateDate(str1), 'hh')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+    expect(getAM_PM_Hours(validateDate(str2), 'hh')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+
+    expect(getAM_PM_Hours(validateDate(1539601137314), 'H')).toEqual({
+      hour: '17',
+      type: 'PM'
+    });
+    expect(getAM_PM_Hours(validateDate(date), 'h')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+    expect(getAM_PM_Hours(validateDate(str1), 'h')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+    expect(getAM_PM_Hours(validateDate(str2), 'h')).toEqual({
+      hour: '03',
+      type: 'AM'
+    });
+  });
+
+  it('formatDate', () => {
+    expect(typeof getAM_PM_Hours).toEqual('function');
+
+    expect(formatDate(d)).toEqual('2018-10-13 03:23:39.825 AM');
+    expect(formatDate(str1)).toEqual('1995-12-17 03:24:00.000 AM');
+    expect(formatDate(str2)).toEqual('1995-12-17 03:24:00.000 AM');
+
+    expect(formatDate(d, 'yyyy-MM-dd')).toEqual('2018-10-13');
+    expect(formatDate(str1, 'yyyy-MM-dd')).toEqual('1995-12-17');
+    expect(formatDate(str2, 'yyyy-MM-dd')).toEqual('1995-12-17');
+
+    expect(formatDate(d, 'SSS')).toEqual('825');
+    expect(formatDate(str1, 'SSS')).toEqual('000');
+    expect(formatDate(str2, 'SSS')).toEqual('000');
+
+    expect(formatDate(d, TIME_FORMAT)).toEqual('2018-10-13 03:23:39.825 AM');
+    expect(formatDate(str1, TIME_FORMAT)).toEqual('1995-12-17 03:24:00.000 AM');
+    expect(formatDate(str2, TIME_FORMAT)).toEqual('1995-12-17 03:24:00.000 AM');
+  });
 });
+/* eslint-enable camelcase */

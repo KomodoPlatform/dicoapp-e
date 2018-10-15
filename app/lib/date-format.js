@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign, camelcase, no-restricted-globals */
 // @flow
 
 const numRegex = /^\d+$/;
@@ -15,7 +16,6 @@ const MONTH_ARRAY_LIST = [
   'November',
   'December'
 ];
-
 const DAY_OF_WEEK_ARRAY_LIST = [
   'Sunday',
   'Monday',
@@ -25,8 +25,22 @@ const DAY_OF_WEEK_ARRAY_LIST = [
   'Friday',
   'Saturday'
 ];
+export const ISO8601_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS';
+export const ISO8601_WITH_TZ_OFFSET_FORMAT = 'yyyy-MM-ddTHH:mm:ss.SSS K';
+export const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss.SSS tt';
+export const DATE_FORMAT = 'yyyy-MM-dd';
+export const TIME_FORMAT = 'hh:mm:ss tt';
+
+function isValidDate(date) {
+  return (
+    date &&
+    Object.prototype.toString.call(date) === '[object Date]' &&
+    !isNaN(date)
+  );
+}
 
 function validateDate(d) {
+  if (isValidDate(d)) return d;
   // eslint-disable-next-line no-param-reassign
   if (numRegex.test(d) === true && typeof d === 'string') d = Number(d);
   const dateObj = new Date(d);
@@ -75,7 +89,7 @@ function appendZero(
   return numString;
 }
 
-const monthOption = { option: 'utc', format: 'MMM' };
+const monthOption = { option: 'utc', format: 'MM' };
 type MonthOption = {
   option: string,
   format: string
@@ -97,12 +111,7 @@ function getMonth(d, { option, format }: MonthOption = monthOption) {
   }
 }
 
-const dateOption = { option: '' };
-type DateOption = {
-  option: string
-};
-
-function getDate(d, { option }: DateOption = dateOption) {
+function getDate(d, option: string = '') {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -209,6 +218,98 @@ function getDayOfWeek(d, { option, format }: DayOfWeek = dayOfWeek) {
   }
 }
 
+function getAM_PM_Hours(dateObj: Date, format: string, option: string = '') {
+  const hour = option === 'utc' ? dateObj.getUTCHours() : dateObj.getHours();
+  const AM_PM = {
+    type: 'AM',
+    hour: appendZero(hour)
+  };
+  if (hour >= 12) {
+    AM_PM.type = 'PM';
+  }
+  if (format.indexOf('hh') !== -1) {
+    AM_PM.hour = appendZero(get12HoursFormat(hour, '12'));
+  }
+  return AM_PM;
+}
+
+function timeOffset(timezoneOffset) {
+  const os = Math.abs(timezoneOffset);
+  const hour = appendZero(Math.floor(os / 60));
+  const minute = appendZero(os % 60);
+  return timezoneOffset < 0 ? `+${hour}${minute}` : `-${hour}${minute}`;
+}
+
+function formatDate(dateString: string, formatStyle, timezoneOffset) {
+  try {
+    const dateObj = validateDate(dateString);
+    if (!dateObj) throw new Error('Invalid Date');
+    if (!timezoneOffset) {
+      timezoneOffset = dateObj.getTimezoneOffset();
+    } else {
+      timezoneOffset = 0 - timezoneOffset;
+    }
+    if (typeof formatStyle !== 'string') {
+      formatStyle = DATETIME_FORMAT;
+    }
+    dateObj.setUTCMinutes(dateObj.getUTCMinutes() - timezoneOffset);
+
+    const day = getDate(dateObj, 'utc'); // dd
+    const month = getMonth(dateObj, {
+      option: 'utc',
+      format: 'MM'
+    }); // MM
+    const monthFullName = getMonth(dateObj, {
+      option: 'utc',
+      format: 'MMMM'
+    }); // MONTH
+    const monthShortName = getMonth(dateObj, {
+      option: 'utc',
+      format: 'MMM'
+    }); // month
+    const fullYear = getYear(dateObj, {
+      option: 'utc',
+      format: 'yyyy'
+    });
+    const shortYear = getYear(dateObj);
+    const hourObj = getAM_PM_Hours(dateObj, formatStyle, 'utc'); // hh or HH and tt
+    const minute = getMinutes(dateObj, 'utc'); // mm
+    const second = getSeconds(dateObj, 'utc'); // ss
+    const millisecond = getMilliseconds(dateObj, 'utc'); // SSS
+    const timeZone = timeOffset(timezoneOffset); // O
+    const DOWFullName = getDayOfWeek(dateObj, {
+      option: 'utc',
+      format: 'dddd'
+    });
+    const DOWShortName = getDayOfWeek(dateObj, {
+      option: 'utc',
+      format: 'ddd'
+    });
+
+    dateObj.setUTCMinutes(dateObj.getUTCMinutes() + timezoneOffset);
+
+    const formattedString = formatStyle
+      .replace(/dddd/g, DOWFullName)
+      .replace(/ddd/g, DOWShortName)
+      .replace(/dd/g, day)
+      .replace(/MMMM/g, monthFullName)
+      .replace(/MMM/g, monthShortName)
+      .replace(/MM/g, month)
+      .replace(/yyyy/g, fullYear)
+      .replace(/yy/g, shortYear)
+      .replace(/hh/gi, hourObj.hour)
+      .replace(/mm/g, minute)
+      .replace(/ss/g, second)
+      .replace(/SSS/g, millisecond)
+      .replace(/tt/g, hourObj.type)
+      .replace(/K/g, timeZone);
+
+    return formattedString;
+  } catch (err) {
+    throw new Error('Invalid Date Operation');
+  }
+}
+
 module.exports = {
   validateDate,
   getYear,
@@ -219,5 +320,9 @@ module.exports = {
   getMinutes,
   getSeconds,
   getMilliseconds,
-  getDayOfWeek
+  getDayOfWeek,
+  getAM_PM_Hours,
+  formatDate
 };
+
+/* eslint-enable no-param-reassign, camelcase */
