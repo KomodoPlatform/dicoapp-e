@@ -78,21 +78,21 @@ class MyOrders extends React.PureComponent<Props, State> {
     uuid: null
   };
 
-  openRight = evt => {
+  openRight = (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
     const { target } = evt;
-    if (target.value) {
-      this.setState({
-        right: true,
-        uuid: target.value
-      });
-    } else {
-      this.setState({
-        right: true
-      });
+    const { uuid } = this.state;
+    const u = {
+      right: true
+    };
+    if (target.value && target.value !== uuid) {
+      u.uuid = target.value;
     }
+    this.setState(u);
   };
 
-  closeRight = () => {
+  closeRight = (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
     this.setState({
       right: false
     });
@@ -142,7 +142,7 @@ class MyOrders extends React.PureComponent<Props, State> {
           open={right}
           onClose={this.closeRight}
           onOpen={this.openRight}
-          swap={uuid ? swapsEntities.get(uuid) : null}
+          swap={swapsEntities.get(uuid)}
         />
       </React.Fragment>
     );
