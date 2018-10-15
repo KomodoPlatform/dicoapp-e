@@ -4,6 +4,7 @@ import type { Map } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -117,14 +118,16 @@ export class SwapDetail extends React.PureComponent<Props> {
         onClose={onClose}
         onOpen={onOpen}
       >
-        <CardContent
-          tabIndex={0}
-          role="button"
-          className={classes.swapDetail__content}
-        >
-          {!swap && this.renderNotFound()}
-          {swap && this.renderSwap()}
-        </CardContent>
+        <div tabIndex={0} role="button" className={classes.swapDetail__content}>
+          <CardHeader
+            title="Shrimp and Chorizo Paella"
+            subheader="September 14, 2016"
+          />
+          <CardContent>
+            {!swap && this.renderNotFound()}
+            {swap && this.renderSwap()}
+          </CardContent>
+        </div>
       </SwipeableDrawer>
     );
   }
