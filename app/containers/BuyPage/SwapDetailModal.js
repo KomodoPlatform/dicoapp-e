@@ -19,13 +19,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Divider from '@material-ui/core/Divider';
+import CloudOff from '@material-ui/icons/CloudOff';
 
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 // eslint-disable-next-line import/named
 import { formatDate } from '../../lib/date-format';
 import { getCoinIcon } from '../../components/CryptoIcons';
 import { STATE_SWAPS } from './constants';
-import { openDetailModal, closeDetailModal } from './actions';
+import { closeDetailModal } from './actions';
 import {
   makeSelectSwapDetailModal,
   makeSelectSwapInDetailModal
@@ -38,8 +39,6 @@ const debug = require('debug')('dicoapp:containers:BuyPage:SwapDetailModal');
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
-  // eslint-disable-next-line flowtype/no-weak-types
-  onOpen: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   onClose: Function,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -101,11 +100,35 @@ const styles = theme => ({
 
   swapDetail__danger: {
     color: theme.colors.danger
+  },
+
+  swapform__iconemptystate: {
+    fontSize: 50
+  },
+
+  swapform__emptystate: {
+    position: 'absolute',
+    top: '45%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: 25
   }
 });
 
 export class SwapDetail extends React.PureComponent<Props> {
-  renderNotFound = () => <h1>Not Found</h1>;
+  renderNotFound = () => {
+    const { classes } = this.props;
+    return (
+      <div className={classes.swapform__emptystate}>
+        <Typography variant="title" gutterBottom>
+          <CloudOff className={classes.swapform__iconemptystate} />
+        </Typography>
+        <Typography variant="subheading" gutterBottom>
+          No data found. Please start making a swap.
+        </Typography>
+      </div>
+    );
+  };
 
   renderSwap = () => {
     const { swap, classes, onClose } = this.props;
@@ -277,13 +300,12 @@ export class SwapDetail extends React.PureComponent<Props> {
 
   render() {
     debug('render');
-    const { swap, classes, detailModal, onOpen, onClose } = this.props;
+    const { swap, classes, detailModal, onClose } = this.props;
     return (
       <SwipeableDrawer
         anchor="right"
         open={detailModal.get('open')}
         onClose={onClose}
-        onOpen={onOpen}
       >
         <div tabIndex={0} role="button" className={classes.swapDetail__content}>
           {!swap && this.renderNotFound()}
@@ -297,7 +319,6 @@ export class SwapDetail extends React.PureComponent<Props> {
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    onOpen: () => dispatch(openDetailModal()),
     onClose: () => dispatch(closeDetailModal())
   };
 }
