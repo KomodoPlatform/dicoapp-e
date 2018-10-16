@@ -27,6 +27,7 @@ type BestPricePayload = {
 };
 
 type SwapError = {
+  code: number,
   message: string
 };
 
@@ -49,13 +50,10 @@ type SwapCoin = {
   expiration: number,
   bob: string, // eg: KMD, BTC, LTC
   alice: string, // eg: KMD, BTC, LTC
-
   status: string, // eg: pending, finished
   application: string, // where the request come from? eg: 'dICOapp'
-
   error?: SwapError,
   info?: SwapInfo,
-
   createdAt?: Date,
   updatedAt?: Date
 };

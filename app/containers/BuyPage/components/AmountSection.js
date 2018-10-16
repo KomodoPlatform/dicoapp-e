@@ -9,12 +9,13 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 import type { Map } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import CloseIcon from '@material-ui/icons/Close';
 import { Circle, Line } from '../../../components/placeholder';
 import { getCoinIcon } from '../../../components/CryptoIcons';
@@ -108,8 +109,13 @@ const styles = () => ({
     padding: '6px 24px'
   },
 
-  swapform_button: {
+  amountform__button: {
     margin: '0 auto'
+  },
+
+  amountform__circularProgress: {
+    color: '#fff',
+    marginLeft: 5
   }
 });
 
@@ -418,7 +424,7 @@ class AmountSection extends Component<Props, State> {
 
         <Grid item xs={6} className={classes.amountform__itemCenter}>
           <CoinSelectable
-            className={classes.swapform_button}
+            className={classes.amountform__button}
             icon={getCoinIcon(entity.get('alice'))}
             title="Deposit"
             subTitle={
@@ -431,7 +437,7 @@ class AmountSection extends Component<Props, State> {
         <SwapHorizIcon className={classes.amountform__switchBtn} />
         <Grid item xs={6} className={classes.amountform__itemCenter}>
           <CoinSelectable
-            className={classes.swapform_button}
+            className={classes.amountform__button}
             icon={getCoinIcon(entity.get('bob'))}
             title="Receive"
             subTitle={
@@ -466,12 +472,27 @@ class AmountSection extends Component<Props, State> {
             onClick={this.clickProcessButton}
           >
             {swapsLoading &&
-              !confirmed && <React.Fragment>Loading...</React.Fragment>}
+              !confirmed && (
+                <React.Fragment>
+                  Loading...
+                  <CircularProgress
+                    size={20}
+                    className={classes.amountform__circularProgress}
+                  />
+                </React.Fragment>
+              )}
             {swapsLoading &&
               confirmed && (
-                <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
-                  {(...content) => content}
-                </FormattedMessage>
+                <React.Fragment>
+                  <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
+                    {(...content) => content}
+                  </FormattedMessage>
+                  <CircularProgress
+                    size={20}
+                    color="secondary"
+                    className={classes.amountform__circularProgress}
+                  />
+                </React.Fragment>
               )}
             {!swapsLoading &&
               swapsError && <React.Fragment>Cancel</React.Fragment>}

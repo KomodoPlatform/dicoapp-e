@@ -16,7 +16,7 @@ type Props = {
   swap: Map<*, *>
 };
 
-const styles = () => ({
+const styles = theme => ({
   transactionRecord__listItem: {
     paddingLeft: 0
   },
@@ -39,6 +39,14 @@ const styles = () => ({
 
   transactionRecord__linearProgress: {
     height: 2
+  },
+
+  transactionRecord__success: {
+    color: theme.colors.success
+  },
+
+  transactionRecord__danger: {
+    color: theme.colors.danger
   }
 });
 
@@ -75,8 +83,16 @@ export class Transaction extends React.PureComponent<Props> {
             className={classes.transactionRecord__ItemText}
           />
           <ListItemText
-            primary={`+ ${swap.get('bobamount')} ${swap.get('bob')}`}
-            secondary={`- ${swap.get('aliceamount')} ${swap.get('alice')}`}
+            primary={
+              <span className={classes.transactionRecord__success}>
+                + {swap.get('bobamount')} {swap.get('bob')}
+              </span>
+            }
+            secondary={
+              <span className={classes.transactionRecord__danger}>
+                - {swap.get('aliceamount')} {swap.get('alice')}
+              </span>
+            }
             className={classes.transactionRecord__ItemTextRight}
           />
         </ListItem>

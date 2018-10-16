@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+// import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { List } from 'immutable';
@@ -9,6 +10,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import MDCList from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import CloudOff from '@material-ui/icons/CloudOff';
+
 import {
   makeSelectBalanceEntities,
   makeSelectBalanceLoading
@@ -52,8 +56,12 @@ const styles = () => ({
     top: -12
   },
 
-  swapform_button: {
-    margin: '0 auto'
+  swapform__emptystate: {
+    textAlign: 'center'
+  },
+
+  swapform__iconemptystate: {
+    fontSize: 50
   }
 });
 
@@ -106,14 +114,40 @@ class MyOrders extends React.PureComponent<Props, State> {
     />
   );
 
+  renderEmptyState = () => {
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
+        <Typography
+          variant="title"
+          gutterBottom
+          className={classes.swapform__emptystate}
+        >
+          <CloudOff className={classes.swapform__iconemptystate} />
+        </Typography>
+        <Typography
+          variant="subheading"
+          gutterBottom
+          className={classes.swapform__emptystate}
+        >
+          No data found. Please start making a swap.
+        </Typography>
+      </React.Fragment>
+    );
+  };
+
   renderCurrentSwaps = () => {
     const { currentSwaps } = this.props;
-    return currentSwaps.map(this.renderSwap);
+    const hasData = currentSwaps.size > 0;
+    if (!hasData) return this.renderEmptyState();
+    return <MDCList>{currentSwaps.map(this.renderSwap)}</MDCList>;
   };
 
   renderfinishedSwaps = () => {
     const { finishedSwaps } = this.props;
-    return finishedSwaps.map(this.renderSwap);
+    const hasData = finishedSwaps.size > 0;
+    if (!hasData) return this.renderEmptyState();
+    return <MDCList>{finishedSwaps.map(this.renderSwap)}</MDCList>;
   };
 
   render() {
@@ -128,13 +162,13 @@ class MyOrders extends React.PureComponent<Props, State> {
             <CardContent className={classes.cardContent}>
               <PageSectionTitle title="Swap in progress" />
 
-              <MDCList dense={false}>{this.renderCurrentSwaps()}</MDCList>
+              {this.renderCurrentSwaps()}
             </CardContent>
 
             <CardContent className={classes.cardContent}>
               <PageSectionTitle title="History" />
 
-              <MDCList dense={false}>{this.renderfinishedSwaps()}</MDCList>
+              {this.renderfinishedSwaps()}
             </CardContent>
           </Grid>
         </Grid>
