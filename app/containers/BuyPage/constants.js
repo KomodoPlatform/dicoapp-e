@@ -37,3 +37,6 @@ export const APPROPRIATE_ERROR_UTXOS =
 
 export const SWAP_TIMEOUT = 'dicoapp/BuyPage/SWAP_TIMEOUT';
 export const SWAP_MAKE_A_NEW = 'dicoapp/BuyPage/SWAP_MAKE_A_NEW';
+export const SWAP_DETAIL_MODAL_OPEN = 'dicoapp/BuyPage/SWAP_DETAIL_MODAL_OPEN';
+export const SWAP_DETAIL_MODAL_CLOSE =
+  'dicoapp/BuyPage/SWAP_DETAIL_MODAL_CLOSE';

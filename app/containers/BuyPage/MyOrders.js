@@ -3,6 +3,7 @@ import React from 'react';
 // import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import type { Dispatch } from 'redux';
 import type { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,18 +13,13 @@ import CardContent from '@material-ui/core/CardContent';
 import MDCList from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import CloudOff from '@material-ui/icons/CloudOff';
-
 import {
   makeSelectBalanceEntities,
   makeSelectBalanceLoading
 } from '../App/selectors';
-import {
-  makeSelectCurrentSwaps,
-  makeSelectFinishedSwaps,
-  makeSelectSwapsEntities
-} from './selectors';
+import { openDetailModal, closeDetailModal } from './actions';
+import { makeSelectCurrentSwaps, makeSelectFinishedSwaps } from './selectors';
 import PageSectionTitle from '../../components/PageSectionTitle';
-import SwapDetailModal from './components/SwapDetailModal';
 import TransactionRecord from './components/TransactionRecord';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:MyOrders');
@@ -70,40 +66,26 @@ type Props = {
   classes: Object,
   currentSwaps: List<*>,
   finishedSwaps: List<*>,
-  swapsEntities: Map<*, *>
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchOpenDetailModal: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchCloseDetailModal: Function
 };
 
-type State = {
-  right: boolean,
-  uuid?: string | null
-};
-
-class MyOrders extends React.PureComponent<Props, State> {
+class MyOrders extends React.PureComponent<Props> {
   props: Props;
-
-  state = {
-    right: false,
-    uuid: null
-  };
 
   openRight = (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
     const { target } = evt;
-    const { uuid } = this.state;
-    const u = {
-      right: true
-    };
-    if (target.value && target.value !== uuid) {
-      u.uuid = target.value;
-    }
-    this.setState(u);
+    const { dispatchOpenDetailModal } = this.props;
+    dispatchOpenDetailModal(target.value);
   };
 
   closeRight = (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
-    this.setState({
-      right: false
-    });
+    const { dispatchCloseDetailModal } = this.props;
+    dispatchCloseDetailModal();
   };
 
   renderSwap = swap => (
@@ -153,52 +135,45 @@ class MyOrders extends React.PureComponent<Props, State> {
   render() {
     debug('render');
 
-    const { classes, swapsEntities } = this.props;
-    const { right, uuid } = this.state;
+    const { classes } = this.props;
     return (
-      <React.Fragment>
-        <Grid container spacing={0} className={classes.container}>
-          <Grid item xs={12} className={classes.containerSection}>
-            <CardContent className={classes.cardContent}>
-              <PageSectionTitle title="Swap in progress" />
+      <Grid container spacing={0} className={classes.container}>
+        <Grid item xs={12} className={classes.containerSection}>
+          <CardContent className={classes.cardContent}>
+            <PageSectionTitle title="Swap in progress" />
 
-              {this.renderCurrentSwaps()}
-            </CardContent>
+            {this.renderCurrentSwaps()}
+          </CardContent>
 
-            <CardContent className={classes.cardContent}>
-              <PageSectionTitle title="History" />
+          <CardContent className={classes.cardContent}>
+            <PageSectionTitle title="History" />
 
-              {this.renderfinishedSwaps()}
-            </CardContent>
-          </Grid>
+            {this.renderfinishedSwaps()}
+          </CardContent>
         </Grid>
-        <SwapDetailModal
-          open={right}
-          onClose={this.closeRight}
-          onOpen={this.openRight}
-          swap={swapsEntities.get(uuid)}
-        />
-      </React.Fragment>
+      </Grid>
     );
   }
 }
 
 // eslint-disable-next-line flowtype/no-weak-types
-// export function mapDispatchToProps(dispatch: Dispatch<Object>) {
-//   return {};
-// }
+export function mapDispatchToProps(dispatch: Dispatch<Object>) {
+  return {
+    dispatchOpenDetailModal: (uuid: string) => dispatch(openDetailModal(uuid)),
+    dispatchCloseDetailModal: () => dispatch(closeDetailModal())
+  };
+}
 
 const mapStateToProps = createStructuredSelector({
   balance: makeSelectBalanceEntities(),
   balanceLoading: makeSelectBalanceLoading(),
   currentSwaps: makeSelectCurrentSwaps(),
-  finishedSwaps: makeSelectFinishedSwaps(),
-  swapsEntities: makeSelectSwapsEntities()
+  finishedSwaps: makeSelectFinishedSwaps()
 });
 
 const withConnect = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 );
 
 const MyOrdersWapper = compose(

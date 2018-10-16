@@ -31,7 +31,8 @@ import {
   makeANewSwap,
   clearBuyCoinError,
   checkUpdateSwapEvent,
-  checkTimeoutEvent
+  checkTimeoutEvent,
+  openDetailModal
 } from '../actions';
 import {
   makeSelectPricesLoading,
@@ -79,7 +80,7 @@ const ValidationPaymentInput = validate(TextInput, [requiredNumber, lessThan], {
   onChange: true
 });
 
-const styles = () => ({
+const styles = theme => ({
   amountform: {
     width: '50%'
   },
@@ -116,6 +117,14 @@ const styles = () => ({
   amountform__circularProgress: {
     color: '#fff',
     marginLeft: 5
+  },
+
+  amountform__uuidlink: {
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+    fontSize: '0.75rem',
+    fontWeight: 400,
+    lineHeight: '1.375em'
   }
 });
 
@@ -144,6 +153,8 @@ type Props = {
   buyingError: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchClearBuyCoinError: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchOpenDetailModal: Function,
   intl: IntlShape
 };
 
@@ -217,6 +228,12 @@ class AmountSection extends Component<Props, State> {
       const { dispatchClearBuyCoinError } = this.props;
       dispatchClearBuyCoinError();
     }
+  };
+
+  openSwapDetailModal = (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
+    const { dispatchOpenDetailModal, entity } = this.props;
+    dispatchOpenDetailModal(entity.get('uuid'));
   };
 
   getBestPrice = () => {
@@ -459,9 +476,13 @@ class AmountSection extends Component<Props, State> {
           />
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
-          <Typography variant="caption" gutterBottom>
+          <a
+            href={`#tx/${entity.get('uuid')}`}
+            className={classes.amountform__uuidlink}
+            onClick={this.openSwapDetailModal}
+          >
             UUID: {entity.get('uuid')}
-          </Typography>
+          </a>
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <BuyButton
@@ -587,7 +608,8 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
     dispatchMakeANewSwap: () => dispatch(makeANewSwap()),
     dispatchClearBuyCoinError: () => dispatch(clearBuyCoinError()),
     dispatchCheckUpdateSwapEvent: () => dispatch(checkUpdateSwapEvent()),
-    dispatchCheckTimeoutEvent: () => dispatch(checkTimeoutEvent())
+    dispatchCheckTimeoutEvent: () => dispatch(checkTimeoutEvent()),
+    dispatchOpenDetailModal: (uuid: string) => dispatch(openDetailModal(uuid))
   };
 }
 

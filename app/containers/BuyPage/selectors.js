@@ -70,6 +70,20 @@ const makeSelectCurrentSwap = () =>
     }
   );
 
+const makeSelectSwapDetailModal = () =>
+  createSelector(selectBuy, buyState => buyState.get('swapDetailModal'));
+
+const makeSelectSwapInDetailModal = () =>
+  createSelector(
+    makeSelectSwapDetailModal(),
+    makeSelectSwapsEntities(),
+    (swapDetail, swapsEntities) => {
+      const c = swapDetail.get('uuid');
+      if (!c) return null;
+      return swapsEntities.get(c);
+    }
+  );
+
 const makeSelectBalanceList = () =>
   createSelector(makeSelectBalanceListApp(), balanceList => {
     const symbol = COIN_BASE.coin;
@@ -91,5 +105,7 @@ export {
   makeSelectCurrentSwaps,
   makeSelectFinishedSwaps,
   makeSelectCurrentSwap,
+  makeSelectSwapDetailModal,
+  makeSelectSwapInDetailModal,
   makeSelectBalanceList
 };

@@ -12,6 +12,12 @@ Object {
 }
 `;
 
+exports[`containers/BuyPage/actions/closeDetailModal should closeDetailModal should create closeDetailModal action 1`] = `
+Object {
+  "type": "dicoapp/BuyPage/SWAP_DETAIL_MODAL_CLOSE",
+}
+`;
+
 exports[`containers/BuyPage/actions/loadBestPrice should loadBestPrice should create loadBestPrice action 1`] = `
 Object {
   "payload": Object {
@@ -76,6 +82,24 @@ Object {
 exports[`containers/BuyPage/actions/makeANewSwap should makeANewSwap should create makeANewSwap action 1`] = `
 Object {
   "type": "dicoapp/BuyPage/SWAP_MAKE_A_NEW",
+}
+`;
+
+exports[`containers/BuyPage/actions/openDetailModal should openDetailModal should create openDetailModal action 1`] = `
+Object {
+  "payload": Object {
+    "uuid": undefined,
+  },
+  "type": "dicoapp/BuyPage/SWAP_DETAIL_MODAL_OPEN",
+}
+`;
+
+exports[`containers/BuyPage/actions/openDetailModal should openDetailModal should create openDetailModal action 2`] = `
+Object {
+  "payload": Object {
+    "uuid": "uuid",
+  },
+  "type": "dicoapp/BuyPage/SWAP_DETAIL_MODAL_OPEN",
 }
 `;
 

@@ -8,7 +8,9 @@ import {
   checkTimeoutEvent,
   checkUpdateSwapEvent,
   timeoutSwap,
-  makeANewSwap
+  makeANewSwap,
+  openDetailModal,
+  closeDetailModal
 } from '../actions';
 import {
   LOAD_PRICE,
@@ -20,7 +22,9 @@ import {
   CHECK_TIMEOUT_EVENT,
   CHECK_UPDATE_SWAP_EVENT,
   SWAP_TIMEOUT,
-  SWAP_MAKE_A_NEW
+  SWAP_MAKE_A_NEW,
+  SWAP_DETAIL_MODAL_OPEN,
+  SWAP_DETAIL_MODAL_CLOSE
 } from '../constants';
 
 describe('containers/BuyPage/actions/loadPrice', () => {
@@ -201,5 +205,49 @@ describe('containers/BuyPage/actions/makeANewSwap', () => {
     };
 
     expect(makeANewSwap()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/openDetailModal', () => {
+  const uuid = 'uuid';
+  it('should openDetailModal should create openDetailModal action', () => {
+    expect(openDetailModal()).toMatchSnapshot();
+    expect(openDetailModal(uuid)).toMatchSnapshot();
+  });
+
+  it('should return the correct type', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_OPEN,
+      payload: {
+        uuid: undefined
+      }
+    };
+
+    expect(openDetailModal()).toEqual(expectedResult);
+  });
+
+  it('should return the correct type and the uuid', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_OPEN,
+      payload: {
+        uuid
+      }
+    };
+
+    expect(openDetailModal(uuid)).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/closeDetailModal', () => {
+  it('should closeDetailModal should create closeDetailModal action', () => {
+    expect(closeDetailModal()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_CLOSE
+    };
+
+    expect(closeDetailModal()).toEqual(expectedResult);
   });
 });

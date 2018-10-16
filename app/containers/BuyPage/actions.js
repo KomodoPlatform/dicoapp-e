@@ -18,7 +18,9 @@ import {
   CHECK_TIMEOUT_EVENT,
   CHECK_UPDATE_SWAP_EVENT,
   SWAP_TIMEOUT,
-  SWAP_MAKE_A_NEW
+  SWAP_MAKE_A_NEW,
+  SWAP_DETAIL_MODAL_OPEN,
+  SWAP_DETAIL_MODAL_CLOSE
 } from './constants';
 import type {
   BuyCoinPayload,
@@ -146,5 +148,20 @@ export function timeoutSwap(payload: TimeoutPayload) {
 export function makeANewSwap() {
   return {
     type: SWAP_MAKE_A_NEW
+  };
+}
+
+export function openDetailModal(uuid?: string) {
+  return {
+    type: SWAP_DETAIL_MODAL_OPEN,
+    payload: {
+      uuid
+    }
+  };
+}
+
+export function closeDetailModal() {
+  return {
+    type: SWAP_DETAIL_MODAL_CLOSE
   };
 }

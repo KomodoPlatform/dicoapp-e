@@ -14,7 +14,9 @@ import {
   makeSelectBuyingError,
   makeSelectCurrentSwap,
   makeSelectCurrentSwaps,
-  makeSelectFinishedSwaps
+  makeSelectFinishedSwaps,
+  makeSelectSwapInDetailModal,
+  makeSelectSwapDetailModal
 } from '../selectors';
 
 describe('containers/BuyPage/selectors/selectBuy', () => {
@@ -103,5 +105,57 @@ describe('containers/BuyPage/selectors/makeSelectSwaps', () => {
       [APP_STATE_NAME]: store.setIn(['swaps', 'currentSwap'], uuid)
     });
     expect(selectCurrentSwap(mockedState)).toEqual(entity);
+  });
+});
+
+describe('containers/BuyPage/selectors/makeSelectSwapDetailModal', () => {
+  it('should select the SwapDetailModal state', () => {
+    const uuid = 'uuid';
+    let store = initialState;
+    let processingList = store.getIn(['swaps', 'processingList']);
+    let entities = initialState.getIn(['swaps', 'entities']);
+    processingList = processingList.push(uuid);
+    const entity = fromJS({
+      uuid
+    });
+    entities = entities.set(uuid, entity);
+    store = store
+      .setIn(['swaps', 'processingList'], processingList)
+      .setIn(['swaps', 'entities'], entities)
+      .set(
+        'swapDetailModal',
+        fromJS({
+          open: false,
+          uuid: null
+        })
+      );
+    let mockedState = fromJS({
+      [APP_STATE_NAME]: store
+    });
+    const selectSwapDetailModal = makeSelectSwapDetailModal();
+    expect(selectSwapDetailModal(mockedState)).toEqual(
+      store.get('swapDetailModal')
+    );
+
+    const selectSwapInDetailModal = makeSelectSwapInDetailModal();
+    expect(selectSwapInDetailModal(mockedState)).toEqual(null);
+
+    store = store
+      .setIn(['swaps', 'processingList'], processingList)
+      .setIn(['swaps', 'entities'], entities)
+      .set(
+        'swapDetailModal',
+        fromJS({
+          open: false,
+          uuid
+        })
+      );
+    mockedState = fromJS({
+      [APP_STATE_NAME]: store
+    });
+    expect(selectSwapDetailModal(mockedState)).toEqual(
+      store.get('swapDetailModal')
+    );
+    expect(selectSwapInDetailModal(mockedState)).toEqual(entity);
   });
 });

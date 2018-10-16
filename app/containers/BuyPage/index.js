@@ -19,6 +19,7 @@ import TestSwap from './components/TestSwap';
 import MyOrders from './MyOrders';
 import PlaceOrder from './PlaceOrder';
 import ProgressBar from './ProgressBar';
+import SwapDetailModal from './SwapDetailModal';
 import { APP_STATE_NAME } from './constants';
 import reducer from './reducer';
 import handleTimeoutEvent from './saga/handle-timeout-event';
@@ -54,6 +55,7 @@ class BuyPage extends Component<Props, State> {
     return (
       <React.Fragment>
         <ProgressBar />
+        <SwapDetailModal />
         <NavigationLayout>
           <ErrorBoundary>
             <MDCAppBar>

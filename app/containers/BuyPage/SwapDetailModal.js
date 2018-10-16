@@ -1,8 +1,12 @@
 // @flow
 import React from 'react';
 // import ClassNames from 'classnames';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import type { Dispatch } from 'redux';
 import type { Map } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
+import { createStructuredSelector } from 'reselect';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -18,11 +22,18 @@ import Divider from '@material-ui/core/Divider';
 
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 // eslint-disable-next-line import/named
-import { formatDate } from '../../../lib/date-format';
-import { getCoinIcon } from '../../../components/CryptoIcons';
-import { STATE_SWAPS } from '../constants';
-import CoinSelectable from './CoinSelectable';
-import BuyButton from './BuyButton';
+import { formatDate } from '../../lib/date-format';
+import { getCoinIcon } from '../../components/CryptoIcons';
+import { STATE_SWAPS } from './constants';
+import { openDetailModal, closeDetailModal } from './actions';
+import {
+  makeSelectSwapDetailModal,
+  makeSelectSwapInDetailModal
+} from './selectors';
+import CoinSelectable from './components/CoinSelectable';
+import BuyButton from './components/BuyButton';
+
+const debug = require('debug')('dicoapp:containers:BuyPage:SwapDetailModal');
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
@@ -31,7 +42,9 @@ type Props = {
   onOpen: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   onClose: Function,
-  open: boolean,
+  // eslint-disable-next-line flowtype/no-weak-types
+  detailModal: Map<*, *>,
+  // eslint-disable-next-line flowtype/no-weak-types
   swap: Map<*, *>
 };
 
@@ -263,11 +276,12 @@ export class SwapDetail extends React.PureComponent<Props> {
   };
 
   render() {
-    const { swap, classes, open, onOpen, onClose } = this.props;
+    debug('render');
+    const { swap, classes, detailModal, onOpen, onClose } = this.props;
     return (
       <SwipeableDrawer
         anchor="right"
-        open={open}
+        open={detailModal.get('open')}
         onClose={onClose}
         onOpen={onOpen}
       >
@@ -280,4 +294,27 @@ export class SwapDetail extends React.PureComponent<Props> {
   }
 }
 
-export default withStyles(styles)(SwapDetail);
+// eslint-disable-next-line flowtype/no-weak-types
+export function mapDispatchToProps(dispatch: Dispatch<Object>) {
+  return {
+    onOpen: () => dispatch(openDetailModal()),
+    onClose: () => dispatch(closeDetailModal())
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  detailModal: makeSelectSwapDetailModal(),
+  swap: makeSelectSwapInDetailModal()
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+const SwapDetailWapper = compose(
+  withConnect,
+  withStyles(styles)
+)(SwapDetail);
+
+export default SwapDetailWapper;

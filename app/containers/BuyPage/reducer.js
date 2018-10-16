@@ -14,7 +14,9 @@ import {
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   // LOAD_RECENT_SWAPS_ERROR,
   SWAP_TIMEOUT,
-  SWAP_MAKE_A_NEW
+  SWAP_MAKE_A_NEW,
+  SWAP_DETAIL_MODAL_OPEN,
+  SWAP_DETAIL_MODAL_CLOSE
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -45,6 +47,11 @@ export const initialState = fromJS({
     processingList: [],
     finishedList: [],
     entities: {}
+  },
+
+  swapDetailModal: {
+    open: false,
+    uuid: null
   }
 });
 
@@ -308,6 +315,14 @@ const buyReducer = handleActions(
         .setIn(['swaps', 'processingList'], processingList)
         .setIn(['swaps', 'entities'], entities);
     },
+
+    [SWAP_DETAIL_MODAL_OPEN]: (state, { payload }) =>
+      state
+        .setIn(['swapDetailModal', 'open'], true)
+        .setIn(['swapDetailModal', 'uuid'], payload.uuid),
+
+    [SWAP_DETAIL_MODAL_CLOSE]: state =>
+      state.setIn(['swapDetailModal', 'open'], false),
 
     [LOGOUT]: () => initialState
   },
