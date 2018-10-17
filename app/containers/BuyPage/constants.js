@@ -21,8 +21,7 @@ export const CHECK_TIMEOUT_EVENT = 'dicoapp/BuyPage/CHECK_TIMEOUT_EVENT';
 export const CHECK_UPDATE_SWAP_EVENT =
   'dicoapp/BuyPage/CHECK_UPDATE_SWAP_EVENT';
 export const AUTO_HIDE_SNACKBAR_TIME = 6000;
-// export const TIME_LOOP = 20000;
-export const TIME_LOOP = 5 * 1000;
+export const TIME_LOOP = 20 * 1000;
 export const STATE_SWAPS = [
   'Confirming',
   'My Fee',
