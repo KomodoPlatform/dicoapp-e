@@ -13,8 +13,6 @@ import { CHECK_TIMEOUT_EVENT, TIME_LOOP } from '../constants';
 import { timeoutSwap } from '../actions';
 import { makeSelectCurrentSwaps } from '../selectors';
 
-const DELAY_TIME = 20 * 1000; // 20s
-
 const debug = require('debug')(
   'dicoapp:containers:BuyPage:saga:handle-timeout-event'
 );
@@ -63,7 +61,7 @@ export function* checkTimeoutEvent(payload, times) {
         n -= 1;
         if (n <= 0) break;
       }
-      yield call(delay, DELAY_TIME);
+      yield call(delay, TIME_LOOP);
     }
   } catch (err) {
     // eslint-disable-next-line no-empty

@@ -9,10 +9,12 @@ import {
   loadRecentSwaps
 } from '../actions';
 import { makeSelectSwapsEntities, makeSelectCurrentSwaps } from '../selectors';
+import {
+  CHECK_UPDATE_SWAP_EVENT,
+  LOAD_RECENT_SWAPS,
+  TIME_LOOP
+} from '../constants';
 
-import { CHECK_UPDATE_SWAP_EVENT, LOAD_RECENT_SWAPS } from '../constants';
-
-const DELAY_TIME = 20 * 1000; // 20s
 const debug = require('debug')(
   'dicoapp:containers:BuyPage:saga:handle-update-swap-event'
 );
@@ -107,7 +109,7 @@ export function* checkUpdateSwapEvent(payload, times) {
         n -= 1;
         if (n <= 0) break;
       }
-      yield call(delay, DELAY_TIME);
+      yield call(delay, TIME_LOOP);
     }
   } catch (err) {
     // eslint-disable-next-line no-empty

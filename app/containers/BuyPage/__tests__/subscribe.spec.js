@@ -12,7 +12,7 @@ import {
   WEBSOCKET_STATE_FIVE,
   WEBSOCKET_STATE_SIX,
   WEBSOCKET_STATE_SEVEN
-} from './fake-data';
+} from '../../__tests__/fake-data';
 
 describe('containers/BuyPage/subscribe', () => {
   const { uuid } = WEBSOCKET_STATE_ZERO;

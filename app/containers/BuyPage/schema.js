@@ -43,6 +43,7 @@ type SwapInfo = {
 };
 
 type StepInfo = {
+  coin?: string,
   tx: string,
   value: number
 };

@@ -188,12 +188,11 @@ const buyReducer = handleActions(
         status,
 
         alicedexfee,
-        alicetxfee,
         bobdeposit,
         alicepayment,
         bobpayment,
         paymentspent,
-        values
+        txChain
       } = payload;
       // stop when not found uuid
       if (!uuid && uuid === '') return state;
@@ -217,7 +216,27 @@ const buyReducer = handleActions(
           bobamount: srcamount,
           aliceamount: destamount,
           sentflags,
-          status
+          status,
+          myfee: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          bobdeposit: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          alicepayment: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          bobpayment: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          alicespend: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          }
         });
       } else if (entity.get('status') === 'finished') {
         // NOTE: stop update when a swap was finished
@@ -244,52 +263,77 @@ const buyReducer = handleActions(
         entity = entity.set('sentflags', fromJS(sentflags));
       }
 
-      if (alicedexfee !== SWAP_TX_DEFAULT) {
+      if (
+        alicedexfee !== SWAP_TX_DEFAULT &&
+        alicedexfee !== entity.getIn(['myfee', 'tx'])
+      ) {
+        const d = txChain.find(e => e.stage === 'myfee');
         entity = entity.set(
           'myfee',
           fromJS({
-            tx: alicedexfee,
-            value: alicetxfee
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
 
-      if (bobdeposit !== SWAP_TX_DEFAULT) {
+      if (
+        bobdeposit !== SWAP_TX_DEFAULT &&
+        bobdeposit !== entity.getIn(['bobdeposit', 'tx'])
+      ) {
+        const d = txChain.find(e => e.stage === 'bobdeposit');
         entity = entity.set(
           'bobdeposit',
           fromJS({
-            tx: bobdeposit,
-            value: values[4]
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
 
-      if (alicepayment !== SWAP_TX_DEFAULT) {
+      if (
+        alicepayment !== SWAP_TX_DEFAULT &&
+        alicepayment !== entity.getIn(['alicepayment', 'tx'])
+      ) {
+        const d = txChain.find(e => e.stage === 'alicepayment');
         entity = entity.set(
           'alicepayment',
           fromJS({
-            tx: alicepayment,
-            value: values[3]
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
 
-      if (bobpayment !== SWAP_TX_DEFAULT) {
+      if (
+        bobpayment !== SWAP_TX_DEFAULT &&
+        bobpayment !== entity.getIn(['bobpayment', 'tx'])
+      ) {
+        const d = txChain.find(e => e.stage === 'bobpayment');
         entity = entity.set(
           'bobpayment',
           fromJS({
-            tx: bobpayment,
-            value: values[2]
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
 
-      if (paymentspent !== SWAP_TX_DEFAULT) {
+      if (
+        paymentspent !== SWAP_TX_DEFAULT &&
+        paymentspent !== entity.getIn(['alicespend', 'tx'])
+      ) {
+        const d = txChain.find(e => e.stage === 'alicespend');
         entity = entity.set(
           'alicespend',
           fromJS({
-            tx: paymentspent,
-            value: values[0]
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
@@ -307,7 +351,19 @@ const buyReducer = handleActions(
     },
 
     [LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET]: (state, { payload }) => {
-      const { uuid, expiration, method, update, status, sentflags } = payload;
+      const {
+        uuid,
+        name,
+        coin,
+        txid,
+        amount,
+        expiration,
+        method,
+        update,
+        status,
+        sentflags,
+        paymentspent
+      } = payload;
       let processingList = state.getIn(['swaps', 'processingList']);
       let finishedList = state.getIn(['swaps', 'finishedList']);
 
@@ -340,6 +396,78 @@ const buyReducer = handleActions(
       // step four: update status
       if (method === 'tradestatus') {
         entity = entity.set('status', status);
+      }
+
+      // step five: update tx
+      if (
+        name === 'myfee' &&
+        SWAP_TX_DEFAULT === entity.getIn(['myfee', 'tx'])
+      ) {
+        entity = entity.set(
+          'myfee',
+          fromJS({
+            coin,
+            tx: txid,
+            value: amount
+          })
+        );
+      }
+
+      if (
+        name === 'bobdeposit' &&
+        SWAP_TX_DEFAULT === entity.getIn(['bobdeposit', 'tx'])
+      ) {
+        entity = entity.set(
+          'bobdeposit',
+          fromJS({
+            coin,
+            tx: txid,
+            value: amount
+          })
+        );
+      }
+
+      if (
+        name === 'alicepayment' &&
+        SWAP_TX_DEFAULT === entity.getIn(['alicepayment', 'tx'])
+      ) {
+        entity = entity.set(
+          'alicepayment',
+          fromJS({
+            coin,
+            tx: txid,
+            value: amount
+          })
+        );
+      }
+
+      if (
+        name === 'bobpayment' &&
+        SWAP_TX_DEFAULT === entity.getIn(['bobpayment', 'tx'])
+      ) {
+        entity = entity.set(
+          'bobpayment',
+          fromJS({
+            coin,
+            tx: txid,
+            value: amount
+          })
+        );
+      }
+
+      if (
+        paymentspent &&
+        paymentspent !== SWAP_TX_DEFAULT &&
+        SWAP_TX_DEFAULT === entity.getIn(['alicespend', 'tx'])
+      ) {
+        entity = entity.set(
+          'alicespend',
+          fromJS({
+            coin,
+            tx: txid,
+            value: amount
+          })
+        );
       }
 
       entities = entities.set(uuid, entity);
