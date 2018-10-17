@@ -274,6 +274,9 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
 
     entities = store.getIn(['swaps', 'entities']);
     entity = entities.get(uuid);
+    const d = WEBSOCKET_STATE_SEVEN.result.txChain.find(
+      e => e.stage === 'alicespend'
+    );
     entity = entity
       .set('sentflags', fromJS(WEBSOCKET_STATE_SEVEN.result.sentflags))
       .set('expiration', WEBSOCKET_STATE_SEVEN.result.expiration)
@@ -281,9 +284,9 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
       .set(
         'alicespend',
         fromJS({
-          coin: WEBSOCKET_STATE_SEVEN.result.coin,
-          tx: WEBSOCKET_STATE_SEVEN.result.txid,
-          value: WEBSOCKET_STATE_SEVEN.result.amount
+          coin: d.coin,
+          tx: d.txid,
+          value: d.amount
         })
       );
     expectedResult = store

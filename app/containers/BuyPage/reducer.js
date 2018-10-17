@@ -362,7 +362,8 @@ const buyReducer = handleActions(
         update,
         status,
         sentflags,
-        paymentspent
+        paymentspent,
+        txChain
       } = payload;
       let processingList = state.getIn(['swaps', 'processingList']);
       let finishedList = state.getIn(['swaps', 'finishedList']);
@@ -460,12 +461,13 @@ const buyReducer = handleActions(
         paymentspent !== SWAP_TX_DEFAULT &&
         SWAP_TX_DEFAULT === entity.getIn(['alicespend', 'tx'])
       ) {
+        const d = txChain.find(e => e.stage === 'alicespend');
         entity = entity.set(
           'alicespend',
           fromJS({
-            coin,
-            tx: txid,
-            value: amount
+            coin: d.coin,
+            tx: d.txid,
+            value: d.amount
           })
         );
       }
