@@ -16,7 +16,8 @@ import {
   SWAP_TIMEOUT,
   SWAP_MAKE_A_NEW,
   SWAP_DETAIL_MODAL_OPEN,
-  SWAP_DETAIL_MODAL_CLOSE
+  SWAP_DETAIL_MODAL_CLOSE,
+  SWAP_TX_DEFAULT
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -124,7 +125,27 @@ const buyReducer = handleActions(
               bobamount: basevalue,
               aliceamount: relvalue,
               sentflags: [],
-              status: 'pending'
+              status: 'pending',
+              myfee: {
+                tx: SWAP_TX_DEFAULT,
+                value: 0
+              },
+              bobdeposit: {
+                tx: SWAP_TX_DEFAULT,
+                value: 0
+              },
+              alicepayment: {
+                tx: SWAP_TX_DEFAULT,
+                value: 0
+              },
+              bobpayment: {
+                tx: SWAP_TX_DEFAULT,
+                value: 0
+              },
+              alicespend: {
+                tx: SWAP_TX_DEFAULT,
+                value: 0
+              }
             })
           )
         )
@@ -164,7 +185,15 @@ const buyReducer = handleActions(
         srcamount,
         destamount,
         sentflags,
-        status
+        status,
+
+        alicedexfee,
+        alicetxfee,
+        bobdeposit,
+        alicepayment,
+        bobpayment,
+        paymentspent,
+        values
       } = payload;
       // stop when not found uuid
       if (!uuid && uuid === '') return state;
@@ -194,12 +223,6 @@ const buyReducer = handleActions(
         // NOTE: stop update when a swap was finished
         return state;
       } else {
-        // update
-        // sentflags
-        const sentf = entity.get('sentflags');
-        if (sentflags && sentf.size < sentflags.length) {
-          entity = entity.set('sentflags', fromJS(sentflags));
-        }
         entity = entity.merge(
           fromJS({
             id: tradeid,
@@ -215,6 +238,62 @@ const buyReducer = handleActions(
           })
         );
       }
+      // sentflags
+      const sentf = entity.get('sentflags');
+      if (sentflags && sentf.size < sentflags.length) {
+        entity = entity.set('sentflags', fromJS(sentflags));
+      }
+
+      if (alicedexfee !== SWAP_TX_DEFAULT) {
+        entity = entity.set(
+          'myfee',
+          fromJS({
+            tx: alicedexfee,
+            value: alicetxfee
+          })
+        );
+      }
+
+      if (bobdeposit !== SWAP_TX_DEFAULT) {
+        entity = entity.set(
+          'bobdeposit',
+          fromJS({
+            tx: bobdeposit,
+            value: values[4]
+          })
+        );
+      }
+
+      if (alicepayment !== SWAP_TX_DEFAULT) {
+        entity = entity.set(
+          'alicepayment',
+          fromJS({
+            tx: alicepayment,
+            value: values[3]
+          })
+        );
+      }
+
+      if (bobpayment !== SWAP_TX_DEFAULT) {
+        entity = entity.set(
+          'bobpayment',
+          fromJS({
+            tx: bobpayment,
+            value: values[2]
+          })
+        );
+      }
+
+      if (paymentspent !== SWAP_TX_DEFAULT) {
+        entity = entity.set(
+          'alicespend',
+          fromJS({
+            tx: paymentspent,
+            value: values[0]
+          })
+        );
+      }
+
       entities = entities.set(uuid, entity);
       if (status === 'finished' && processingList.contains(uuid)) {
         processingList = processingList.filter(o => o !== uuid);

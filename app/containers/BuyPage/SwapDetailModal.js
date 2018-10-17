@@ -112,6 +112,10 @@ const styles = theme => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     fontSize: 25
+  },
+
+  swapform__uppercase: {
+    textTransform: 'uppercase'
   }
 });
 
@@ -225,6 +229,11 @@ export class SwapDetail extends React.PureComponent<Props> {
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Typography variant="caption" gutterBottom>
+                      {swap.getIn(['myfee', 'value'])}
+                    </Typography>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem className={classes.swapDetail__listitem}>
                   <ListItemText
@@ -234,6 +243,11 @@ export class SwapDetail extends React.PureComponent<Props> {
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Typography variant="caption" gutterBottom>
+                      {swap.getIn(['bobdeposit', 'value'])}
+                    </Typography>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem className={classes.swapDetail__listitem}>
                   <ListItemText
@@ -243,6 +257,11 @@ export class SwapDetail extends React.PureComponent<Props> {
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Typography variant="caption" gutterBottom>
+                      {swap.getIn(['alicepayment', 'value'])}
+                    </Typography>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem className={classes.swapDetail__listitem}>
                   <ListItemText
@@ -254,7 +273,7 @@ export class SwapDetail extends React.PureComponent<Props> {
                   />
                   <ListItemSecondaryAction>
                     <Typography variant="caption" gutterBottom>
-                      91.64952708 COQUI
+                      {swap.getIn(['bobpayment', 'value'])}
                     </Typography>
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -266,21 +285,34 @@ export class SwapDetail extends React.PureComponent<Props> {
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Typography variant="caption" gutterBottom>
+                      {swap.getIn(['alicespend', 'value'])}
+                    </Typography>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <Divider className={classes.swapDetail__divider} />
                 <ListItem className={classes.swapDetail__listitem}>
                   <ListItemText
                     primary={
-                      <Typography variant="caption" gutterBottom>
-                        UUID
-                      </Typography>
-                    }
-                    secondary={
-                      <Typography variant="caption" gutterBottom>
-                        {swap.get('uuid')}
+                      <Typography
+                        variant="caption"
+                        gutterBottom
+                        className={classes.swapform__uppercase}
+                      >
+                        Status
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Typography
+                      variant="caption"
+                      gutterBottom
+                      className={classes.swapform__uppercase}
+                    >
+                      {swap.get('status')}
+                    </Typography>
+                  </ListItemSecondaryAction>
                 </ListItem>
               </List>
             </Grid>

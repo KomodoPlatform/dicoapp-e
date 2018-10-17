@@ -10,6 +10,7 @@ import {
   timeoutSwap,
   makeANewSwap
 } from '../actions';
+import { SWAP_TX_DEFAULT } from '../constants';
 import {
   WEBSOCKET_STATE_ZERO,
   WEBSOCKET_STATE_ONE,
@@ -259,7 +260,27 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
           bobamount: basevalue,
           aliceamount: relvalue,
           sentflags: [],
-          status: 'pending'
+          status: 'pending',
+          myfee: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          bobdeposit: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          alicepayment: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          bobpayment: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          },
+          alicespend: {
+            tx: SWAP_TX_DEFAULT,
+            value: 0
+          }
         }
       })
     );
@@ -273,7 +294,14 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('requestid', SWAP_STATE_ONE.requestid)
       .set('quoteid', SWAP_STATE_ONE.quoteid)
       .set('bobamount', SWAP_STATE_ONE.srcamount)
-      .set('aliceamount', SWAP_STATE_ONE.destamount);
+      .set('aliceamount', SWAP_STATE_ONE.destamount)
+      .set(
+        'myfee',
+        fromJS({
+          tx: SWAP_STATE_ONE.alicedexfee,
+          value: SWAP_STATE_ONE.alicetxfee
+        })
+      );
     let expectedResult = store.setIn(
       ['swaps', 'entities'],
       entities.set(uuid, entity)
@@ -281,6 +309,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_ONE));
     expect(store).toEqual(expectedResult);
 
+    store = expectedResult;
     entities = store.getIn(['swaps', 'entities']);
     entity = entities.get(uuid);
     entity = entity
@@ -289,7 +318,14 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('requestid', SWAP_STATE_TWO.requestid)
       .set('quoteid', SWAP_STATE_TWO.quoteid)
       .set('bobamount', SWAP_STATE_TWO.srcamount)
-      .set('aliceamount', SWAP_STATE_TWO.destamount);
+      .set('aliceamount', SWAP_STATE_TWO.destamount)
+      .set(
+        'bobdeposit',
+        fromJS({
+          tx: SWAP_STATE_TWO.bobdeposit,
+          value: SWAP_STATE_TWO.values[4]
+        })
+      );
     expectedResult = store.setIn(
       ['swaps', 'entities'],
       entities.set(uuid, entity)
@@ -299,6 +335,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_ONE));
     expect(store).toEqual(expectedResult);
 
+    store = expectedResult;
     entities = store.getIn(['swaps', 'entities']);
     entity = entities.get(uuid);
     entity = entity
@@ -307,7 +344,14 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('requestid', SWAP_STATE_THREE.requestid)
       .set('quoteid', SWAP_STATE_THREE.quoteid)
       .set('bobamount', SWAP_STATE_THREE.srcamount)
-      .set('aliceamount', SWAP_STATE_THREE.destamount);
+      .set('aliceamount', SWAP_STATE_THREE.destamount)
+      .set(
+        'alicepayment',
+        fromJS({
+          tx: SWAP_STATE_THREE.alicepayment,
+          value: SWAP_STATE_THREE.values[3]
+        })
+      );
     expectedResult = store.setIn(
       ['swaps', 'entities'],
       entities.set(uuid, entity)
@@ -319,6 +363,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_TWO));
     expect(store).toEqual(expectedResult);
 
+    store = expectedResult;
     entities = store.getIn(['swaps', 'entities']);
     entity = entities.get(uuid);
     entity = entity
@@ -327,7 +372,14 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('requestid', SWAP_STATE_FOUR.requestid)
       .set('quoteid', SWAP_STATE_FOUR.quoteid)
       .set('bobamount', SWAP_STATE_FOUR.srcamount)
-      .set('aliceamount', SWAP_STATE_FOUR.destamount);
+      .set('aliceamount', SWAP_STATE_FOUR.destamount)
+      .set(
+        'bobpayment',
+        fromJS({
+          tx: SWAP_STATE_FOUR.bobpayment,
+          value: SWAP_STATE_FOUR.values[2]
+        })
+      );
     expectedResult = store.setIn(
       ['swaps', 'entities'],
       entities.set(uuid, entity)
@@ -341,6 +393,7 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     store = buyReducer(store, loadRecentSwapsCoin(SWAP_STATE_TWO));
     expect(store).toEqual(expectedResult);
 
+    store = expectedResult;
     entities = store.getIn(['swaps', 'entities']);
     entity = entities.get(uuid);
     entity = entity
@@ -350,7 +403,14 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
       .set('quoteid', SWAP_STATE_FIVE.quoteid)
       .set('bobamount', SWAP_STATE_FIVE.srcamount)
       .set('aliceamount', SWAP_STATE_FIVE.destamount)
-      .set('status', 'finished');
+      .set('status', 'finished')
+      .set(
+        'alicespend',
+        fromJS({
+          tx: SWAP_STATE_FIVE.paymentspent,
+          value: SWAP_STATE_FIVE.values[0]
+        })
+      );
     expectedResult = store
       .setIn(['swaps', 'processingList'], fromJS([]))
       .setIn(['swaps', 'finishedList'], fromJS([uuid]))
@@ -403,7 +463,27 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
             bobamount: basevalue,
             aliceamount: relvalue,
             sentflags: [],
-            status: 'pending'
+            status: 'pending',
+            myfee: {
+              tx: SWAP_TX_DEFAULT,
+              value: 0
+            },
+            bobdeposit: {
+              tx: SWAP_TX_DEFAULT,
+              value: 0
+            },
+            alicepayment: {
+              tx: SWAP_TX_DEFAULT,
+              value: 0
+            },
+            bobpayment: {
+              tx: SWAP_TX_DEFAULT,
+              value: 0
+            },
+            alicespend: {
+              tx: SWAP_TX_DEFAULT,
+              value: 0
+            }
           })
         )
       );

@@ -42,6 +42,11 @@ type SwapInfo = {
   alicedexfee: string
 };
 
+type StepInfo = {
+  tx: string,
+  value: number
+};
+
 type SwapCoin = {
   id: number, // the unique id, alias trade id
   uuid: string, // the unique id
@@ -54,6 +59,13 @@ type SwapCoin = {
   application: string, // where the request come from? eg: 'dICOapp'
   error?: SwapError,
   info?: SwapInfo,
+
+  myfee?: StepInfo,
+  bobdeposit?: StepInfo,
+  alicepayment?: StepInfo,
+  bobpayment?: StepInfo,
+  alicespend?: StepInfo,
+
   createdAt?: Date,
   updatedAt?: Date
 };
