@@ -15,7 +15,13 @@ export const WEBSOCKET_STATE_ZERO = {
   desthash: 'c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833',
   aliceid: '230350004109246465',
   sentflags: [],
-  status: 'pending'
+  status: 'pending',
+  bobsmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+  alicesmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+  requested: {
+    aliceAmount: 21.4920001,
+    bobAmount: 10
+  }
 };
 
 export const WEBSOCKET_STATE_ONE = {
@@ -306,7 +312,13 @@ export const SWAP_STATE_ZERO = {
   desthash: 'c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833',
   aliceid: '230350004109246465',
   sentflags: [],
-  status: 'pending'
+  status: 'pending',
+  bobsmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+  alicesmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+  requested: {
+    aliceAmount: 21.4920001,
+    bobAmount: 10
+  }
 };
 
 export const SWAP_STATE_ONE = {

@@ -30,7 +30,8 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
 
     const userpass = user.get('userpass');
     const coins = user.get('coins');
-    const smartaddress = coins.find(c => c.get('coin') === paymentcoin);
+    const paymentsmartaddress = coins.find(c => c.get('coin') === paymentcoin);
+    const basesmartaddress = coins.find(c => c.get('coin') === basecoin);
 
     // step two: load balance
     const balances = yield select(makeSelectBalanceEntities());
@@ -63,7 +64,7 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
       const unspent = yield call([api, 'listunspent'], {
         userpass,
         coin: paymentcoin,
-        address: smartaddress.get('smartaddress')
+        address: paymentsmartaddress.get('smartaddress')
       });
 
       if (unspent.length < 2) {
@@ -109,6 +110,16 @@ export default function* loadBuyCoinProcess({ payload, time = intervalTime }) {
           throw new Error(result.error);
         }
         if (result.pending) {
+          result.pending.bobsmartaddress = paymentsmartaddress.get(
+            'smartaddress'
+          );
+          result.pending.requested = {
+            bobAmount: amount,
+            aliceAmount: amount * price.get('bestPrice')
+          };
+          result.pending.alicesmartaddress = basesmartaddress.get(
+            'smartaddress'
+          );
           return yield put(loadBuyCoinSuccess(result.pending));
         }
       }

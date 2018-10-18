@@ -111,8 +111,15 @@ const EXPLORER_LIST = {
   KOIN: 'http://3.0.32.41:3001/'
 };
 
-module.exports = function explorer(tx: string, coin: string) {
-  const l = EXPLORER_LIST[coin];
-  if (!l) return '#not-found';
-  return `${l}/tx/${tx}`;
+module.exports = {
+  tx: function tx(t: string, coin: string) {
+    const l = EXPLORER_LIST[coin];
+    if (!l) return '#not-found';
+    return `${l}/tx/${t}`;
+  },
+  address: function address(addr: string, coin: string) {
+    const l = EXPLORER_LIST[coin];
+    if (!l) return '#not-found';
+    return `${l}/address/${addr}`;
+  }
 };

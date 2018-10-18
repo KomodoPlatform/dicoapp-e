@@ -16,7 +16,7 @@ import data, {
 
 const TEST_URL = 'http://127.0.0.1:7783';
 
-const TIMEOUT = 10 * 1000;
+const TIMEOUT = 20 * 1000;
 
 describe('containers/BuyPage/saga/load-buy-coin-process', () => {
   api.setUserpass('userpass');

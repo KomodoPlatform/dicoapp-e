@@ -57,6 +57,12 @@ type SwapCoin = {
   bob: string, // eg: KMD, BTC, LTC
   alice: string, // eg: KMD, BTC, LTC
   status: string, // eg: pending, finished
+  bobsmartaddress: string,
+  alicesmartaddress: string,
+  requested: {
+    bobAmount: number,
+    aliceAmount: number
+  },
   application: string, // where the request come from? eg: 'dICOapp'
   error?: SwapError,
   info?: SwapInfo,

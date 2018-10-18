@@ -110,7 +110,7 @@ class Transactions extends PureComponent<Props> {
     const { entities } = this.props;
     const t = entities.get(v);
     if (!t) return null;
-    const linkExplorer = explorer(t.get('tx_hash'), t.get('coin'));
+    const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
     return (
       <TableRow key={t.get('tx_hash')}>
         <TableCell>{k + 1}</TableCell>

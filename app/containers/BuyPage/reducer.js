@@ -98,7 +98,10 @@ const buyReducer = handleActions(
         bob,
         alice,
         basevalue,
-        relvalue
+        relvalue,
+        bobsmartaddress,
+        alicesmartaddress,
+        requested
       } = payload;
       let processingList = state.getIn(['swaps', 'processingList']);
       const entities = state.getIn(['swaps', 'entities']);
@@ -116,6 +119,9 @@ const buyReducer = handleActions(
             uuid,
             fromJS({
               id: tradeid,
+              bobsmartaddress,
+              alicesmartaddress,
+              requested,
               uuid,
               requestid,
               quoteid,

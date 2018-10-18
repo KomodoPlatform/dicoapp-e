@@ -181,7 +181,7 @@ export class SwapDetail extends React.PureComponent<Props> {
     const { swap, classes } = this.props;
     const value = swap.getIn(['myfee', 'value']);
     const tx = swap.getIn(['myfee', 'tx']);
-    const coin = swap.get('alice');
+    const coin = swap.getIn(['myfee', 'coin']);
     let link = (
       <Typography variant="caption" gutterBottom>
         Open TX in block explorer
@@ -190,7 +190,7 @@ export class SwapDetail extends React.PureComponent<Props> {
     if (tx !== SWAP_TX_DEFAULT) {
       link = (
         <a
-          href={explorer(tx, coin)}
+          href={explorer.tx(tx, coin)}
           onClick={this.openExplorer}
           className={classes.amountform__uuidlink}
         >
@@ -198,14 +198,18 @@ export class SwapDetail extends React.PureComponent<Props> {
         </a>
       );
     }
-    return this.renderTXLink('MY FEE', value, link);
+    return this.renderTXLink(
+      'MY FEE',
+      value !== 0 ? `${value} ${coin}` : value,
+      link
+    );
   };
 
   renderBobDeposit = () => {
     const { swap, classes } = this.props;
     const value = swap.getIn(['bobdeposit', 'value']);
     const tx = swap.getIn(['bobdeposit', 'tx']);
-    const coin = swap.get('bob');
+    const coin = swap.getIn(['bobdeposit', 'coin']);
     let link = (
       <Typography variant="caption" gutterBottom>
         Open TX in block explorer
@@ -214,7 +218,7 @@ export class SwapDetail extends React.PureComponent<Props> {
     if (tx !== SWAP_TX_DEFAULT) {
       link = (
         <a
-          href={explorer(tx, coin)}
+          href={explorer.tx(tx, coin)}
           onClick={this.openExplorer}
           className={classes.amountform__uuidlink}
         >
@@ -222,14 +226,18 @@ export class SwapDetail extends React.PureComponent<Props> {
         </a>
       );
     }
-    return this.renderTXLink('BOB DEPOSIT', value, link);
+    return this.renderTXLink(
+      'BOB DEPOSIT',
+      value !== 0 ? `${value} ${coin}` : value,
+      link
+    );
   };
 
   renderAlicepayment = () => {
     const { swap, classes } = this.props;
     const value = swap.getIn(['alicepayment', 'value']);
     const tx = swap.getIn(['alicepayment', 'tx']);
-    const coin = swap.get('alice');
+    const coin = swap.getIn(['alicepayment', 'coin']);
     let link = (
       <Typography variant="caption" gutterBottom>
         Open TX in block explorer
@@ -238,7 +246,7 @@ export class SwapDetail extends React.PureComponent<Props> {
     if (tx !== SWAP_TX_DEFAULT) {
       link = (
         <a
-          href={explorer(tx, coin)}
+          href={explorer.tx(tx, coin)}
           onClick={this.openExplorer}
           className={classes.amountform__uuidlink}
         >
@@ -246,14 +254,18 @@ export class SwapDetail extends React.PureComponent<Props> {
         </a>
       );
     }
-    return this.renderTXLink('ALICE PAYMENT', value, link);
+    return this.renderTXLink(
+      'ALICE PAYMENT',
+      value !== 0 ? `${value} ${coin}` : value,
+      link
+    );
   };
 
   renderBobpayment = () => {
     const { swap, classes } = this.props;
     const value = swap.getIn(['bobpayment', 'value']);
     const tx = swap.getIn(['bobpayment', 'tx']);
-    const coin = swap.get('bob');
+    const coin = swap.getIn(['bobpayment', 'coin']);
     let link = (
       <Typography variant="caption" gutterBottom>
         Open TX in block explorer
@@ -262,7 +274,7 @@ export class SwapDetail extends React.PureComponent<Props> {
     if (tx !== SWAP_TX_DEFAULT) {
       link = (
         <a
-          href={explorer(tx, coin)}
+          href={explorer.tx(tx, coin)}
           onClick={this.openExplorer}
           className={classes.amountform__uuidlink}
         >
@@ -270,23 +282,28 @@ export class SwapDetail extends React.PureComponent<Props> {
         </a>
       );
     }
-    return this.renderTXLink('BOB PAYMENT', value, link);
+    return this.renderTXLink(
+      'BOB PAYMENT',
+      value !== 0 ? `${value} ${coin}` : value,
+      link
+    );
   };
 
   renderAlicespend = () => {
     const { swap, classes } = this.props;
     const value = swap.getIn(['alicespend', 'value']);
+    const coin = swap.getIn(['alicespend', 'coin']);
     const tx = swap.getIn(['alicespend', 'tx']);
-    const coin = swap.get('bob');
     let link = (
       <Typography variant="caption" gutterBottom>
         Open TX in block explorer
       </Typography>
     );
+
     if (tx !== SWAP_TX_DEFAULT) {
       link = (
         <a
-          href={explorer(tx, coin)}
+          href={explorer.tx(tx, coin)}
           onClick={this.openExplorer}
           className={classes.amountform__uuidlink}
         >
@@ -294,7 +311,11 @@ export class SwapDetail extends React.PureComponent<Props> {
         </a>
       );
     }
-    return this.renderTXLink('ALICE SPEND', value, link);
+    return this.renderTXLink(
+      'ALICE SPEND',
+      value !== 0 ? `${value} ${coin}` : value,
+      link
+    );
   };
 
   renderSwap = () => {
@@ -327,6 +348,9 @@ export class SwapDetail extends React.PureComponent<Props> {
                 subTitle={
                   <span className={classes.swapDetail__danger}>
                     {swap.get('aliceamount')} {swap.get('alice')}
+                    <Typography variant="caption" gutterBottom>
+                      - {swap.getIn(['requested', 'aliceAmount'])}
+                    </Typography>
                   </span>
                 }
               />
@@ -340,6 +364,9 @@ export class SwapDetail extends React.PureComponent<Props> {
                 subTitle={
                   <span className={classes.swapDetail__success}>
                     {swap.get('bobamount')} {swap.get('bob')}
+                    <Typography variant="caption" gutterBottom>
+                      + {swap.getIn(['requested', 'bobAmount'])}
+                    </Typography>
                   </span>
                 }
               />
@@ -380,10 +407,47 @@ export class SwapDetail extends React.PureComponent<Props> {
                   <ListItemText
                     primary={
                       <Typography variant="caption" gutterBottom>
+                        FROM
+                      </Typography>
+                    }
+                  />
+                  <ListItemSecondaryAction
+                    className={classes.swapDetail__ListItemRight}
+                  >
+                    <a
+                      href={explorer.address(
+                        swap.get('alicesmartaddress'),
+                        swap.get('alice')
+                      )}
+                      onClick={this.openExplorer}
+                      className={classes.amountform__uuidlink}
+                    >
+                      {swap.get('alicesmartaddress')}
+                    </a>
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem className={classes.swapDetail__listitem}>
+                  <ListItemText
+                    primary={
+                      <Typography variant="caption" gutterBottom>
                         TO
                       </Typography>
                     }
                   />
+                  <ListItemSecondaryAction
+                    className={classes.swapDetail__ListItemRight}
+                  >
+                    <a
+                      href={explorer.address(
+                        swap.get('bobsmartaddress'),
+                        swap.get('bob')
+                      )}
+                      onClick={this.openExplorer}
+                      className={classes.amountform__uuidlink}
+                    >
+                      {swap.get('bobsmartaddress')}
+                    </a>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <Divider className={classes.swapDetail__divider} />
                 {this.renderMyFee()}

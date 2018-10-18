@@ -89,7 +89,9 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
     bob,
     alice,
     basevalue,
-    relvalue
+    relvalue,
+    bobsmartaddress,
+    alicesmartaddress
   } = WEBSOCKET_STATE_ZERO;
   let store = initialState
     .setIn(['swaps', 'processingList'], fromJS([uuid]))
@@ -104,6 +106,8 @@ describe('containers/BuyPage/reducers/loadRecentSwapsDataFromWebsocket', () => {
           expiration,
           bob,
           alice,
+          bobsmartaddress,
+          alicesmartaddress,
           bobamount: basevalue,
           aliceamount: relvalue,
           sentflags: [],
@@ -326,7 +330,9 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
     bob,
     alice,
     basevalue,
-    relvalue
+    relvalue,
+    bobsmartaddress,
+    alicesmartaddress
   } = SWAP_STATE_ZERO;
   let store = initialState
     .setIn(['swaps', 'processingList'], fromJS([uuid]))
@@ -341,6 +347,8 @@ describe('containers/BuyPage/reducers/loadRecentSwapsCoin', () => {
           expiration,
           bob,
           alice,
+          bobsmartaddress,
+          alicesmartaddress,
           bobamount: basevalue,
           aliceamount: relvalue,
           sentflags: [],
@@ -532,7 +540,10 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
     bob,
     alice,
     basevalue,
-    relvalue
+    relvalue,
+    bobsmartaddress,
+    alicesmartaddress,
+    requested
   } = SWAP_STATE_ZERO;
   it('should handle the loadBuyCoinSuccess action correctly', () => {
     const list = initialState.getIn(['swaps', 'processingList']);
@@ -554,6 +565,9 @@ describe('containers/BuyPage/reducers/loadBuyCoinSuccess', () => {
             expiration,
             bob,
             alice,
+            bobsmartaddress,
+            alicesmartaddress,
+            requested,
             bobamount: basevalue,
             aliceamount: relvalue,
             sentflags: [],
