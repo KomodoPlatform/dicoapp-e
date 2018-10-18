@@ -1,7 +1,3 @@
-it('containers/fake-data', () => {
-  expect(1).toEqual(1);
-});
-
 export const WEBSOCKET_STATE_ZERO = {
   id: 474902717,
   requestid: 3072406848,

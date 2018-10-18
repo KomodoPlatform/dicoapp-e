@@ -12,7 +12,7 @@ import {
   SWAP_STATE_FOUR,
   SWAP_STATE_FIVE,
   LOAD_SWAP_SUCCESS
-} from './constants';
+} from '../../../__tests__/fake-data';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:TestSwap');
 
