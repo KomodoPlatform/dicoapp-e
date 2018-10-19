@@ -36,6 +36,7 @@ import {
 } from './selectors';
 import CoinSelectable from './components/CoinSelectable';
 import BuyButton from './components/BuyButton';
+import { floor } from './utils';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:SwapDetailModal');
 
@@ -349,7 +350,8 @@ export class SwapDetail extends React.PureComponent<Props> {
                   <span className={classes.swapDetail__danger}>
                     {swap.get('aliceamount')} {swap.get('alice')}
                     <Typography variant="caption" gutterBottom>
-                      - {swap.getIn(['requested', 'aliceAmount'])}
+                      - {floor(swap.getIn(['requested', 'aliceAmount']), 8)}{' '}
+                      {swap.get('alice')}
                     </Typography>
                   </span>
                 }
@@ -365,7 +367,8 @@ export class SwapDetail extends React.PureComponent<Props> {
                   <span className={classes.swapDetail__success}>
                     {swap.get('bobamount')} {swap.get('bob')}
                     <Typography variant="caption" gutterBottom>
-                      + {swap.getIn(['requested', 'bobAmount'])}
+                      + {floor(swap.getIn(['requested', 'bobAmount']), 8)}{' '}
+                      {swap.get('bob')}
                     </Typography>
                   </span>
                 }
