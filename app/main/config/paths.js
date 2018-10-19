@@ -34,9 +34,13 @@ exports.default = function loadPaths(config) {
   const binDir = is.development
     ? resolve(__dirname, '../../bin')
     : resolve(__dirname, 'bin');
+  const appDir = is.development
+    ? resolve(__dirname, '../..')
+    : resolve(__dirname);
   return config.set('paths', {
     homeDir: homedir(),
     binDir,
+    appDir,
     userDataDir,
     marketmaker: marketmakerPlatformPath(binDir)
   });

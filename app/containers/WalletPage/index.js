@@ -57,14 +57,6 @@ class WalletPage extends Component<Props> {
 
     return (
       <React.Fragment>
-        <MDCAppBar
-          title={
-            <FormattedMessage id="dicoapp.containers.Wallet.title">
-              {(...content) => content}
-            </FormattedMessage>
-          }
-        />
-
         <Grid
           container
           spacing={0}
@@ -97,6 +89,13 @@ const WalletPageWapper = compose(
 const Index = () => (
   <NavigationLayout background="#eeeeee">
     <ErrorBoundary>
+      <MDCAppBar
+        title={
+          <FormattedMessage id="dicoapp.containers.Wallet.title">
+            {(...content) => content}
+          </FormattedMessage>
+        }
+      />
       <WalletPageWapper />
     </ErrorBoundary>
   </NavigationLayout>
