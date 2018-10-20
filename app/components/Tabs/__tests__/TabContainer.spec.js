@@ -5,7 +5,7 @@ import { TabContainer } from '../TabContainer';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('containers/BuyPage/components/<TabContainer />', () => {
+describe('components/Tabs/<TabContainer />', () => {
   const classes = {
     tabContainer: 'fakeCssClass'
   };
