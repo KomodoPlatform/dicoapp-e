@@ -8,12 +8,18 @@ type Props = {
   title: Node
 };
 
-const Header = ({ title }: Props) => (
-  <Toolbar>
-    <Typography variant="title" color="inherit">
-      {title}
-    </Typography>
-  </Toolbar>
-);
+class Header extends React.PureComponent<Props> {
+  render() {
+    const { title } = this.props;
+
+    return (
+      <Toolbar>
+        <Typography variant="title" color="inherit">
+          {title}
+        </Typography>
+      </Toolbar>
+    );
+  }
+}
 
 export default Header;

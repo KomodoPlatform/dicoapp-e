@@ -18,8 +18,12 @@ type Props = {
   children: Element<any>
 };
 
-const TabBar = ({ classes, children }: Props) => (
-  <Toolbar className={classes.root}>{children}</Toolbar>
-);
+class TabBar extends React.PureComponent<Props> {
+  render() {
+    const { classes, children } = this.props;
+
+    return <Toolbar className={classes.root}>{children}</Toolbar>;
+  }
+}
 
 export default withStyles(styles)(TabBar);
