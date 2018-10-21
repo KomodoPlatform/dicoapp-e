@@ -9,10 +9,13 @@ import Grid from '@material-ui/core/Grid';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
+import { TabContainer } from '../../components/Tabs';
 import MDCAppBar from '../../components/AppBar';
 import MDCHeader from '../../components/AppBar/Header';
+import MDCTabBar from '../../components/AppBar/TabBar';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
+import HeaderTabs from './components/HeaderTabs';
 import Overview from './components/Overview';
 import Transactions from './components/Transactions';
 import ProgressBar from './ProgressBar';
@@ -25,10 +28,15 @@ type Props = {
   classes: Object
 };
 
+type State = {
+  value: number
+};
+
 // const styles = theme => ({
 const styles = () => ({
   container: {
-    marginTop: 65,
+    // marginTop: 65,
+    marginTop: 112,
     padding: '40px 24px 24px 24px'
   },
 
@@ -39,13 +47,22 @@ const styles = () => ({
 
 const debug = require('debug')('dicoapp:containers:WalletPage');
 
-class WalletPage extends Component<Props> {
+class WalletPage extends Component<Props, State> {
   props: Props;
+
+  state = {
+    value: 0
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
 
   render() {
     debug(`render`);
 
     const { classes } = this.props;
+    const { value } = this.state;
 
     return (
       <React.Fragment>
@@ -60,24 +77,45 @@ class WalletPage extends Component<Props> {
                   </FormattedMessage>
                 }
               />
+              <MDCTabBar>
+                <HeaderTabs handleChange={this.handleChange} value={value} />
+              </MDCTabBar>
             </MDCAppBar>
-            <Grid
-              container
-              spacing={0}
-              className={classNames(classes.container, classes.container)}
-            >
-              {/* <Grid item xs={12} className={classes.containerSection}> */}
-              <PageSectionTitle
-                title={
-                  <FormattedMessage id="dicoapp.containers.Wallet.overview">
-                    {(...content) => content}
-                  </FormattedMessage>
-                }
-              />
-              {/* </Grid> */}
-              <Overview />
-              <Transactions />
-            </Grid>
+            <TabContainer selected={value === 0}>
+              <Grid
+                container
+                spacing={0}
+                className={classNames(classes.container, classes.container)}
+              >
+                {/* <Grid item xs={12} className={classes.containerSection}> */}
+                <PageSectionTitle
+                  title={
+                    <FormattedMessage id="dicoapp.containers.Wallet.overview">
+                      {(...content) => content}
+                    </FormattedMessage>
+                  }
+                />
+                {/* </Grid> */}
+                <Overview />
+              </Grid>
+            </TabContainer>
+            <TabContainer selected={value === 1}>
+              <Grid
+                container
+                spacing={0}
+                className={classNames(classes.container, classes.container)}
+              >
+                {/* <Grid item xs={12} className={classes.containerSection}> */}
+                <PageSectionTitle
+                  title={
+                    <FormattedMessage id="dicoapp.containers.Wallet.last_transactions">
+                      {(...content) => content}
+                    </FormattedMessage>
+                  }
+                />
+                <Transactions />
+              </Grid>
+            </TabContainer>
           </ErrorBoundary>
         </NavigationLayout>
       </React.Fragment>
