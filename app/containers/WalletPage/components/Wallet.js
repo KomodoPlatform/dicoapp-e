@@ -231,105 +231,101 @@ class Wallet extends PureComponent<Props, State> {
     const CIcon = getCoinIcon(data.get('coin'));
 
     return (
-      <Grid container spacing={0}>
-        <Grid item xs={12} className={classes.containerSection}>
-          <ExpansionPanel expanded={expanded}>
-            <ExpansionPanelSummary
-              classes={{
-                expandIcon: classes.rightIcon
-              }}
-              expandIcon={
-                <ExpandMoreIcon onClick={this.toggleExpansionPanel} />
-              }
-            >
-              <div className={classes.bitcoinContainer}>
-                <div className={classes.bitcoinTitle}>
-                  <div className={classes.rightLogo}>
-                    {CIcon}
-                    <div className={classes.coinName}>{data.get('coin')}</div>
-                  </div>
-                  <div>
-                    {data.get('balance')} {data.get('coin')}
-                  </div>
+      <Grid item xs={12} className={classes.containerSection}>
+        <ExpansionPanel expanded={expanded}>
+          <ExpansionPanelSummary
+            classes={{
+              expandIcon: classes.rightIcon
+            }}
+            expandIcon={<ExpandMoreIcon onClick={this.toggleExpansionPanel} />}
+          >
+            <div className={classes.bitcoinContainer}>
+              <div className={classes.bitcoinTitle}>
+                <div className={classes.rightLogo}>
+                  {CIcon}
+                  <div className={classes.coinName}>{data.get('coin')}</div>
                 </div>
-                <div className={classes.bitcoinQRCodeContainer}>
-                  <div className={classes.bitcoinQRCodeItem}>
-                    <Typography variant="subheading" gutterBottom>
-                      <FormattedMessage id="dicoapp.containers.Wallet.deposit_address">
-                        {(...content) => content}
-                      </FormattedMessage>
-                    </Typography>
-                    <Typography variant="title" gutterBottom>
-                      {data.get('address')}
-                    </Typography>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={this.copyAddressToClipboard}
-                    >
-                      <FileCopyIcon
-                        className={classNames(
-                          classes.leftIcon,
-                          classes.iconSmall
-                        )}
-                      />
-                      <FormattedMessage id="dicoapp.containers.Wallet.copy_address">
-                        {(...content) => content}
-                      </FormattedMessage>
-                    </Button>
-                  </div>
-                  <QRCode value={data.get('address')} />
+                <div>
+                  {data.get('balance')} {data.get('coin')}
                 </div>
               </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.details}>
-              <Divider className={classes.hr} />
+              <div className={classes.bitcoinQRCodeContainer}>
+                <div className={classes.bitcoinQRCodeItem}>
+                  <Typography variant="subheading" gutterBottom>
+                    <FormattedMessage id="dicoapp.containers.Wallet.deposit_address">
+                      {(...content) => content}
+                    </FormattedMessage>
+                  </Typography>
+                  <Typography variant="title" gutterBottom>
+                    {data.get('address')}
+                  </Typography>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={this.copyAddressToClipboard}
+                  >
+                    <FileCopyIcon
+                      className={classNames(
+                        classes.leftIcon,
+                        classes.iconSmall
+                      )}
+                    />
+                    <FormattedMessage id="dicoapp.containers.Wallet.copy_address">
+                      {(...content) => content}
+                    </FormattedMessage>
+                  </Button>
+                </div>
+                <QRCode value={data.get('address')} />
+              </div>
+            </div>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={classes.details}>
+            <Divider className={classes.hr} />
 
-              {loading && <LinearProgress className={classes.hr} />}
+            {loading && <LinearProgress className={classes.hr} />}
 
-              <Typography variant="button" gutterBottom>
-                Withdraw {data.get('coin')}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Available: {data.get('balance')} {data.get('coin')}
-              </Typography>
-              <form className={classes.withdraw__form}>
-                <ValidationAmountInput
-                  id="amount"
-                  label="Amount to withdraw"
-                  margin="normal"
-                  balance={data.get('balance')}
-                  className={classes.formItem}
-                  ref={this.amountInput}
-                  disabled={loading}
-                />
+            <Typography variant="button" gutterBottom>
+              Withdraw {data.get('coin')}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Available: {data.get('balance')} {data.get('coin')}
+            </Typography>
+            <form className={classes.withdraw__form}>
+              <ValidationAmountInput
+                id="amount"
+                label="Amount to withdraw"
+                margin="normal"
+                balance={data.get('balance')}
+                className={classes.formItem}
+                ref={this.amountInput}
+                disabled={loading}
+              />
 
-                <ValidationAddressInput
-                  id="address"
-                  label="Withdraw to address"
-                  margin="normal"
-                  className={classes.formItem}
-                  address={data.get('address')}
-                  ref={this.addressInput}
-                  disabled={loading}
-                />
+              <ValidationAddressInput
+                id="address"
+                label="Withdraw to address"
+                margin="normal"
+                className={classes.formItem}
+                address={data.get('address')}
+                ref={this.addressInput}
+                disabled={loading}
+              />
 
-                <br />
+              <br />
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.withdraw__button}
-                  onClick={this.handleWithdraw}
-                  disabled={loading}
-                >
-                  Withdraw
-                </Button>
-              </form>
-              {/* <Divider className={classes.hr} /> */}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.withdraw__button}
+                onClick={this.handleWithdraw}
+                disabled={loading}
+              >
+                Withdraw
+              </Button>
+            </form>
+            {/* <Divider className={classes.hr} /> */}
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       </Grid>
     );
   }
