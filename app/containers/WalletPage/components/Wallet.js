@@ -1,30 +1,43 @@
 // @flow
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import QRCode from 'qrcode.react';
+// import QRCode from 'qrcode.react';
 // import Avatar from '@material-ui/core/Avatar';
 // import IconButton from '@material-ui/core/IconButton';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import Grid from '@material-ui/core/Grid';
+// import LinearProgress from '@material-ui/core/LinearProgress';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 // import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+// import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
+
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import IconButton from '@material-ui/core/IconButton';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
+// import ShareIcon from '@material-ui/icons/Share';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PaymentIcon from '@material-ui/icons/Payment';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 import { required, requiredNumber } from '../../../components/Form/helper';
 import validate from '../../../components/Form/validate';
 import { getCoinIcon } from '../../../components/CryptoIcons';
-
 import clipboardCopy from '../../../utils/clipboard-copy';
+import { covertSymbolToName } from '../../../utils/coin';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:Wallet');
 
@@ -59,10 +72,12 @@ const TextInput = ({ onChange, value, error, isError, ...props }) => (
   />
 );
 
+// eslint-disable-next-line no-unused-vars
 const ValidationAmountInput = validate(TextInput, [requiredNumber, lessThan], {
   onChange: true
 });
 
+// eslint-disable-next-line no-unused-vars
 const ValidationAddressInput = validate(TextInput, [required, notSameAddress], {
   onChange: true
 });
@@ -132,6 +147,25 @@ const styles = theme => ({
 
   withdraw__form: {
     // marginBottom: 20
+  },
+
+  actions: {
+    display: 'flex'
+  },
+
+  expand: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest
+    }),
+    marginLeft: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: -8
+    }
+  },
+
+  expandOpen: {
+    transform: 'rotate(180deg)'
   }
 });
 
@@ -227,106 +261,61 @@ class Wallet extends PureComponent<Props, State> {
 
     const { classes, data } = this.props;
     const { expanded } = this.state;
-    const loading = data.get('loading');
+    // const loading = data.get('loading');
     const CIcon = getCoinIcon(data.get('coin'));
 
+    console.log(data, data.toJS());
+
     return (
-      <Grid item xs={12} className={classes.containerSection}>
-        <ExpansionPanel expanded={expanded}>
-          <ExpansionPanelSummary
-            classes={{
-              expandIcon: classes.rightIcon
-            }}
-            expandIcon={<ExpandMoreIcon onClick={this.toggleExpansionPanel} />}
+      <Card>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="Recipe" className={classes.avatar}>
+              {CIcon}
+            </Avatar>
+          }
+          // action={
+          //   <IconButton>
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title={data.get('coin')}
+          subheader={covertSymbolToName(data.get('coin'))}
+        />
+        <CardContent>
+          <Typography variant="title">{data.get('address')}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            Mac Miller
+          </Typography>
+        </CardContent>
+        <CardActions className={classes.actions} disableActionSpacing>
+          <Button size="small" color="primary">
+            <PaymentIcon
+              className={classNames(classes.leftIcon, classes.iconSmall)}
+            />
+            Deposit
+          </Button>
+          <Button size="small" color="primary">
+            <CloudDownloadIcon
+              className={classNames(classes.leftIcon, classes.iconSmall)}
+            />
+            Withdraw
+          </Button>
+          <IconButton
+            className={classNames(classes.expand, {
+              [classes.expandOpen]: expanded
+            })}
+            onClick={this.toggleExpansionPanel}
+            aria-expanded={expanded}
+            aria-label="Show more"
           >
-            <div className={classes.bitcoinContainer}>
-              <div className={classes.bitcoinTitle}>
-                <div className={classes.rightLogo}>
-                  {CIcon}
-                  <div className={classes.coinName}>{data.get('coin')}</div>
-                </div>
-                <div>
-                  {data.get('balance')} {data.get('coin')}
-                </div>
-              </div>
-              <div className={classes.bitcoinQRCodeContainer}>
-                <div className={classes.bitcoinQRCodeItem}>
-                  <Typography variant="subheading" gutterBottom>
-                    <FormattedMessage id="dicoapp.containers.Wallet.deposit_address">
-                      {(...content) => content}
-                    </FormattedMessage>
-                  </Typography>
-                  <Typography variant="title" gutterBottom>
-                    {data.get('address')}
-                  </Typography>
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={this.copyAddressToClipboard}
-                  >
-                    <FileCopyIcon
-                      className={classNames(
-                        classes.leftIcon,
-                        classes.iconSmall
-                      )}
-                    />
-                    <FormattedMessage id="dicoapp.containers.Wallet.copy_address">
-                      {(...content) => content}
-                    </FormattedMessage>
-                  </Button>
-                </div>
-                <QRCode value={data.get('address')} />
-              </div>
-            </div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.details}>
-            <Divider className={classes.hr} />
-
-            {loading && <LinearProgress className={classes.hr} />}
-
-            <Typography variant="button" gutterBottom>
-              Withdraw {data.get('coin')}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Available: {data.get('balance')} {data.get('coin')}
-            </Typography>
-            <form className={classes.withdraw__form}>
-              <ValidationAmountInput
-                id="amount"
-                label="Amount to withdraw"
-                margin="normal"
-                balance={data.get('balance')}
-                className={classes.formItem}
-                ref={this.amountInput}
-                disabled={loading}
-              />
-
-              <ValidationAddressInput
-                id="address"
-                label="Withdraw to address"
-                margin="normal"
-                className={classes.formItem}
-                address={data.get('address')}
-                ref={this.addressInput}
-                disabled={loading}
-              />
-
-              <br />
-
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.withdraw__button}
-                onClick={this.handleWithdraw}
-                disabled={loading}
-              >
-                Withdraw
-              </Button>
-            </form>
-            {/* <Divider className={classes.hr} /> */}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </Grid>
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>123</CardContent>
+        </Collapse>
+      </Card>
     );
   }
 }

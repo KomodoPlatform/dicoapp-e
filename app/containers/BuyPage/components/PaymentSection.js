@@ -8,7 +8,8 @@ import { createStructuredSelector } from 'reselect';
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line, Circle } from '../../../components/placeholder';
 import getConfig from '../../../utils/config';
-import { covertSymbolToName, floor } from '../utils';
+import { covertSymbolToName } from '../../../utils/coin';
+import { floor } from '../utils';
 import CoinSelectable from './CoinSelectable';
 import { makeSelectBalanceList, makeSelectPricesEntities } from '../selectors';
 

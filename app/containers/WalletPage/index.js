@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 // @flow
 import React, { Component } from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -37,7 +37,8 @@ const styles = () => ({
   container: {
     // marginTop: 65,
     marginTop: 112,
-    padding: '40px 24px 24px 24px'
+    padding: '40px 24px 24px 24px',
+    flexGrow: 1
   },
 
   containerSection: {
@@ -81,30 +82,18 @@ class WalletPage extends Component<Props, State> {
                 <HeaderTabs handleChange={this.handleChange} value={value} />
               </MDCTabBar>
             </MDCAppBar>
-            <TabContainer selected={value === 0}>
-              <Grid
-                container
-                spacing={0}
-                className={classNames(classes.container, classes.container)}
-              >
-                {/* <Grid item xs={12} className={classes.containerSection}> */}
-                <PageSectionTitle
-                  title={
-                    <FormattedMessage id="dicoapp.containers.Wallet.overview">
-                      {(...content) => content}
-                    </FormattedMessage>
-                  }
-                />
-                {/* </Grid> */}
-                <Overview />
-              </Grid>
+            <TabContainer selected={value === 0} className={classes.container}>
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.Wallet.overview">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
+              <Overview />
             </TabContainer>
             <TabContainer selected={value === 1}>
-              <Grid
-                container
-                spacing={0}
-                className={classNames(classes.container, classes.container)}
-              >
+              <Grid container spacing={12} className={classes.container}>
                 {/* <Grid item xs={12} className={classes.containerSection}> */}
                 <PageSectionTitle
                   title={

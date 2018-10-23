@@ -19,6 +19,7 @@ const debug = require('debug')('dicoapp:containers:WalletPage:Overview');
 const styles = () => ({
   containerSection: {
     paddingBottom: 30
+    // paddingRight: 30
   }
 });
 
@@ -66,7 +67,11 @@ class Overview extends PureComponent<Props> {
 
     const { list } = this.props;
 
-    return list.map(this.renderWallet);
+    return (
+      <Grid container spacing={12}>
+        {list.map(this.renderWallet)}
+      </Grid>
+    );
   }
 }
 
