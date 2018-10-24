@@ -28,7 +28,7 @@ import IconButton from '@material-ui/core/IconButton';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PaymentIcon from '@material-ui/icons/Payment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
@@ -173,7 +173,6 @@ const styles = theme => ({
   },
 
   wallet__balance: {
-    color: 'rgba(0, 0, 0, 0.87)',
     fontSize: '1.725rem',
     fontWeight: 400,
     lineHeight: 1.17,
@@ -283,26 +282,38 @@ class Wallet extends PureComponent<Props, State> {
             action: classes.wallet__headerAction
           }}
           avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              {CIcon}
-            </Avatar>
+            CIcon
+            // <Avatar aria-label="Recipe" className={classes.avatar}>
+            // </Avatar>
           }
-          action={
-            <Typography
-              variant="h1"
-              gutterBottom
-              className={classes.wallet__balance}
-            >
-              {data.get('balance')} {data.get('coin')}
-            </Typography>
-          }
+          // action={
+          //   <Typography
+          //     variant="h1"
+          //     gutterBottom
+          //     className={classes.wallet__balance}
+          //   >
+          //     {data.get('balance')} {data.get('coin')}
+          //   </Typography>
+          // }
           title={data.get('coin')}
           subheader={covertSymbolToName(data.get('coin'))}
         />
+        {/* <Divider className={classes.hr} /> */}
+        {/*
         <CardContent>
           <Typography variant="title">{data.get('address')}</Typography>
           <Typography variant="subtitle1" color="textSecondary">
             Mac Miller
+          </Typography>
+        </CardContent>
+        */}
+        <CardContent>
+          <Typography
+            variant="h1"
+            gutterBottom
+            className={classes.wallet__balance}
+          >
+            {data.get('balance')} {data.get('coin')}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>

@@ -19,7 +19,7 @@ const debug = require('debug')('dicoapp:containers:WalletPage:Overview');
 
 const styles = theme => ({
   containerSection: {
-    paddingBottom: 30
+    paddingBottom: theme.spacing.unit * 4
     // paddingRight: 30
   },
 
