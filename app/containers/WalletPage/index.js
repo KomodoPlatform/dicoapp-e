@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+// import Grid from '@material-ui/core/Grid';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -92,18 +92,15 @@ class WalletPage extends Component<Props, State> {
               />
               <Overview />
             </TabContainer>
-            <TabContainer selected={value === 1}>
-              <Grid container spacing={12} className={classes.container}>
-                {/* <Grid item xs={12} className={classes.containerSection}> */}
-                <PageSectionTitle
-                  title={
-                    <FormattedMessage id="dicoapp.containers.Wallet.last_transactions">
-                      {(...content) => content}
-                    </FormattedMessage>
-                  }
-                />
-                <Transactions />
-              </Grid>
+            <TabContainer selected={value === 1} className={classes.container}>
+              <PageSectionTitle
+                title={
+                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions">
+                    {(...content) => content}
+                  </FormattedMessage>
+                }
+              />
+              <Transactions />
             </TabContainer>
           </ErrorBoundary>
         </NavigationLayout>

@@ -137,45 +137,47 @@ class Transactions extends PureComponent<Props> {
     const { loading, classes, list, error } = this.props;
 
     return (
-      <Grid item xs={12} className={classes.containerSection}>
-        <div className={classes.btns}>
-          <IconButton
-            disabled={loading}
-            onClick={this.onClickReloadTranstactions}
-          >
-            <CachedIcon />
-          </IconButton>
-        </div>
-        {error && (
-          <SnackbarContent
-            // className={classNames(classes[variant], className)}
-            aria-describedby="client-snackbar"
-            message={error.message}
-          />
-        )}
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.th}>#</TableCell>
-              <TableCell className={classes.th}>
-                <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_coin">
-                  {(...content) => content}
-                </FormattedMessage>
-              </TableCell>
-              <TableCell className={classes.th}>
-                <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_blockheight">
-                  {(...content) => content}
-                </FormattedMessage>
-              </TableCell>
-              <TableCell className={classes.th}>
-                <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_transactionid">
-                  {(...content) => content}
-                </FormattedMessage>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{list && list.map(this.renderRecord)}</TableBody>
-        </Table>
+      <Grid container spacing={12}>
+        <Grid item xs={12} className={classes.containerSection}>
+          <div className={classes.btns}>
+            <IconButton
+              disabled={loading}
+              onClick={this.onClickReloadTranstactions}
+            >
+              <CachedIcon />
+            </IconButton>
+          </div>
+          {error && (
+            <SnackbarContent
+              // className={classNames(classes[variant], className)}
+              aria-describedby="client-snackbar"
+              message={error.message}
+            />
+          )}
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.th}>#</TableCell>
+                <TableCell className={classes.th}>
+                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_coin">
+                    {(...content) => content}
+                  </FormattedMessage>
+                </TableCell>
+                <TableCell className={classes.th}>
+                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_blockheight">
+                    {(...content) => content}
+                  </FormattedMessage>
+                </TableCell>
+                <TableCell className={classes.th}>
+                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_transactionid">
+                    {(...content) => content}
+                  </FormattedMessage>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{list && list.map(this.renderRecord)}</TableBody>
+          </Table>
+        </Grid>
       </Grid>
     );
   }

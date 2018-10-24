@@ -170,6 +170,14 @@ const styles = theme => ({
 
   wallet__headerAction: {
     margin: '0 auto'
+  },
+
+  wallet__balance: {
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: '1.725rem',
+    fontWeight: 400,
+    lineHeight: 1.17,
+    letterSpacing: '0.00735em'
   }
 });
 
@@ -280,7 +288,11 @@ class Wallet extends PureComponent<Props, State> {
             </Avatar>
           }
           action={
-            <Typography component="h2" variant="h1" gutterBottom>
+            <Typography
+              variant="h1"
+              gutterBottom
+              className={classes.wallet__balance}
+            >
               {data.get('balance')} {data.get('coin')}
             </Typography>
           }
