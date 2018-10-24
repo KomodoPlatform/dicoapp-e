@@ -16,8 +16,8 @@ import { TabContainer } from '../../components/Tabs';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TestSwap from './components/TestSwap';
-import MyOrders from './MyOrders';
-import PlaceOrder from './PlaceOrder';
+import MyOrdersTab from './MyOrdersTab';
+import PlaceOrderTab from './PlaceOrderTab';
 import ProgressBar from './ProgressBar';
 import SwapDetailModal from './SwapDetailModal';
 import { APP_STATE_NAME } from './constants';
@@ -71,10 +71,10 @@ class BuyPage extends Component<Props, State> {
               </MDCTabBar>
             </MDCAppBar>
             <TabContainer selected={value === 0}>
-              <PlaceOrder />
+              <PlaceOrderTab />
             </TabContainer>
             <TabContainer selected={value === 1}>
-              <MyOrders />
+              <MyOrdersTab />
             </TabContainer>
           </ErrorBoundary>
           <TestSwap />
