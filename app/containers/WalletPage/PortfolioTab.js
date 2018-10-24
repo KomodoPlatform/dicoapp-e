@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
+import ClassNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -16,10 +17,18 @@ import Wallet from './components/Wallet';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:Overview');
 
-const styles = () => ({
+const styles = theme => ({
   containerSection: {
     paddingBottom: 30
     // paddingRight: 30
+  },
+
+  portfolioTab__tabLeft: {
+    paddingLeft: theme.spacing.unit * 2
+  },
+
+  portfolioTab__tabRight: {
+    paddingRight: theme.spacing.unit * 2
   }
 });
 
@@ -36,7 +45,7 @@ type Props = {
   dispatchLoadWithdraw: Function
 };
 
-class Overview extends PureComponent<Props> {
+class Overview extends React.PureComponent<Props> {
   componentDidMount = () => {
     debug('watch transactions');
     const { dispatchLoadBalance } = this.props;
@@ -51,7 +60,10 @@ class Overview extends PureComponent<Props> {
         key={`wallet_page_overview${k}`}
         item
         xs={6}
-        className={classes.containerSection}
+        className={ClassNames(classes.containerSection, {
+          [classes.portfolioTab__tabLeft]: k % 2 === 1,
+          [classes.portfolioTab__tabRight]: k % 2 === 0
+        })}
       >
         <Wallet
           key={data.get('coin')}
