@@ -166,6 +166,10 @@ const styles = theme => ({
 
   expandOpen: {
     transform: 'rotate(180deg)'
+  },
+
+  wallet__headerAction: {
+    margin: '0 auto'
   }
 });
 
@@ -261,24 +265,25 @@ class Wallet extends PureComponent<Props, State> {
 
     const { classes, data } = this.props;
     const { expanded } = this.state;
-    // const loading = data.get('loading');
+    const loading = data.get('loading');
     const CIcon = getCoinIcon(data.get('coin'));
-
-    console.log(data, data.toJS());
 
     return (
       <Card>
         <CardHeader
+          classes={{
+            action: classes.wallet__headerAction
+          }}
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
               {CIcon}
             </Avatar>
           }
-          // action={
-          //   <IconButton>
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
+          action={
+            <Typography component="h2" variant="h1" gutterBottom>
+              {data.get('balance')} {data.get('coin')}
+            </Typography>
+          }
           title={data.get('coin')}
           subheader={covertSymbolToName(data.get('coin'))}
         />
@@ -313,7 +318,47 @@ class Wallet extends PureComponent<Props, State> {
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>123</CardContent>
+          <CardContent>
+            <Typography variant="button" gutterBottom>
+              Withdraw {data.get('coin')}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Available: {data.get('balance')} {data.get('coin')}
+            </Typography>
+            <form className={classes.withdraw__form}>
+              <ValidationAmountInput
+                id="amount"
+                label="Amount to withdraw"
+                margin="normal"
+                balance={data.get('balance')}
+                className={classes.formItem}
+                ref={this.amountInput}
+                disabled={loading}
+              />
+
+              <ValidationAddressInput
+                id="address"
+                label="Withdraw to address"
+                margin="normal"
+                className={classes.formItem}
+                address={data.get('address')}
+                ref={this.addressInput}
+                disabled={loading}
+              />
+
+              <br />
+
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.withdraw__button}
+                onClick={this.handleWithdraw}
+                disabled={loading}
+              >
+                Withdraw
+              </Button>
+            </form>
+          </CardContent>
         </Collapse>
       </Card>
     );
