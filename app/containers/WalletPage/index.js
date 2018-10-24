@@ -16,7 +16,7 @@ import MDCTabBar from '../../components/AppBar/TabBar';
 import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
-import Transactions from './components/Transactions';
+import TransactionsTab from './TransactionsTab';
 import PortfolioTab from './PortfolioTab';
 import ProgressBar from './ProgressBar';
 import reducer from './reducer';
@@ -100,7 +100,7 @@ class WalletPage extends Component<Props, State> {
                   </FormattedMessage>
                 }
               />
-              <Transactions />
+              <TransactionsTab />
             </TabContainer>
           </ErrorBoundary>
         </NavigationLayout>

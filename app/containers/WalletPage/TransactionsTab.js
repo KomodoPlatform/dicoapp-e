@@ -16,14 +16,14 @@ import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import CachedIcon from '@material-ui/icons/Cached';
-import explorer from '../../../lib/explorer';
+import explorer from '../../lib/explorer';
 import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
   makeSelectTransactionsList,
   makeSelectTransactionsEntities
-} from '../selectors';
-import { loadTransactions } from '../actions';
+} from './selectors';
+import { loadTransactions } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:Transactions');
 
