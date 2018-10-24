@@ -14,7 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 // import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 // import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -24,14 +24,16 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
 import Collapse from '@material-ui/core/Collapse';
 // import Avatar from '@material-ui/core/Avatar';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PaymentIcon from '@material-ui/icons/Payment';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+// import PaymentIcon from '@material-ui/icons/Payment';
+// import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import { required, requiredNumber } from '../../../components/Form/helper';
 import validate from '../../../components/Form/validate';
@@ -39,7 +41,7 @@ import { getCoinIcon } from '../../../components/CryptoIcons';
 import clipboardCopy from '../../../utils/clipboard-copy';
 import { covertSymbolToName } from '../../../utils/coin';
 
-const debug = require('debug')('dicoapp:containers:WalletPage:Wallet');
+const debug = require('debug')('dicoapp:containers:WalletPage:Asset');
 
 export const lessThan = (value: mixed, props: mixed) =>
   new Promise((resolve, reject) => {
@@ -177,6 +179,23 @@ const styles = theme => ({
     fontWeight: 400,
     lineHeight: 1.17,
     letterSpacing: '0.00735em'
+  },
+
+  wallet__title: {
+    lineHeight: '1.31429em',
+    fontSize: '1.3125rem'
+  },
+
+  wallet__subheader: {
+    lineHeight: '1.31429em'
+  },
+
+  wallet__button: {
+    boxShadow: 'none',
+    color: 'rgba(0, 0, 0, 0.54)',
+    '&:hover': {
+      color: theme.palette.primary.main
+    }
   }
 });
 
@@ -193,7 +212,7 @@ type State = {
   expanded: boolean
 };
 
-class Wallet extends PureComponent<Props, State> {
+class Asset extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
@@ -279,13 +298,12 @@ class Wallet extends PureComponent<Props, State> {
       <Card>
         <CardHeader
           classes={{
-            action: classes.wallet__headerAction
+            action: classes.wallet__headerAction,
+            title: classes.wallet__title,
+            subheader: classes.wallet__subheader
           }}
-          avatar={
-            CIcon
-            // <Avatar aria-label="Recipe" className={classes.avatar}>
-            // </Avatar>
-          }
+          // avatar={CIcon}
+          action={CIcon}
           // action={
           //   <Typography
           //     variant="h1"
@@ -295,8 +313,8 @@ class Wallet extends PureComponent<Props, State> {
           //     {data.get('balance')} {data.get('coin')}
           //   </Typography>
           // }
-          title={data.get('coin')}
-          subheader={covertSymbolToName(data.get('coin'))}
+          title={covertSymbolToName(data.get('coin'))}
+          subheader={data.get('coin')}
         />
         {/* <Divider className={classes.hr} /> */}
         {/*
@@ -317,23 +335,28 @@ class Wallet extends PureComponent<Props, State> {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <Button size="small" color="primary">
-            <PaymentIcon
+          <Button
+            className={classes.wallet__button}
+            size="small"
+            color="primary"
+          >
+            <KeyboardArrowUpIcon
               className={classNames(classes.leftIcon, classes.iconSmall)}
             />
             Deposit
           </Button>
           <Button
+            className={classes.wallet__button}
             size="small"
             color="primary"
             onClick={this.toggleExpansionPanel}
           >
-            <CloudDownloadIcon
+            <KeyboardArrowDownIcon
               className={classNames(classes.leftIcon, classes.iconSmall)}
             />
             Withdraw
           </Button>
-          <IconButton
+          {/* <IconButton
             className={classNames(classes.expand, {
               [classes.expandOpen]: expanded
             })}
@@ -342,7 +365,7 @@ class Wallet extends PureComponent<Props, State> {
             onClick={this.toggleExpansionPanel}
           >
             <ExpandMoreIcon />
-          </IconButton>
+          </IconButton> */}
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
@@ -392,6 +415,6 @@ class Wallet extends PureComponent<Props, State> {
   }
 }
 
-Wallet.displayName = 'Wallet';
+Asset.displayName = 'Asset';
 
-export default withStyles(styles)(Wallet);
+export default withStyles(styles)(Asset);
