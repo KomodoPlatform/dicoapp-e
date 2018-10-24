@@ -312,7 +312,11 @@ class Wallet extends PureComponent<Props, State> {
             />
             Deposit
           </Button>
-          <Button size="small" color="primary">
+          <Button
+            size="small"
+            color="primary"
+            onClick={this.toggleExpansionPanel}
+          >
             <CloudDownloadIcon
               className={classNames(classes.leftIcon, classes.iconSmall)}
             />
@@ -322,9 +326,9 @@ class Wallet extends PureComponent<Props, State> {
             className={classNames(classes.expand, {
               [classes.expandOpen]: expanded
             })}
-            onClick={this.toggleExpansionPanel}
             aria-expanded={expanded}
             aria-label="Show more"
+            onClick={this.toggleExpansionPanel}
           >
             <ExpandMoreIcon />
           </IconButton>

@@ -10,9 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import {
   makeSelectBalanceList,
   makeSelectBalanceEntities
-} from '../../App/selectors';
-import { loadBalance, loadWithdraw } from '../../App/actions';
-import Wallet from './Wallet';
+} from '../App/selectors';
+import { loadBalance, loadWithdraw } from '../App/actions';
+import Wallet from './components/Wallet';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:Overview');
 
@@ -50,7 +50,7 @@ class Overview extends PureComponent<Props> {
       <Grid
         key={`wallet_page_overview${k}`}
         item
-        xs={12}
+        xs={6}
         className={classes.containerSection}
       >
         <Wallet
