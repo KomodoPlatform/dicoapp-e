@@ -25,7 +25,7 @@ import {
 } from './selectors';
 import { loadTransactions } from './actions';
 
-const debug = require('debug')('dicoapp:containers:WalletPage:Transactions');
+const debug = require('debug')('dicoapp:containers:WalletPage:TransactionsTab');
 
 const styles = () => ({
   containerSection: {
@@ -67,7 +67,7 @@ type Props = {
   dispatchLoadTransactions: Function
 };
 
-class Transactions extends PureComponent<Props> {
+class TransactionsTab extends PureComponent<Props> {
   componentDidMount = () => {
     debug('watch transactions');
 
@@ -183,7 +183,7 @@ class Transactions extends PureComponent<Props> {
   }
 }
 
-Transactions.displayName = 'Transactions';
+TransactionsTab.displayName = 'Transactions';
 
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
@@ -207,4 +207,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   withStyles(styles)
-)(Transactions);
+)(TransactionsTab);

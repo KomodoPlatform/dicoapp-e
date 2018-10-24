@@ -13,9 +13,9 @@ import {
   makeSelectBalanceEntities
 } from '../App/selectors';
 import { loadBalance, loadWithdraw } from '../App/actions';
-import Wallet from './components/Wallet';
+import Asset from './components/Asset';
 
-const debug = require('debug')('dicoapp:containers:WalletPage:Overview');
+const debug = require('debug')('dicoapp:containers:WalletPage:PortfolioTab');
 
 const styles = theme => ({
   containerSection: {
@@ -45,7 +45,7 @@ type Props = {
   dispatchLoadWithdraw: Function
 };
 
-class Overview extends React.PureComponent<Props> {
+class PortfolioTab extends React.PureComponent<Props> {
   componentDidMount = () => {
     debug('watch transactions');
     const { dispatchLoadBalance } = this.props;
@@ -57,7 +57,7 @@ class Overview extends React.PureComponent<Props> {
     const data = entities.get(t);
     return (
       <Grid
-        key={`wallet_page_overview${k}`}
+        key={`wallet_page_overview${data.get('coin')}`}
         item
         xs={6}
         className={ClassNames(classes.containerSection, {
@@ -65,11 +65,7 @@ class Overview extends React.PureComponent<Props> {
           [classes.portfolioTab__tabRight]: k % 2 === 0
         })}
       >
-        <Wallet
-          key={data.get('coin')}
-          data={data}
-          dispatchLoadWithdraw={dispatchLoadWithdraw}
-        />
+        <Asset data={data} dispatchLoadWithdraw={dispatchLoadWithdraw} />
       </Grid>
     );
   };
@@ -87,7 +83,7 @@ class Overview extends React.PureComponent<Props> {
   }
 }
 
-Overview.displayName = 'Overview';
+PortfolioTab.displayName = 'Overview';
 
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
@@ -114,5 +110,5 @@ const withConnect = connect(
 export default compose(
   withConnect,
   withStyles(styles)
-)(Overview);
+)(PortfolioTab);
 /* eslint-enable react/no-array-index-key */

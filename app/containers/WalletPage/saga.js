@@ -28,7 +28,7 @@ export function* loadCoinTransactionsProcess(coin, address) {
     data = data.sort((a, b) => b.height - a.height);
 
     // only take 10 records
-    // data = data.slice(0, 10);
+    data = data.slice(0, 10);
 
     // add coin symbol
     data = data.map(e => {
