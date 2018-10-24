@@ -18,6 +18,10 @@ export const initialState = fromJS({
     error: false,
     list: [],
     entities: {}
+  },
+  withdrawModal: {
+    open: false,
+    coin: null
   }
 });
 
