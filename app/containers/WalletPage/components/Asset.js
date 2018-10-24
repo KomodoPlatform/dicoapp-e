@@ -178,7 +178,13 @@ const styles = theme => ({
     fontSize: '1.725rem',
     fontWeight: 400,
     lineHeight: 1.17,
-    letterSpacing: '0.00735em'
+    letterSpacing: '0.00735em',
+    marginBottom: 0
+  },
+
+  wallet__content: {
+    paddingTop: 8,
+    paddingBottom: 8
   },
 
   wallet__title: {
@@ -325,7 +331,7 @@ class Asset extends PureComponent<Props, State> {
           </Typography>
         </CardContent>
         */}
-        <CardContent>
+        <CardContent className={classes.wallet__content}>
           <Typography
             variant="h1"
             gutterBottom
