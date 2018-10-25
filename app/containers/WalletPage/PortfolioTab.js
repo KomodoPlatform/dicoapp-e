@@ -2,10 +2,10 @@
 // @flow
 import React from 'react';
 import ClassNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { Dispatch } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
 import { createStructuredSelector } from 'reselect';
 import Grid from '@material-ui/core/Grid';
 import {
