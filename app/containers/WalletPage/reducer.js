@@ -70,13 +70,18 @@ const walletReducer = handleActions(
         .setIn(['transactions', 'error'], error)
         .setIn(['transactions', 'loading'], false),
 
-    [WITHDRAW_MODAL_OPEN]: state =>
-      state.setIn(['withdrawModal', 'open'], true),
+    [WITHDRAW_MODAL_OPEN]: (state, { payload }) =>
+      state
+        .setIn(['withdrawModal', 'open'], true)
+        .setIn(['withdrawModal', 'coin'], payload.coin),
 
     [WITHDRAW_MODAL_CLOSE]: state =>
       state.setIn(['withdrawModal', 'open'], false),
 
-    [DEPOSIT_MODAL_OPEN]: state => state.setIn(['depositModal', 'open'], true),
+    [DEPOSIT_MODAL_OPEN]: (state, { payload }) =>
+      state
+        .setIn(['depositModal', 'open'], true)
+        .setIn(['depositModal', 'coin'], payload.coin),
 
     [DEPOSIT_MODAL_CLOSE]: state =>
       state.setIn(['depositModal', 'open'], false),

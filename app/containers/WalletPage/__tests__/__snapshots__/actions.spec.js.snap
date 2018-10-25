@@ -26,12 +26,18 @@ Object {
 
 exports[`containers/WalletPage/actions/openDepositModal should loadTransactionsSuccess should create openDepositModal action 1`] = `
 Object {
+  "payload": Object {
+    "coin": "KMD",
+  },
   "type": "dicoapp/WalletPage/DEPOSIT_MODAL_OPEN",
 }
 `;
 
 exports[`containers/WalletPage/actions/openWithdrawModal should loadTransactionsSuccess should create openWithdrawModal action 1`] = `
 Object {
+  "payload": Object {
+    "coin": "KMD",
+  },
   "type": "dicoapp/WalletPage/WITHDRAW_MODAL_OPEN",
 }
 `;

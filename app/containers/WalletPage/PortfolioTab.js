@@ -14,7 +14,7 @@ import {
 } from '../App/selectors';
 import { loadBalance, loadWithdraw } from '../App/actions';
 import Asset from './components/Asset';
-import { openWithdrawModal } from './actions';
+import { openWithdrawModal, openDepositModal } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:PortfolioTab');
 
@@ -45,7 +45,9 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadWithdraw: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  openWithdraw: Function
+  openWithdraw: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  openDeposit: Function
 };
 
 class PortfolioTab extends React.PureComponent<Props> {
@@ -60,7 +62,8 @@ class PortfolioTab extends React.PureComponent<Props> {
       classes,
       entities,
       dispatchLoadWithdraw,
-      openWithdraw
+      openWithdraw,
+      openDeposit
     } = this.props;
     const data = entities.get(t);
     return (
@@ -77,6 +80,7 @@ class PortfolioTab extends React.PureComponent<Props> {
           data={data}
           dispatchLoadWithdraw={dispatchLoadWithdraw}
           openWithdraw={openWithdraw}
+          openDeposit={openDeposit}
         />
       </Grid>
     );
@@ -100,7 +104,8 @@ PortfolioTab.displayName = 'Overview';
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    openWithdraw: () => dispatch(openWithdrawModal()),
+    openWithdraw: (coin: string) => dispatch(openWithdrawModal(coin)),
+    openDeposit: (coin: string) => dispatch(openDepositModal(coin)),
     dispatchLoadBalance: () => dispatch(loadBalance()),
     dispatchLoadWithdraw: (payload: {
       amount: number,

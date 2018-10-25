@@ -42,9 +42,12 @@ export function loadTransactionsError(message: string) {
   };
 }
 
-export function openWithdrawModal() {
+export function openWithdrawModal(coin: string) {
   return {
-    type: WITHDRAW_MODAL_OPEN
+    type: WITHDRAW_MODAL_OPEN,
+    payload: {
+      coin
+    }
   };
 }
 
@@ -54,9 +57,12 @@ export function closeWithdrawModal() {
   };
 }
 
-export function openDepositModal() {
+export function openDepositModal(coin: string) {
   return {
-    type: DEPOSIT_MODAL_OPEN
+    type: DEPOSIT_MODAL_OPEN,
+    payload: {
+      coin
+    }
   };
 }
 

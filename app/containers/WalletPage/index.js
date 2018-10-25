@@ -18,6 +18,7 @@ import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TransactionsTab from './TransactionsTab';
 import WithdrawModal from './WithdrawModal';
+import DepositModal from './DepositModal';
 import PortfolioTab from './PortfolioTab';
 import ProgressBar from './ProgressBar';
 import reducer from './reducer';
@@ -106,6 +107,7 @@ class WalletPage extends Component<Props, State> {
           </ErrorBoundary>
         </NavigationLayout>
         <WithdrawModal />
+        <DepositModal />
       </React.Fragment>
     );
   }

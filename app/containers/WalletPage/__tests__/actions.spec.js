@@ -44,16 +44,20 @@ describe('containers/WalletPage/actions/loadTransactionsSuccess', () => {
 });
 
 describe('containers/WalletPage/actions/openWithdrawModal', () => {
+  const coin = 'KMD';
   it('should loadTransactionsSuccess should create openWithdrawModal action', () => {
-    expect(openWithdrawModal()).toMatchSnapshot();
+    expect(openWithdrawModal(coin)).toMatchSnapshot();
   });
 
   it('should return the correct type and the passed name', () => {
     const expectedResult = {
-      type: WITHDRAW_MODAL_OPEN
+      type: WITHDRAW_MODAL_OPEN,
+      payload: {
+        coin
+      }
     };
 
-    expect(openWithdrawModal()).toEqual(expectedResult);
+    expect(openWithdrawModal(coin)).toEqual(expectedResult);
   });
 });
 
@@ -72,16 +76,20 @@ describe('containers/WalletPage/actions/closeWithdrawModal', () => {
 });
 
 describe('containers/WalletPage/actions/openDepositModal', () => {
+  const coin = 'KMD';
   it('should loadTransactionsSuccess should create openDepositModal action', () => {
-    expect(openDepositModal()).toMatchSnapshot();
+    expect(openDepositModal(coin)).toMatchSnapshot();
   });
 
   it('should return the correct type and the passed name', () => {
     const expectedResult = {
-      type: DEPOSIT_MODAL_OPEN
+      type: DEPOSIT_MODAL_OPEN,
+      payload: {
+        coin
+      }
     };
 
-    expect(openDepositModal()).toEqual(expectedResult);
+    expect(openDepositModal(coin)).toEqual(expectedResult);
   });
 });
 

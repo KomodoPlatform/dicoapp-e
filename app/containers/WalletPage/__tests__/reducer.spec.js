@@ -26,10 +26,13 @@ describe('containers/WalletPage/reducers/loadTransactions', () => {
 });
 
 describe('containers/WalletPage/reducers/openWithdrawModal', () => {
+  const coin = 'KMD';
   it('should handle the openWithdrawModal action correctly', () => {
-    const expectedResult = initialState.setIn(['withdrawModal', 'open'], true);
+    const expectedResult = initialState
+      .setIn(['withdrawModal', 'open'], true)
+      .setIn(['withdrawModal', 'coin'], coin);
 
-    expect(walletReducer(initialState, openWithdrawModal())).toEqual(
+    expect(walletReducer(initialState, openWithdrawModal(coin))).toEqual(
       expectedResult
     );
   });
@@ -46,10 +49,13 @@ describe('containers/WalletPage/reducers/closeWithdrawModal', () => {
 });
 
 describe('containers/WalletPage/reducers/openDepositModal', () => {
+  const coin = 'KMD';
   it('should handle the openDepositModal action correctly', () => {
-    const expectedResult = initialState.setIn(['depositModal', 'open'], true);
+    const expectedResult = initialState
+      .setIn(['depositModal', 'open'], true)
+      .setIn(['depositModal', 'coin'], coin);
 
-    expect(walletReducer(initialState, openDepositModal())).toEqual(
+    expect(walletReducer(initialState, openDepositModal(coin))).toEqual(
       expectedResult
     );
   });
