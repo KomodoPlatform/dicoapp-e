@@ -17,6 +17,7 @@ import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TransactionsTab from './TransactionsTab';
+import WithdrawModal from './WithdrawModal';
 import PortfolioTab from './PortfolioTab';
 import ProgressBar from './ProgressBar';
 import reducer from './reducer';
@@ -104,6 +105,7 @@ class WalletPage extends Component<Props, State> {
             </TabContainer>
           </ErrorBoundary>
         </NavigationLayout>
+        <WithdrawModal />
       </React.Fragment>
     );
   }

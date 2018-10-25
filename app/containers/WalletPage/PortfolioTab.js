@@ -14,6 +14,7 @@ import {
 } from '../App/selectors';
 import { loadBalance, loadWithdraw } from '../App/actions';
 import Asset from './components/Asset';
+import { openWithdrawModal } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:PortfolioTab');
 
@@ -42,7 +43,9 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadBalance: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchLoadWithdraw: Function
+  dispatchLoadWithdraw: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  openWithdraw: Function
 };
 
 class PortfolioTab extends React.PureComponent<Props> {
@@ -53,7 +56,12 @@ class PortfolioTab extends React.PureComponent<Props> {
   };
 
   renderWallet = (t, k) => {
-    const { classes, entities, dispatchLoadWithdraw } = this.props;
+    const {
+      classes,
+      entities,
+      dispatchLoadWithdraw,
+      openWithdraw
+    } = this.props;
     const data = entities.get(t);
     return (
       <Grid
@@ -65,7 +73,11 @@ class PortfolioTab extends React.PureComponent<Props> {
           [classes.portfolioTab__tabRight]: k % 2 === 0
         })}
       >
-        <Asset data={data} dispatchLoadWithdraw={dispatchLoadWithdraw} />
+        <Asset
+          data={data}
+          dispatchLoadWithdraw={dispatchLoadWithdraw}
+          openWithdraw={openWithdraw}
+        />
       </Grid>
     );
   };
@@ -76,7 +88,7 @@ class PortfolioTab extends React.PureComponent<Props> {
     const { list } = this.props;
 
     return (
-      <Grid container spacing={12}>
+      <Grid container spacing={16}>
         {list.map(this.renderWallet)}
       </Grid>
     );
@@ -88,6 +100,7 @@ PortfolioTab.displayName = 'Overview';
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
+    openWithdraw: () => dispatch(openWithdrawModal()),
     dispatchLoadBalance: () => dispatch(loadBalance()),
     dispatchLoadWithdraw: (payload: {
       amount: number,
