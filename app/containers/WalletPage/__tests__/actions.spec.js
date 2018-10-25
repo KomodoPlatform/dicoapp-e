@@ -2,13 +2,17 @@ import {
   loadTransactions,
   loadTransactionsSuccess,
   openWithdrawModal,
-  closeWithdrawModal
+  closeWithdrawModal,
+  openDepositModal,
+  closeDepositModal
 } from '../actions';
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   WITHDRAW_MODAL_OPEN,
-  WITHDRAW_MODAL_CLOSE
+  WITHDRAW_MODAL_CLOSE,
+  DEPOSIT_MODAL_OPEN,
+  DEPOSIT_MODAL_CLOSE
 } from '../constants';
 
 describe('containers/WalletPage/actions/loadTransactions', () => {
@@ -64,5 +68,33 @@ describe('containers/WalletPage/actions/closeWithdrawModal', () => {
     };
 
     expect(closeWithdrawModal()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/WalletPage/actions/openDepositModal', () => {
+  it('should loadTransactionsSuccess should create openDepositModal action', () => {
+    expect(openDepositModal()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: DEPOSIT_MODAL_OPEN
+    };
+
+    expect(openDepositModal()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/WalletPage/actions/closeDepositModal', () => {
+  it('should loadTransactionsSuccess should create closeDepositModal action', () => {
+    expect(closeDepositModal()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: DEPOSIT_MODAL_CLOSE
+    };
+
+    expect(closeDepositModal()).toEqual(expectedResult);
   });
 });

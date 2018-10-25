@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`containers/WalletPage/actions/closeDepositModal should loadTransactionsSuccess should create closeDepositModal action 1`] = `
+Object {
+  "type": "dicoapp/WalletPage/DEPOSIT_MODAL_CLOSE",
+}
+`;
+
 exports[`containers/WalletPage/actions/closeWithdrawModal should loadTransactionsSuccess should create closeWithdrawModal action 1`] = `
 Object {
   "type": "dicoapp/WalletPage/WITHDRAW_MODAL_CLOSE",
@@ -15,6 +21,12 @@ Object {
 exports[`containers/WalletPage/actions/loadTransactionsSuccess should loadTransactionsSuccess should create loadTransactionsSuccess action 1`] = `
 Object {
   "type": "dicoapp/WalletPage/LOAD_TRANSACTIONS_SUCCESS",
+}
+`;
+
+exports[`containers/WalletPage/actions/openDepositModal should loadTransactionsSuccess should create openDepositModal action 1`] = `
+Object {
+  "type": "dicoapp/WalletPage/DEPOSIT_MODAL_OPEN",
 }
 `;
 

@@ -6,7 +6,9 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
   WITHDRAW_MODAL_OPEN,
-  WITHDRAW_MODAL_CLOSE
+  WITHDRAW_MODAL_CLOSE,
+  DEPOSIT_MODAL_OPEN,
+  DEPOSIT_MODAL_CLOSE
 } from './constants';
 import type { TransactionPayload } from './schema';
 
@@ -49,5 +51,17 @@ export function openWithdrawModal() {
 export function closeWithdrawModal() {
   return {
     type: WITHDRAW_MODAL_CLOSE
+  };
+}
+
+export function openDepositModal() {
+  return {
+    type: DEPOSIT_MODAL_OPEN
+  };
+}
+
+export function closeDepositModal() {
+  return {
+    type: DEPOSIT_MODAL_CLOSE
   };
 }
