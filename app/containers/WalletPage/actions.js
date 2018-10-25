@@ -4,7 +4,9 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTION_SUCCESS,
   LOAD_TRANSACTIONS_SUCCESS,
-  LOAD_TRANSACTIONS_ERROR
+  LOAD_TRANSACTIONS_ERROR,
+  WITHDRAW_MODAL_OPEN,
+  WITHDRAW_MODAL_CLOSE
 } from './constants';
 import type { TransactionPayload } from './schema';
 
@@ -35,5 +37,17 @@ export function loadTransactionsError(message: string) {
     error: {
       message
     }
+  };
+}
+
+export function openWithdrawModal() {
+  return {
+    type: WITHDRAW_MODAL_OPEN
+  };
+}
+
+export function closeWithdrawModal() {
+  return {
+    type: WITHDRAW_MODAL_CLOSE
   };
 }
