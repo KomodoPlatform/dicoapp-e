@@ -26,11 +26,15 @@ const makeSelectTransactionsEntities = () =>
     transactionsState.get('entities')
   );
 
+const makeSelectWithdrawModal = () =>
+  createSelector(selectWallet, walletState => walletState.get('withdrawModal'));
+
 export {
   selectWallet,
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
   makeSelectTransactionsList,
   makeSelectTransactionsEntities,
-  makeSelectTransactions
+  makeSelectTransactions,
+  makeSelectWithdrawModal
 };
