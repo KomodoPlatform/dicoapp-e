@@ -6,7 +6,9 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTION_SUCCESS,
   LOAD_TRANSACTIONS_SUCCESS,
-  LOAD_TRANSACTIONS_ERROR
+  LOAD_TRANSACTIONS_ERROR,
+  WITHDRAW_MODAL_OPEN,
+  WITHDRAW_MODAL_CLOSE
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -61,6 +63,12 @@ const walletReducer = handleActions(
       state
         .setIn(['transactions', 'error'], error)
         .setIn(['transactions', 'loading'], false),
+
+    [WITHDRAW_MODAL_OPEN]: state =>
+      state.setIn(['withdrawModal', 'open'], true),
+
+    [WITHDRAW_MODAL_CLOSE]: state =>
+      state.setIn(['withdrawModal', 'open'], false),
 
     [LOGOUT]: () => initialState
   },

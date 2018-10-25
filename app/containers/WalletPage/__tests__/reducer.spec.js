@@ -1,5 +1,9 @@
 import walletReducer, { initialState } from '../reducer';
-import { loadTransactions } from '../actions';
+import {
+  loadTransactions,
+  openWithdrawModal,
+  closeWithdrawModal
+} from '../actions';
 
 describe('containers/WalletPage/reducers/initial', () => {
   it('should return the initial state', () => {
@@ -14,6 +18,26 @@ describe('containers/WalletPage/reducers/loadTransactions', () => {
       .setIn(['transactions', 'error'], false);
 
     expect(walletReducer(initialState, loadTransactions())).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe('containers/WalletPage/reducers/openWithdrawModal', () => {
+  it('should handle the openWithdrawModal action correctly', () => {
+    const expectedResult = initialState.setIn(['withdrawModal', 'open'], true);
+
+    expect(walletReducer(initialState, openWithdrawModal())).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe('containers/WalletPage/reducers/closeWithdrawModal', () => {
+  it('should handle the closeWithdrawModal action correctly', () => {
+    const expectedResult = initialState.setIn(['withdrawModal', 'open'], false);
+
+    expect(walletReducer(initialState, closeWithdrawModal())).toEqual(
       expectedResult
     );
   });
