@@ -8,7 +8,9 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
   WITHDRAW_MODAL_OPEN,
-  WITHDRAW_MODAL_CLOSE
+  WITHDRAW_MODAL_CLOSE,
+  DEPOSIT_MODAL_OPEN,
+  DEPOSIT_MODAL_CLOSE
 } from './constants';
 
 import { LOGOUT } from '../App/constants';
@@ -22,6 +24,10 @@ export const initialState = fromJS({
     entities: {}
   },
   withdrawModal: {
+    open: false,
+    coin: null
+  },
+  depositModal: {
     open: false,
     coin: null
   }
@@ -69,6 +75,11 @@ const walletReducer = handleActions(
 
     [WITHDRAW_MODAL_CLOSE]: state =>
       state.setIn(['withdrawModal', 'open'], false),
+
+    [DEPOSIT_MODAL_OPEN]: state => state.setIn(['depositModal', 'open'], true),
+
+    [DEPOSIT_MODAL_CLOSE]: state =>
+      state.setIn(['depositModal', 'open'], false),
 
     [LOGOUT]: () => initialState
   },

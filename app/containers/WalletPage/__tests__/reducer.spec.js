@@ -2,7 +2,9 @@ import walletReducer, { initialState } from '../reducer';
 import {
   loadTransactions,
   openWithdrawModal,
-  closeWithdrawModal
+  closeWithdrawModal,
+  openDepositModal,
+  closeDepositModal
 } from '../actions';
 
 describe('containers/WalletPage/reducers/initial', () => {
@@ -38,6 +40,26 @@ describe('containers/WalletPage/reducers/closeWithdrawModal', () => {
     const expectedResult = initialState.setIn(['withdrawModal', 'open'], false);
 
     expect(walletReducer(initialState, closeWithdrawModal())).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe('containers/WalletPage/reducers/openDepositModal', () => {
+  it('should handle the openDepositModal action correctly', () => {
+    const expectedResult = initialState.setIn(['depositModal', 'open'], true);
+
+    expect(walletReducer(initialState, openDepositModal())).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe('containers/WalletPage/reducers/closeDepositModal', () => {
+  it('should handle the closeDepositModal action correctly', () => {
+    const expectedResult = initialState.setIn(['depositModal', 'open'], false);
+
+    expect(walletReducer(initialState, closeDepositModal())).toEqual(
       expectedResult
     );
   });
