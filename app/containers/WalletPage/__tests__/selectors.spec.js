@@ -4,8 +4,11 @@ import { APP_STATE_NAME } from '../constants';
 import {
   selectWallet,
   makeSelectWithdrawModal,
-  makeSelectDepositModal
+  makeSelectDepositModal,
+  makeSelectCoinWithdrawModal,
+  makeSelectCoinDepositModal
 } from '../selectors';
+import data from './fake-data';
 
 describe('containers/WalletPage/selectors/selectWallet', () => {
   it('should select the wallet state', () => {
@@ -37,5 +40,43 @@ describe('containers/WalletPage/selectors/makeSelectDepositModal', () => {
     expect(selectDepositModal(mockedState)).toEqual(
       initialState.get('depositModal')
     );
+  });
+});
+
+describe('containers/WalletPage/selectors/makeSelectCoinWithdrawModal', () => {
+  const coin = 'KMD';
+  it('should select the withdrawModal state', () => {
+    let mockedState = fromJS(data);
+    mockedState = mockedState.setIn(
+      [APP_STATE_NAME, 'withdrawModal'],
+      fromJS({
+        open: true,
+        coin
+      })
+    );
+    const expected = fromJS(
+      data.global.currentUser.coins.find(e => e.coin === coin)
+    );
+    const selectCoinWithdrawModal = makeSelectCoinWithdrawModal();
+    expect(selectCoinWithdrawModal(mockedState)).toEqual(expected);
+  });
+});
+
+describe('containers/WalletPage/selectors/makeSelectCoinDepositModal', () => {
+  const coin = 'KMD';
+  it('should select the depositModal state', () => {
+    let mockedState = fromJS(data);
+    mockedState = mockedState.setIn(
+      [APP_STATE_NAME, 'depositModal'],
+      fromJS({
+        open: true,
+        coin
+      })
+    );
+    const expected = fromJS(
+      data.global.currentUser.coins.find(e => e.coin === coin)
+    );
+    const selectCoinDepositModal = makeSelectCoinDepositModal();
+    expect(selectCoinDepositModal(mockedState)).toEqual(expected);
   });
 });
