@@ -21,6 +21,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import { getCoinIcon } from '../../components/CryptoIcons';
 import Or from './components/Or';
+import clipboardCopy from '../../utils/clipboard-copy';
 import {
   makeSelectDepositModal,
   makeSelectCoinDepositModal
@@ -76,6 +77,14 @@ const styles = theme => ({
 export class DepositModal extends React.PureComponent<Props> {
   renderEmptyState = () => <span> renderEmptyState </span>;
 
+  copyAddressToClipboard = async (evt: SyntheticInputEvent<>) => {
+    evt.stopPropagation();
+    const { coin } = this.props;
+    const address = coin.get('smartaddress');
+    clipboardCopy(address);
+    evt.target.focus();
+  };
+
   renderQRCode = () => {
     const { classes, coin } = this.props;
     const CIcon = getCoinIcon(coin.get('coin'));
@@ -114,7 +123,10 @@ export class DepositModal extends React.PureComponent<Props> {
               <ListItemSecondaryAction
                 className={classes.depositModal__listItemSecondaryAction}
               >
-                <IconButton aria-label="copy-address">
+                <IconButton
+                  aria-label="copy-address"
+                  onClick={this.copyAddressToClipboard}
+                >
                   <FileCopyIcon />
                 </IconButton>
               </ListItemSecondaryAction>
