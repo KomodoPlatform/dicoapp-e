@@ -5,14 +5,13 @@ import { compose } from 'redux';
 import type { Dispatch } from 'redux';
 import type { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
-
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import injectReducer from '../../utils/inject-reducer';
 import { APP_STATE_NAME } from './constants';
 import { selectSnackbars } from './selectors';
-import { closeSnackbars, openSnackbars } from './actions';
+import { closeSnackbars } from './actions';
 import reducer from './reducer';
 
 const debug = require('debug')('dicoapp:containers:Snackbars');
@@ -21,19 +20,12 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   snackbars: Map<*, *>,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchCloseSnackbars: Function,
-  // eslint-disable-next-line flowtype/no-weak-types
-  dispatchOpenSnackbars: Function
+  dispatchCloseSnackbars: Function
 };
 
 type State = {};
 
 class Snackbars extends React.Component<Props, State> {
-  componentDidMount = () => {
-    const { dispatchOpenSnackbars } = this.props;
-    window.openSnackbars = dispatchOpenSnackbars;
-  };
-
   render() {
     debug('render');
     const { snackbars, dispatchCloseSnackbars } = this.props;
@@ -69,8 +61,7 @@ class Snackbars extends React.Component<Props, State> {
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    dispatchCloseSnackbars: () => dispatch(closeSnackbars()),
-    dispatchOpenSnackbars: () => dispatch(openSnackbars())
+    dispatchCloseSnackbars: () => dispatch(closeSnackbars())
   };
 }
 

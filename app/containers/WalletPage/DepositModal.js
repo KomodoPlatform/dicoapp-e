@@ -22,10 +22,12 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { getCoinIcon } from '../../components/CryptoIcons';
 import Or from './components/Or';
 import clipboardCopy from '../../utils/clipboard-copy';
+import { openSnackbars } from '../Snackbars/actions';
 import {
   makeSelectDepositModal,
   makeSelectCoinDepositModal
 } from './selectors';
+
 import { closeDepositModal } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:DepositModal');
@@ -38,7 +40,9 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   depositModal: Map<*, *>,
   // eslint-disable-next-line flowtype/no-weak-types
-  coin: Map<*, *> | null
+  coin: Map<*, *> | null,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchOpenSnackbars: Function
 };
 
 const styles = theme => ({
@@ -79,9 +83,10 @@ export class DepositModal extends React.PureComponent<Props> {
 
   copyAddressToClipboard = async (evt: SyntheticInputEvent<>) => {
     evt.stopPropagation();
-    const { coin } = this.props;
+    const { coin, dispatchOpenSnackbars } = this.props;
     const address = coin.get('smartaddress');
     clipboardCopy(address);
+    dispatchOpenSnackbars('Copied');
     evt.target.focus();
   };
 
@@ -143,7 +148,7 @@ export class DepositModal extends React.PureComponent<Props> {
           </div>
           <Or />
           <Typography
-            variant="body"
+            variant="body2"
             gutterBottom
             className={classes.depositModal__contentTitle}
           >
@@ -175,7 +180,8 @@ export class DepositModal extends React.PureComponent<Props> {
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    onClose: () => dispatch(closeDepositModal())
+    onClose: () => dispatch(closeDepositModal()),
+    dispatchOpenSnackbars: (message: string) => dispatch(openSnackbars(message))
   };
 }
 
