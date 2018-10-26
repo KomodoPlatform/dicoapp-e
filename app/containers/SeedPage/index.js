@@ -35,12 +35,10 @@ const styles = () => ({
   },
 
   center: {
-    // paddingBottom: 47,
-    paddingTop: 28,
     minHeight: 350,
     left: '50%',
     position: 'absolute',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%) translateY(25%)'
   },
 
   card: {

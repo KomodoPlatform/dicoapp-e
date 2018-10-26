@@ -50,12 +50,10 @@ const styles = () => ({
   },
 
   loginContainer__center: {
-    paddingBottom: 67,
-    paddingTop: 48,
     minHeight: 350,
     left: '50%',
     position: 'absolute',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%) translateY(25%)'
   },
 
   loginContainer__card: {
