@@ -13,6 +13,7 @@ import SeedPage from './SeedPage';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
 import LogoutDialog from './LogoutDialog';
+import Snackbars from './Snackbars';
 import WebSocketComponent from './WebSocketComponent';
 
 const userIsNotAuthenticatedRedir = connectedRouterRedirect({
@@ -44,9 +45,10 @@ const LoginFallback = userIsNotAuthenticatedRedir(
 
 export default () => (
   <React.Fragment>
-    <Route component={LogoutDialog} />
     <Route component={App} />
+    <Route component={LogoutDialog} />
     <Route component={WebSocketComponent} />
+    <Route component={Snackbars} />
     <Switch>
       <Route path={routes.BUY} component={BuyFallback} />
       <Route path={routes.WALLET} component={WalletFallback} />
