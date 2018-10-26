@@ -110,7 +110,7 @@ export class DepositModal extends React.PureComponent<Props> {
   copyAddressToClipboard = async (evt: SyntheticInputEvent<>) => {
     evt.stopPropagation();
     const { coin, dispatchOpenSnackbars } = this.props;
-    const address = coin.get('smartaddress');
+    const address = coin.get('address');
     clipboardCopy(address);
     dispatchOpenSnackbars('Copied');
     evt.target.focus();
@@ -147,10 +147,7 @@ export class DepositModal extends React.PureComponent<Props> {
                 secondaryAction: classes.depositModal__listItem
               }}
             >
-              <ListItemText
-                primary="Address"
-                secondary={coin.get('smartaddress')}
-              />
+              <ListItemText primary="Address" secondary={coin.get('address')} />
               <ListItemSecondaryAction
                 className={classes.depositModal__listItemSecondaryAction}
               >
@@ -180,7 +177,7 @@ export class DepositModal extends React.PureComponent<Props> {
           >
             Scan QR Code
           </Typography>
-          <QRCode value={coin.get('smartaddress')} size={150} />
+          <QRCode value={coin.get('address')} size={150} />
         </DialogContent>
       </React.Fragment>
     );

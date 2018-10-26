@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { APP_STATE_NAME } from './constants';
-import { makeSelectCurrentUser } from '../App/selectors';
+import { makeSelectBalanceEntities } from '../App/selectors';
 
 const selectWallet = state => state.get(APP_STATE_NAME);
 
@@ -33,11 +33,8 @@ const makeSelectWithdrawModal = () =>
 const makeSelectCoinWithdrawModal = () =>
   createSelector(
     makeSelectWithdrawModal(),
-    makeSelectCurrentUser(),
-    (withdrawModal, currentUser) => {
-      const coins = currentUser.get('coins');
-      return coins.find(e => e.get('coin') === withdrawModal.get('coin'));
-    }
+    makeSelectBalanceEntities(),
+    (withdrawModal, balance) => balance.get(withdrawModal.get('coin'))
   );
 
 const makeSelectDepositModal = () =>
@@ -46,11 +43,8 @@ const makeSelectDepositModal = () =>
 const makeSelectCoinDepositModal = () =>
   createSelector(
     makeSelectDepositModal(),
-    makeSelectCurrentUser(),
-    (depositModal, currentUser) => {
-      const coins = currentUser.get('coins');
-      return coins.find(e => e.get('coin') === depositModal.get('coin'));
-    }
+    makeSelectBalanceEntities(),
+    (depositModal, balance) => balance.get(depositModal.get('coin'))
   );
 
 export {

@@ -54,9 +54,8 @@ describe('containers/WalletPage/selectors/makeSelectCoinWithdrawModal', () => {
         coin
       })
     );
-    const expected = fromJS(
-      data.global.currentUser.coins.find(e => e.coin === coin)
-    );
+
+    const expected = fromJS(data.global.balance.entities[coin]);
     const selectCoinWithdrawModal = makeSelectCoinWithdrawModal();
     expect(selectCoinWithdrawModal(mockedState)).toEqual(expected);
   });
@@ -73,9 +72,7 @@ describe('containers/WalletPage/selectors/makeSelectCoinDepositModal', () => {
         coin
       })
     );
-    const expected = fromJS(
-      data.global.currentUser.coins.find(e => e.coin === coin)
-    );
+    const expected = fromJS(data.global.balance.entities[coin]);
     const selectCoinDepositModal = makeSelectCoinDepositModal();
     expect(selectCoinDepositModal(mockedState)).toEqual(expected);
   });
