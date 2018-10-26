@@ -2,6 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import type { Dispatch } from 'redux';
+import type { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -9,55 +11,52 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import injectReducer from '../../utils/inject-reducer';
 import { APP_STATE_NAME } from './constants';
+import { selectSnackbars } from './selectors';
+import { closeSnackbars, openSnackbars } from './actions';
 import reducer from './reducer';
 
 const debug = require('debug')('dicoapp:containers:Snackbars');
 
-type Props = {};
-
-type State = {
-  open: boolean
+type Props = {
+  // eslint-disable-next-line flowtype/no-weak-types
+  snackbars: Map<*, *>,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchCloseSnackbars: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchOpenSnackbars: Function
 };
 
+type State = {};
+
 class Snackbars extends React.Component<Props, State> {
-  state = {
-    open: true
-  };
-
-  handleClick = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    this.setState({ open: false });
+  componentDidMount = () => {
+    const { dispatchOpenSnackbars } = this.props;
+    window.openSnackbars = dispatchOpenSnackbars;
   };
 
   render() {
     debug('render');
-    const { open } = this.state;
+    const { snackbars, dispatchCloseSnackbars } = this.props;
+
     return (
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left'
         }}
-        open={open}
-        autoHideDuration={60000}
-        onClose={this.handleClose}
+        open={snackbars.get('open')}
+        autoHideDuration={snackbars.get('timeout')}
+        onClose={dispatchCloseSnackbars}
         ContentProps={{
           'aria-describedby': 'message-id'
         }}
-        message={<span id="message-id">Note archived</span>}
+        message={<span id="message-id">{snackbars.get('message')}</span>}
         action={[
           <IconButton
             key="close"
             aria-label="Close"
             color="inherit"
-            onClick={this.handleClose}
+            onClick={dispatchCloseSnackbars}
           >
             <CloseIcon />
           </IconButton>
@@ -67,12 +66,22 @@ class Snackbars extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = createStructuredSelector({});
+// eslint-disable-next-line flowtype/no-weak-types
+export function mapDispatchToProps(dispatch: Dispatch<Object>) {
+  return {
+    dispatchCloseSnackbars: () => dispatch(closeSnackbars()),
+    dispatchOpenSnackbars: () => dispatch(openSnackbars())
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  snackbars: selectSnackbars
+});
 
 const withReducer = injectReducer({ key: APP_STATE_NAME, reducer });
 const withConnect = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 );
 
 export default compose(
