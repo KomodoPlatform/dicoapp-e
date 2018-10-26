@@ -91,9 +91,7 @@ const styles = theme => ({
   details: {
     display: 'block'
   },
-  hr: {
-    marginBottom: 20
-  },
+
   formItem: {
     margin: '0 0 17px 0',
     position: 'relative',
@@ -155,26 +153,12 @@ const styles = theme => ({
     display: 'flex'
   },
 
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    }),
-    marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: -8
-    }
-  },
-
-  expandOpen: {
-    transform: 'rotate(180deg)'
-  },
-
   wallet__headerAction: {
     margin: '0 auto'
   },
 
   wallet__balance: {
+    color: 'rgba(0, 0, 0, 0.74)',
     fontSize: '1.725rem',
     fontWeight: 400,
     lineHeight: 1.17,
@@ -199,8 +183,10 @@ const styles = theme => ({
   wallet__button: {
     boxShadow: 'none',
     color: 'rgba(0, 0, 0, 0.54)',
+    fontWeight: 400,
     '&:hover': {
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
+      fontWeight: 500
     }
   }
 });
@@ -211,7 +197,11 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   data: Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchLoadWithdraw: Function
+  dispatchLoadWithdraw: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  openWithdraw: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  openDeposit: Function
 };
 
 type State = {
@@ -292,10 +282,24 @@ class Asset extends PureComponent<Props, State> {
     }));
   };
 
+  openWithdraw = (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
+    const { openWithdraw, data } = this.props;
+    const coin = data.get('coin');
+    openWithdraw(coin);
+  };
+
+  openDeposit = (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
+    const { openDeposit, data } = this.props;
+    const coin = data.get('coin');
+    openDeposit(coin);
+  };
+
   render() {
     debug(`render`);
 
-    const { classes, data } = this.props;
+    const { classes, data, openWithdraw, openDeposit } = this.props;
     const { expanded } = this.state;
     const loading = data.get('loading');
     const CIcon = getCoinIcon(data.get('coin'));
@@ -308,32 +312,13 @@ class Asset extends PureComponent<Props, State> {
             title: classes.wallet__title,
             subheader: classes.wallet__subheader
           }}
-          // avatar={CIcon}
           action={CIcon}
-          // action={
-          //   <Typography
-          //     variant="h1"
-          //     gutterBottom
-          //     className={classes.wallet__balance}
-          //   >
-          //     {data.get('balance')} {data.get('coin')}
-          //   </Typography>
-          // }
           title={covertSymbolToName(data.get('coin'))}
           subheader={data.get('coin')}
         />
-        {/* <Divider className={classes.hr} /> */}
-        {/*
-        <CardContent>
-          <Typography variant="title">{data.get('address')}</Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
-          </Typography>
-        </CardContent>
-        */}
         <CardContent className={classes.wallet__content}>
           <Typography
-            variant="h1"
+            variant="display4"
             gutterBottom
             className={classes.wallet__balance}
           >
@@ -345,6 +330,7 @@ class Asset extends PureComponent<Props, State> {
             className={classes.wallet__button}
             size="small"
             color="primary"
+            onClick={this.openDeposit}
           >
             <KeyboardArrowUpIcon
               className={classNames(classes.leftIcon, classes.iconSmall)}
@@ -355,67 +341,14 @@ class Asset extends PureComponent<Props, State> {
             className={classes.wallet__button}
             size="small"
             color="primary"
-            onClick={this.toggleExpansionPanel}
+            onClick={this.openWithdraw}
           >
             <KeyboardArrowDownIcon
               className={classNames(classes.leftIcon, classes.iconSmall)}
             />
             Withdraw
           </Button>
-          {/* <IconButton
-            className={classNames(classes.expand, {
-              [classes.expandOpen]: expanded
-            })}
-            aria-expanded={expanded}
-            aria-label="Show more"
-            onClick={this.toggleExpansionPanel}
-          >
-            <ExpandMoreIcon />
-          </IconButton> */}
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography variant="button" gutterBottom>
-              Withdraw {data.get('coin')}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Available: {data.get('balance')} {data.get('coin')}
-            </Typography>
-            <form className={classes.withdraw__form}>
-              <ValidationAmountInput
-                id="amount"
-                label="Amount to withdraw"
-                margin="normal"
-                balance={data.get('balance')}
-                className={classes.formItem}
-                ref={this.amountInput}
-                disabled={loading}
-              />
-
-              <ValidationAddressInput
-                id="address"
-                label="Withdraw to address"
-                margin="normal"
-                className={classes.formItem}
-                address={data.get('address')}
-                ref={this.addressInput}
-                disabled={loading}
-              />
-
-              <br />
-
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.withdraw__button}
-                onClick={this.handleWithdraw}
-                disabled={loading}
-              >
-                Withdraw
-              </Button>
-            </form>
-          </CardContent>
-        </Collapse>
       </Card>
     );
   }
