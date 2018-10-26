@@ -8,6 +8,9 @@ Object {
 
 exports[`containers/BuyPage/actions/openSnackbars should openSnackbars should create openSnackbars action 1`] = `
 Object {
+  "payload": Object {
+    "message": "message",
+  },
   "type": "dicoapp/BuyPage/SNACKBARS_OPEN",
 }
 `;

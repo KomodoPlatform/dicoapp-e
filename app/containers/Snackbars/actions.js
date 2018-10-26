@@ -2,9 +2,12 @@
 
 import { SNACKBARS_OPEN, SNACKBARS_CLOSE } from './constants';
 
-export function openSnackbars() {
+export function openSnackbars(message: string) {
   return {
-    type: SNACKBARS_OPEN
+    type: SNACKBARS_OPEN,
+    payload: {
+      message
+    }
   };
 }
 
