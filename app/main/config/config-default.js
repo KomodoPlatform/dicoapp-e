@@ -2,14 +2,12 @@ const def = {
   barterdex: 'http://127.0.0.1:7783',
   APPNAME: 'dicoapp',
   minWindowSize: {
-    width: 1056,
-    height: process.platform === 'darwin' ? 600 : 650
+    width: 1156,
+    height: process.platform === 'darwin' ? 680 : 730
   },
   loginWindowSize: {
-    width: 1056,
-    height: process.platform === 'darwin' ? 600 : 650
-    // width: 680,
-    // height: process.platform === 'darwin' ? 500 : 550
+    width: 1156,
+    height: process.platform === 'darwin' ? 680 : 730
   }
 };
 
