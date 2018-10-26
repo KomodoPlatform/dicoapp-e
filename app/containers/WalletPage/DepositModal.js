@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import CloudOff from '@material-ui/icons/CloudOff';
 
 import { getCoinIcon } from '../../components/CryptoIcons';
 import Or from './components/Or';
@@ -75,11 +76,36 @@ const styles = theme => ({
 
   depositModal__dialogTitle: {
     padding: '24px 24px 5px'
+  },
+
+  depositModal__emptystate: {
+    textAlign: 'center',
+    fontSize: 25
   }
 });
 
 export class DepositModal extends React.PureComponent<Props> {
-  renderEmptyState = () => <span> renderEmptyState </span>;
+  renderEmptyState = () => {
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
+        <DialogTitle
+          id="deposit-modal-title"
+          className={classes.depositModal__dialogTitle}
+        >
+          Deposit
+        </DialogTitle>
+        <DialogContent className={classes.depositModal__emptystate}>
+          <Typography variant="title" gutterBottom>
+            <CloudOff />
+          </Typography>
+          <Typography variant="subheading" gutterBottom>
+            No data found. Please select an asset.
+          </Typography>
+        </DialogContent>
+      </React.Fragment>
+    );
+  };
 
   copyAddressToClipboard = async (evt: SyntheticInputEvent<>) => {
     evt.stopPropagation();
