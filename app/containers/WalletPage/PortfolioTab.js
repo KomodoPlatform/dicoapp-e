@@ -12,7 +12,7 @@ import {
   makeSelectBalanceList,
   makeSelectBalanceEntities
 } from '../App/selectors';
-import { loadBalance, loadWithdraw } from '../App/actions';
+import { loadBalance } from '../App/actions';
 import Asset from './components/Asset';
 import { openWithdrawModal, openDepositModal } from './actions';
 
@@ -43,8 +43,6 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadBalance: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchLoadWithdraw: Function,
-  // eslint-disable-next-line flowtype/no-weak-types
   openWithdraw: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   openDeposit: Function
@@ -58,13 +56,7 @@ class PortfolioTab extends React.PureComponent<Props> {
   };
 
   renderWallet = (t, k) => {
-    const {
-      classes,
-      entities,
-      dispatchLoadWithdraw,
-      openWithdraw,
-      openDeposit
-    } = this.props;
+    const { classes, entities, openWithdraw, openDeposit } = this.props;
     const data = entities.get(t);
     return (
       <Grid
@@ -78,7 +70,6 @@ class PortfolioTab extends React.PureComponent<Props> {
       >
         <Asset
           data={data}
-          dispatchLoadWithdraw={dispatchLoadWithdraw}
           openWithdraw={openWithdraw}
           openDeposit={openDeposit}
         />
@@ -106,12 +97,7 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
     openWithdraw: (coin: string) => dispatch(openWithdrawModal(coin)),
     openDeposit: (coin: string) => dispatch(openDepositModal(coin)),
-    dispatchLoadBalance: () => dispatch(loadBalance()),
-    dispatchLoadWithdraw: (payload: {
-      amount: number,
-      address: string,
-      coin: string
-    }) => dispatch(loadWithdraw(payload))
+    dispatchLoadBalance: () => dispatch(loadBalance())
   };
 }
 

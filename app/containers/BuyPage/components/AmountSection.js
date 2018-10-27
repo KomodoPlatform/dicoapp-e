@@ -42,7 +42,7 @@ import {
   makeSelectCurrentSwap
 } from '../selectors';
 import AmountInput from './AmountInput';
-import BuyButton from './BuyButton';
+import BuyButton from '../../../components/BuyButton';
 import CoinSelectable from './CoinSelectable';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:AmountSection');

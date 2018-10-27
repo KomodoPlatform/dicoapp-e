@@ -18,7 +18,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import TextField from '@material-ui/core/TextField';
 
+import { required, requiredNumber } from '../../components/Form/helper';
+import BuyButton from '../../components/BuyButton';
+import validate from '../../components/Form/validate';
+import { loadWithdraw } from '../App/actions';
 import {
   makeSelectWithdrawModal,
   makeSelectCoinWithdrawModal
@@ -27,6 +32,47 @@ import { closeWithdrawModal } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:WithdrawModal');
 
+export const lessThan = (value: mixed, props: mixed) =>
+  new Promise((resolve, reject) => {
+    const { balance } = props;
+    const n = Number(value);
+    const b = Number(balance);
+    if (n >= b) {
+      return reject(new Error('Value is large than balance'));
+    }
+    return resolve(true);
+  });
+
+export const notSameAddress = (value: mixed, props: mixed) =>
+  new Promise((resolve, reject) => {
+    const { address } = props;
+    if (address.trim() === value.trim()) {
+      return reject(new Error('You can not withdraw same address'));
+    }
+    return resolve(true);
+  });
+
+// eslint-disable-next-line react/prop-types
+const TextInput = ({ onChange, value, error, isError, ...props }) => (
+  <TextField
+    {...props}
+    error={isError}
+    helperText={error}
+    value={value}
+    onChange={onChange}
+  />
+);
+
+// eslint-disable-next-line no-unused-vars
+const ValidationAmountInput = validate(TextInput, [requiredNumber, lessThan], {
+  onChange: true
+});
+
+// eslint-disable-next-line no-unused-vars
+const ValidationAddressInput = validate(TextInput, [required, notSameAddress], {
+  onChange: true
+});
+
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
@@ -34,6 +80,8 @@ type Props = {
   onClose: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   withdrawModal: Map<*, *>,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchLoadWithdraw: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   coin: Map<*, *> | null
 };
@@ -56,10 +104,71 @@ const styles = () => ({
     textAlign: 'center'
   },
 
-  withdrawmodal__dialogTitle: {}
+  withdrawmodal__dialogTitle: {},
+
+  withdraw__button: {
+    boxShadow: 'none'
+  },
+
+  formItem: {
+    margin: '0 0 17px 0',
+    position: 'relative',
+    width: '100%',
+    maxWidth: 450
+  }
 });
 
 export class WithdrawModal extends React.PureComponent<Props> {
+  constructor(props) {
+    super(props);
+
+    this.amountInput = React.createRef();
+    this.addressInput = React.createRef();
+  }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    // eslint-disable-next-line react/destructuring-assignment
+    const currData = this.props.coin;
+    const prevData = prevProps.coin;
+    const currLoading = currData.get('loading');
+    const prevLoading = prevData.get('loading');
+    const currError = currData.get('error');
+    return {
+      done: currLoading === false && prevLoading === true && currError === false
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot && snapshot.done) {
+      // reset input
+      const amountInput = this.amountInput.current;
+      const addressInput = this.addressInput.current;
+      amountInput.reset();
+      addressInput.reset();
+    }
+  }
+
+  handleWithdraw = async (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
+    const { dispatchLoadWithdraw, coin } = this.props;
+
+    try {
+      const addressInput = this.addressInput.current;
+      const address = await addressInput.value();
+
+      const amountInput = this.amountInput.current;
+      const amount = await amountInput.value();
+
+      dispatchLoadWithdraw({
+        amount: Number(amount),
+        address,
+        coin: coin.get('coin')
+      });
+    } catch (err) {
+      debug(`handleWithdraw ${err.message}`);
+    }
+  };
+
   renderEmptyState = () => {
     const { classes } = this.props;
     return (
@@ -76,6 +185,7 @@ export class WithdrawModal extends React.PureComponent<Props> {
 
   renderCoin = () => {
     const { classes, coin } = this.props;
+    const loading = coin.get('loading');
 
     return (
       <React.Fragment>
@@ -111,6 +221,40 @@ export class WithdrawModal extends React.PureComponent<Props> {
               </ListItemSecondaryAction>
             </ListItem>
           </List>
+
+          <form className={classes.withdraw__form}>
+            <ValidationAddressInput
+              id="address"
+              label="Withdraw to address"
+              margin="normal"
+              className={classes.formItem}
+              address={coin.get('address')}
+              ref={this.addressInput}
+              disabled={loading}
+            />
+
+            <ValidationAmountInput
+              id="amount"
+              label="Amount to withdraw"
+              margin="normal"
+              balance={coin.get('balance')}
+              className={classes.formItem}
+              ref={this.amountInput}
+              disabled={loading}
+            />
+
+            <br />
+
+            <BuyButton
+              variant="contained"
+              color="primary"
+              className={classes.withdraw__button}
+              onClick={this.handleWithdraw}
+              disabled={loading}
+            >
+              Withdraw
+            </BuyButton>
+          </form>
         </DialogContent>
       </React.Fragment>
     );
@@ -141,7 +285,12 @@ export class WithdrawModal extends React.PureComponent<Props> {
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    onClose: () => dispatch(closeWithdrawModal())
+    onClose: () => dispatch(closeWithdrawModal()),
+    dispatchLoadWithdraw: (payload: {
+      amount: number,
+      address: string,
+      coin: string
+    }) => dispatch(loadWithdraw(payload))
   };
 }
 

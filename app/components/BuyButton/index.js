@@ -1,14 +1,14 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import ClassNames from 'classnames';
 import type { Node } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-const debug = require('debug')('dicoapp:containers:BuyPage:BuyButton');
+const debug = require('debug')('dicoapp:components:BuyButton');
 
 const styles = () => ({
-  btnBuy: {
+  buyButton: {
     boxShadow: 'none',
     width: '50%',
     borderRadius: 4,
@@ -26,7 +26,7 @@ type Props = {
   className?: string
 };
 
-class BuyButton extends PureComponent<Props> {
+class BuyButton extends React.PureComponent<Props> {
   static defaultProps = {
     className: '',
     onClick: () => {}
@@ -36,7 +36,7 @@ class BuyButton extends PureComponent<Props> {
     debug(`render`);
 
     const { classes, className, children, onClick, ...props } = this.props;
-    const classesButton = ClassNames(classes.btnBuy, className);
+    const classesButton = ClassNames(classes.buyButton, className);
 
     return (
       <Button

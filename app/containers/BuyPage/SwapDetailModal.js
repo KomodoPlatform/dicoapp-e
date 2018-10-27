@@ -35,7 +35,7 @@ import {
   makeSelectSwapInDetailModal
 } from './selectors';
 import CoinSelectable from './components/CoinSelectable';
-import BuyButton from './components/BuyButton';
+import BuyButton from '../../components/BuyButton';
 import { floor } from './utils';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:SwapDetailModal');
