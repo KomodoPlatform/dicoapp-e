@@ -23,9 +23,7 @@ type Props = {
   dispatchCloseSnackbars: Function
 };
 
-type State = {};
-
-class Snackbars extends React.Component<Props, State> {
+class Snackbars extends React.PureComponent<Props> {
   render() {
     debug('render');
     const { snackbars, dispatchCloseSnackbars } = this.props;
