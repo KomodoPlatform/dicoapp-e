@@ -8,22 +8,22 @@ import type { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import CloudOff from '@material-ui/icons/CloudOff';
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
-
+import IconButton from '@material-ui/core/IconButton';
+import { getCoinIcon } from '../../components/CryptoIcons';
 import { required, requiredNumber } from '../../components/Form/helper';
 import BuyButton from '../../components/BuyButton';
 import validate from '../../components/Form/validate';
 import { loadWithdraw } from '../App/actions';
+import { openSnackbars } from '../Snackbars/actions';
 import {
   makeSelectWithdrawModal,
   makeSelectCoinWithdrawModal
@@ -56,6 +56,11 @@ export const notSameAddress = (value: mixed, props: mixed) =>
 const TextInput = ({ onChange, value, error, isError, ...props }) => (
   <TextField
     {...props}
+    // id="outlined-adornment-weight"
+    // className={classNames(classes.margin, classes.textField)}
+    variant="outlined"
+    // label="Weight"
+    // helperText="Weight"
     error={isError}
     helperText={error}
     value={value}
@@ -83,10 +88,12 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadWithdraw: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  coin: Map<*, *> | null
+  coin: Map<*, *> | null,
+  // eslint-disable-next-line flowtype/no-weak-types
+  dispatchOpenSnackbars: Function
 };
 
-const styles = () => ({
+const styles = theme => ({
   withdrawmodal__emptystate: {
     position: 'absolute',
     top: '45%',
@@ -107,14 +114,35 @@ const styles = () => ({
   withdrawmodal__dialogTitle: {},
 
   withdraw__button: {
-    boxShadow: 'none'
+    margin: '10px 0 10px 0',
+    boxShadow: 'none',
+    width: '100%'
   },
 
-  formItem: {
-    margin: '0 0 17px 0',
+  withdraw__formItem: {
+    margin: '10px 0 25px 0',
     position: 'relative',
     width: '100%',
     maxWidth: 450
+  },
+
+  withdraw__listItem: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+
+  withdraw__warningPlate: {
+    textAlign: 'left',
+    padding: 12,
+    border: `1px dashed ${theme.colors.warning}`,
+    borderRadius: 4,
+    width: '100%'
+  },
+
+  withdraw__listItemSecondaryAction: {
+    right: -10
   }
 });
 
@@ -130,6 +158,11 @@ export class WithdrawModal extends React.PureComponent<Props> {
     // eslint-disable-next-line react/destructuring-assignment
     const currData = this.props.coin;
     const prevData = prevProps.coin;
+    if (!prevData) {
+      return {
+        done: false
+      };
+    }
     const currLoading = currData.get('loading');
     const prevLoading = prevData.get('loading');
     const currError = currData.get('error');
@@ -139,12 +172,14 @@ export class WithdrawModal extends React.PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const { dispatchOpenSnackbars } = this.props;
     if (snapshot && snapshot.done) {
       // reset input
       const amountInput = this.amountInput.current;
       const addressInput = this.addressInput.current;
       amountInput.reset();
       addressInput.reset();
+      dispatchOpenSnackbars('Successful withdrawal');
     }
   }
 
@@ -186,6 +221,7 @@ export class WithdrawModal extends React.PureComponent<Props> {
   renderCoin = () => {
     const { classes, coin } = this.props;
     const loading = coin.get('loading');
+    const CIcon = getCoinIcon(coin.get('coin'));
 
     return (
       <React.Fragment>
@@ -196,29 +232,52 @@ export class WithdrawModal extends React.PureComponent<Props> {
           Withdraw
         </DialogTitle>
         <DialogContent>
-          <Typography variant="button" gutterBottom>
-            Withdraw {coin.get('coin')}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Available: {coin.get('balance')} {coin.get('coin')}
-          </Typography>
+          <div className={classes.withdraw__warningPlate}>
+            <Typography variant="button" gutterBottom>
+              Warning
+            </Typography>
+            <Typography gutterBottom>
+              Please verify your withdrawal address. We cannot refund an
+              incorrect withdrawal.
+            </Typography>
+          </div>
 
           <List>
-            <ListItem className={classes.swapDetail__listitem}>
+            <ListItem
+              classes={{
+                secondaryAction: classes.withdraw__listItem
+              }}
+            >
+              <ListItemText primary="Asset" secondary={coin.get('coin')} />
+              <ListItemSecondaryAction
+                className={classes.withdraw__listItemSecondaryAction}
+              >
+                <IconButton aria-label="coin-icon">{CIcon}</IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem
+              classes={{
+                gutters: classes.withdraw__listItem
+              }}
+            >
               <ListItemText
-                primary={
-                  <Typography variant="caption" gutterBottom>
-                    DATE
-                  </Typography>
+                primary="Withdraw from"
+                secondary={coin.get('address')}
+              />
+            </ListItem>
+            <ListItem
+              classes={{
+                gutters: classes.withdraw__listItem
+              }}
+            >
+              <ListItemText
+                primary="Available"
+                secondary={
+                  <span>
+                    {coin.get('balance')} {coin.get('coin')}
+                  </span>
                 }
               />
-              <ListItemSecondaryAction
-                className={classes.swapDetail__ListItemRight}
-              >
-                <Typography variant="caption" gutterBottom>
-                  1231
-                </Typography>
-              </ListItemSecondaryAction>
             </ListItem>
           </List>
 
@@ -227,7 +286,7 @@ export class WithdrawModal extends React.PureComponent<Props> {
               id="address"
               label="Withdraw to address"
               margin="normal"
-              className={classes.formItem}
+              className={classes.withdraw__formItem}
               address={coin.get('address')}
               ref={this.addressInput}
               disabled={loading}
@@ -238,7 +297,7 @@ export class WithdrawModal extends React.PureComponent<Props> {
               label="Amount to withdraw"
               margin="normal"
               balance={coin.get('balance')}
-              className={classes.formItem}
+              className={classes.withdraw__formItem}
               ref={this.amountInput}
               disabled={loading}
             />
@@ -290,7 +349,8 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
       amount: number,
       address: string,
       coin: string
-    }) => dispatch(loadWithdraw(payload))
+    }) => dispatch(loadWithdraw(payload)),
+    dispatchOpenSnackbars: (message: string) => dispatch(openSnackbars(message))
   };
 }
 
