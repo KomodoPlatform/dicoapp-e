@@ -63,6 +63,16 @@ const styles = theme => ({
       color: theme.palette.primary.main,
       fontWeight: 500
     }
+  },
+
+  wallet__card: {
+    border: '1px solid #dadce0',
+    boxShadow: 'none',
+    '&:hover': {
+      boxShadow:
+        '0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
+      cursor: 'pointer'
+    }
   }
 });
 
@@ -99,7 +109,7 @@ class Asset extends PureComponent<Props> {
     const CIcon = getCoinIcon(data.get('coin'));
 
     return (
-      <Card>
+      <Card className={classes.wallet__card}>
         <CardHeader
           classes={{
             action: classes.wallet__headerAction,

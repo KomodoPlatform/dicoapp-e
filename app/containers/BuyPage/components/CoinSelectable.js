@@ -19,7 +19,7 @@ const styles = () => ({
     paddingRight: 30,
     marginRight: 20,
     marginBottom: 10,
-    border: '1px solid lightgray',
+    border: '1px solid #dadce0',
     cursor: 'pointer',
     borderRadius: 8,
     position: 'relative'
