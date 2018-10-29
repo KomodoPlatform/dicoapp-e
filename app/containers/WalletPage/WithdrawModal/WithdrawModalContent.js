@@ -26,10 +26,12 @@ const debug = require('debug')(
 
 export const lessThan = (value: mixed, props: mixed) =>
   new Promise((resolve, reject) => {
-    const { balance } = props;
+    const { balance, fee } = props;
     const n = Number(value);
     const b = Number(balance);
-    if (n >= b) {
+    const f = Number(fee);
+
+    if (n > b - f) {
       return reject(new Error('Value is large than balance'));
     }
     return resolve(true);
@@ -224,6 +226,19 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
     }
   };
 
+  onClickAllButton = async (evt: SyntheticInputEvent<>) => {
+    evt.preventDefault();
+    try {
+      const { coin } = this.props;
+      const amountInput = this.amountInput.current;
+      await amountInput.setValue(coin.get('balance') - coin.get('fee'));
+      this.controlInvaidAmountInput(false);
+    } catch (err) {
+      this.controlInvaidAmountInput(true);
+      debug(`onClickAllButton: ${err.message}`);
+    }
+  };
+
   handleWithdraw = async (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
     const { dispatchLoadWithdraw, coin } = this.props;
@@ -330,6 +345,7 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
               label="Amount to withdraw"
               margin="normal"
               balance={coin.get('balance')}
+              fee={coin.get('fee')}
               className={classes.withdraw__formItem}
               ref={this.amountInput}
               disabled={loading}
@@ -337,7 +353,7 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button className={classes.button}>Max</Button>
+                    <Button onClick={this.onClickAllButton}>Max</Button>
                   </InputAdornment>
                 )
               }}
@@ -360,7 +376,10 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
               color="primary"
               className={classes.withdraw__button}
               onClick={this.handleWithdraw}
-              disabled={loading || (invaidAmountInput || invaidAddressInput)}
+              disabled={
+                coin.get('balance') <= 0 ||
+                (loading || (invaidAmountInput || invaidAddressInput))
+              }
             >
               Withdraw
             </BuyButton>
