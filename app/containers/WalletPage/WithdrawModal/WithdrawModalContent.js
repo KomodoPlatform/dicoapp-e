@@ -110,8 +110,12 @@ const styles = theme => ({
   },
 
   withdraw__listItemSecondaryAction: {
-    // right: -10,
     right: 0,
+    top: 24
+  },
+
+  withdraw__listItemSecondaryLogo: {
+    right: -10,
     top: 24
   },
 
@@ -274,21 +278,17 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
             >
               <ListItemText primary="Asset" secondary={coin.get('coin')} />
               <ListItemSecondaryAction
-                className={classes.withdraw__listItemSecondaryAction}
+                className={classes.withdraw__listItemSecondaryLogo}
               >
                 <IconButton aria-label="coin-icon">{CIcon}</IconButton>
               </ListItemSecondaryAction>
             </ListItem>
             <ListItem
               classes={{
-                gutters: classes.withdraw__listItem,
                 secondaryAction: classes.withdraw__listItem
               }}
             >
-              <ListItemText
-                primary="Withdraw from"
-                // secondary={coin.get('address')}
-              />
+              <ListItemText primary="Withdraw from" />
               <ListItemSecondaryAction
                 className={classes.withdraw__listItemSecondaryAction}
               >
@@ -299,18 +299,10 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
             </ListItem>
             <ListItem
               classes={{
-                gutters: classes.withdraw__listItem,
                 secondaryAction: classes.withdraw__listItem
               }}
             >
-              <ListItemText
-                primary="Available"
-                // secondary={
-                //   <span>
-                //     {coin.get('balance')} {coin.get('coin')}
-                //   </span>
-                // }
-              />
+              <ListItemText primary="Available" />
               <ListItemSecondaryAction
                 className={classes.withdraw__listItemSecondaryAction}
               >
