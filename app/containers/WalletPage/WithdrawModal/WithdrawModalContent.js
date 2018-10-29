@@ -352,7 +352,7 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
                 gutterBottom
                 className={classes.withdraw__transactionFeeValue}
               >
-                0.00001
+                {coin.get('fee')} {coin.get('coin')}
               </Typography>
             </div>
             <BuyButton
