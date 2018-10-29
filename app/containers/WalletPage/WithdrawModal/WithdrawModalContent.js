@@ -48,11 +48,7 @@ export const notSameAddress = (value: mixed, props: mixed) =>
 const TextInput = ({ onChange, value, error, isError, ...props }) => (
   <TextField
     {...props}
-    // id="outlined-adornment-weight"
-    // className={classNames(classes.margin, classes.textField)}
     variant="outlined"
-    // label="Weight"
-    // helperText="Weight"
     error={isError}
     helperText={error}
     value={value}
@@ -134,12 +130,21 @@ const styles = theme => ({
   }
 });
 
-class WithdrawModalContent extends React.PureComponent<Props> {
+type State = {
+  invaidAmountInput: boolean,
+  invaidAddressInput: boolean
+};
+
+class WithdrawModalContent extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
     this.amountInput = React.createRef();
     this.addressInput = React.createRef();
+    this.state = {
+      invaidAmountInput: true,
+      invaidAddressInput: true
+    };
   }
 
   getSnapshotBeforeUpdate(prevProps) {
@@ -171,6 +176,50 @@ class WithdrawModalContent extends React.PureComponent<Props> {
     }
   }
 
+  controlInvaidAmountInput = (state: boolean) => {
+    const { invaidAmountInput } = this.state;
+    if (invaidAmountInput !== state) {
+      this.setState({
+        invaidAmountInput: state
+      });
+    }
+  };
+
+  controlInvaidAddressInput = (state: boolean) => {
+    const { invaidAddressInput } = this.state;
+    if (invaidAddressInput !== state) {
+      this.setState({
+        invaidAddressInput: state
+      });
+    }
+  };
+
+  onChangeAddressInput = async () => {
+    try {
+      const addressInput = this.addressInput.current;
+      const address = await addressInput.value();
+
+      debug(`onChangeInput: address=${address}`);
+      this.controlInvaidAddressInput(false);
+    } catch (err) {
+      this.controlInvaidAddressInput(true);
+      debug(`onChangeInput: ${err.message}`);
+    }
+  };
+
+  onChangeAmountInput = async () => {
+    try {
+      const amountInput = this.amountInput.current;
+      const amount = await amountInput.value();
+
+      debug(`onChangeInput: amount=${amount}`);
+      this.controlInvaidAmountInput(false);
+    } catch (err) {
+      this.controlInvaidAmountInput(true);
+      debug(`onChangeInput: ${err.message}`);
+    }
+  };
+
   handleWithdraw = async (evt: SyntheticInputEvent<>) => {
     evt.preventDefault();
     const { dispatchLoadWithdraw, coin } = this.props;
@@ -194,6 +243,7 @@ class WithdrawModalContent extends React.PureComponent<Props> {
 
   render = () => {
     const { classes, coin } = this.props;
+    const { invaidAmountInput, invaidAddressInput } = this.state;
     const loading = coin.get('loading');
     const CIcon = getCoinIcon(coin.get('coin'));
 
@@ -280,6 +330,7 @@ class WithdrawModalContent extends React.PureComponent<Props> {
               address={coin.get('address')}
               ref={this.addressInput}
               disabled={loading}
+              onChange={this.onChangeAddressInput}
             />
 
             <ValidationAmountInput
@@ -290,6 +341,7 @@ class WithdrawModalContent extends React.PureComponent<Props> {
               className={classes.withdraw__formItem}
               ref={this.amountInput}
               disabled={loading}
+              onChange={this.onChangeAmountInput}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -316,7 +368,7 @@ class WithdrawModalContent extends React.PureComponent<Props> {
               color="primary"
               className={classes.withdraw__button}
               onClick={this.handleWithdraw}
-              disabled={loading}
+              disabled={loading || (invaidAmountInput || invaidAddressInput)}
             >
               Withdraw
             </BuyButton>

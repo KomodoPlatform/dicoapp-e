@@ -62,9 +62,6 @@ export default function validate(
       const { onChange } = this.props;
       const { value } = this.state;
       try {
-        if (onChange) {
-          onChange(value);
-        }
         // eslint-disable-next-line no-restricted-syntax, no-await-in-loop
         for (const validation of validations) {
           await validation(value, this.props);
@@ -76,6 +73,10 @@ export default function validate(
         this.setState({
           error: err.message
         });
+      } finally {
+        if (onChange) {
+          onChange(value);
+        }
       }
     };
 

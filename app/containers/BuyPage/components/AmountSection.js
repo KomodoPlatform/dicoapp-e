@@ -251,13 +251,17 @@ class AmountSection extends Component<Props, State> {
   };
 
   controlBuyButton = (state: boolean) => {
-    this.setState({
-      disabledBuyButton: state
-    });
+    const { disabledBuyButton } = this.state;
+    if (disabledBuyButton !== state) {
+      this.setState({
+        disabledBuyButton: state
+      });
+    }
   };
 
   onChangeBaseInput = async () => {
     try {
+      debug(`onChangeBaseInput`);
       const baseInput = this.baseInput.current;
       const base = await baseInput.value();
       this.controlBuyButton(false);
@@ -267,12 +271,13 @@ class AmountSection extends Component<Props, State> {
       await paymentInput.setValue(base * bestPrice);
     } catch (err) {
       this.controlBuyButton(true);
-      debug(`onChangeInput: ${err.message}`);
+      debug(`onChangeBaseInput: ${err.message}`);
     }
   };
 
   onChangePaymentInput = async () => {
     try {
+      debug(`onChangePaymentInput`);
       const paymentInput = this.paymentInput.current;
       const payment = await paymentInput.value();
       this.controlBuyButton(false);
@@ -282,7 +287,7 @@ class AmountSection extends Component<Props, State> {
       await baseInput.setValue(payment / bestPrice);
     } catch (err) {
       this.controlBuyButton(true);
-      debug(`onChangeInput: ${err.message}`);
+      debug(`onChangePaymentInput: ${err.message}`);
     }
   };
 
