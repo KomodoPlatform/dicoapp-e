@@ -10,7 +10,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
+
+import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { required, requiredNumber } from '../../../components/Form/helper';
 import BuyButton from '../../../components/BuyButton';
@@ -53,6 +57,7 @@ const TextInput = ({ onChange, value, error, isError, ...props }) => (
     helperText={error}
     value={value}
     onChange={onChange}
+    margin="dense"
   />
 );
 
@@ -109,7 +114,23 @@ const styles = theme => ({
   },
 
   withdraw__listItemSecondaryAction: {
-    right: -10
+    // right: -10,
+    right: 0,
+    top: 24
+  },
+
+  withdraw__transactionFee: {
+    padding: '10px 0',
+    width: '100%',
+    display: 'flex',
+    position: 'relative'
+  },
+
+  withdraw__transactionFeeValue: {
+    position: 'absolute',
+    transform: 'translateY(-50%)',
+    top: '24px',
+    right: 0
   }
 });
 
@@ -210,27 +231,43 @@ class WithdrawModalContent extends React.PureComponent<Props> {
             </ListItem>
             <ListItem
               classes={{
-                gutters: classes.withdraw__listItem
+                gutters: classes.withdraw__listItem,
+                secondaryAction: classes.withdraw__listItem
               }}
             >
               <ListItemText
                 primary="Withdraw from"
-                secondary={coin.get('address')}
+                // secondary={coin.get('address')}
               />
+              <ListItemSecondaryAction
+                className={classes.withdraw__listItemSecondaryAction}
+              >
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  {coin.get('address')}
+                </Typography>
+              </ListItemSecondaryAction>
             </ListItem>
             <ListItem
               classes={{
-                gutters: classes.withdraw__listItem
+                gutters: classes.withdraw__listItem,
+                secondaryAction: classes.withdraw__listItem
               }}
             >
               <ListItemText
                 primary="Available"
-                secondary={
-                  <span>
-                    {coin.get('balance')} {coin.get('coin')}
-                  </span>
-                }
+                // secondary={
+                //   <span>
+                //     {coin.get('balance')} {coin.get('coin')}
+                //   </span>
+                // }
               />
+              <ListItemSecondaryAction
+                className={classes.withdraw__listItemSecondaryAction}
+              >
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  {coin.get('balance')} {coin.get('coin')}
+                </Typography>
+              </ListItemSecondaryAction>
             </ListItem>
           </List>
 
@@ -253,10 +290,27 @@ class WithdrawModalContent extends React.PureComponent<Props> {
               className={classes.withdraw__formItem}
               ref={this.amountInput}
               disabled={loading}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button className={classes.button}>Max</Button>
+                  </InputAdornment>
+                )
+              }}
             />
-
-            <br />
-
+            <div className={classes.withdraw__transactionFee}>
+              <Typography variant="subheading" gutterBottom>
+                Transaction Fee
+              </Typography>
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                gutterBottom
+                className={classes.withdraw__transactionFeeValue}
+              >
+                0.00001
+              </Typography>
+            </div>
             <BuyButton
               variant="contained"
               color="primary"
