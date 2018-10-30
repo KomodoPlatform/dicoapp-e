@@ -25,17 +25,6 @@ function BarterDexAPI(): Object {
   };
 
   return Object.assign(
-    {
-      setUserpass(userpass: string) {
-        state.userpass = userpass;
-      },
-      getUserpass() {
-        return state.userpass;
-      },
-      resetUserpass() {
-        state.userpass = null;
-      }
-    },
     httpprovider(state),
     addServerFactory(state),
     balanceFactory(state),

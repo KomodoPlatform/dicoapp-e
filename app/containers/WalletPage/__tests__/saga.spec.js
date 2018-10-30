@@ -26,6 +26,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
+              queueid: 0,
               method: 'listtransactions',
               count: 10
             });
@@ -82,6 +83,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
+              queueid: 0,
               method: 'listtransactions',
               count: 10
             });
