@@ -15,9 +15,10 @@ describe('containers/WalletPage/reducers/initial', () => {
 
 describe('containers/WalletPage/reducers/loadTransactions', () => {
   it('should handle the loadTransactions action correctly', () => {
-    const expectedResult = initialState
-      .setIn(['transactions', 'loading'], true)
-      .setIn(['transactions', 'error'], false);
+    const expectedResult = initialState.setIn(
+      ['transactions', 'loading'],
+      true
+    );
 
     expect(walletReducer(initialState, loadTransactions())).toEqual(
       expectedResult

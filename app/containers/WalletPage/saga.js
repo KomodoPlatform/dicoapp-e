@@ -1,7 +1,7 @@
 import { all, call, put, select, cancelled } from 'redux-saga/effects';
 import { CANCEL } from 'redux-saga';
 import takeFirst from '../../utils/sagas/take-first';
-import { LOAD_TRANSACTIONS } from './constants';
+import { TRANSACTIONS_LOAD } from './constants';
 import { makeSelectCurrentUser } from '../App/selectors';
 import api from '../../lib/barter-dex-api';
 import {
@@ -17,18 +17,20 @@ export function* loadCoinTransactionsProcess(coin, address) {
   try {
     debug(`load coin transaction process running ${coin}`);
 
+    request = api.listTransactions(
+      {
+        coin,
+        address
+      },
+      {
+        useQueue: true
+      }
+    );
+
     // request = api.listTransactions({
     //   coin,
     //   address
-    // },
-    // {
-    //   useQueue: true
     // });
-
-    request = api.listTransactions({
-      coin,
-      address
-    });
 
     let data = yield request;
 
@@ -87,5 +89,5 @@ export function* loadTransactionsProcess() {
  * Root saga manages watcher lifecycle
  */
 export default function* walletData() {
-  yield takeFirst(LOAD_TRANSACTIONS, loadTransactionsProcess);
+  yield takeFirst(TRANSACTIONS_LOAD, loadTransactionsProcess);
 }

@@ -1,22 +1,16 @@
 // @flow
 
 import {
-  LOAD_TRANSACTIONS,
   LOAD_TRANSACTION_SUCCESS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
   WITHDRAW_MODAL_OPEN,
   WITHDRAW_MODAL_CLOSE,
   DEPOSIT_MODAL_OPEN,
-  DEPOSIT_MODAL_CLOSE
+  DEPOSIT_MODAL_CLOSE,
+  TRANSACTIONS_LOAD
 } from './constants';
 import type { TransactionPayload } from './schema';
-
-export function loadTransactions() {
-  return {
-    type: LOAD_TRANSACTIONS
-  };
-}
 
 export function loadTransactionsSuccess() {
   return {
@@ -69,5 +63,11 @@ export function openDepositModal(coin: string) {
 export function closeDepositModal() {
   return {
     type: DEPOSIT_MODAL_CLOSE
+  };
+}
+
+export function loadTransactions() {
+  return {
+    type: TRANSACTIONS_LOAD
   };
 }

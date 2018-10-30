@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 
 import {
-  LOAD_TRANSACTIONS,
+  TRANSACTIONS_LOAD,
   LOAD_TRANSACTION_SUCCESS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
@@ -17,11 +17,16 @@ import { LOGOUT } from '../App/constants';
 
 // The initial state of the App
 export const initialState = fromJS({
+  // transactions: {
+  //   loading: false,
+  //   error: false,
+  //   list: [],
+  //   entities: {}
+  // },
   transactions: {
     loading: false,
-    error: false,
-    list: [],
-    entities: {}
+    queueids: {},
+    coins: {}
   },
   withdrawModal: {
     open: false,
@@ -35,10 +40,8 @@ export const initialState = fromJS({
 
 const walletReducer = handleActions(
   {
-    [LOAD_TRANSACTIONS]: state =>
-      state
-        .setIn(['transactions', 'loading'], true)
-        .setIn(['transactions', 'error'], false),
+    [TRANSACTIONS_LOAD]: state =>
+      state.setIn(['transactions', 'loading'], true),
 
     [LOAD_TRANSACTION_SUCCESS]: (state, { payload }) => {
       let list = state.getIn(['transactions', 'list']);
@@ -93,3 +96,33 @@ const walletReducer = handleActions(
 
 export default walletReducer;
 /* eslint-enable no-case-declarations, no-param-reassign */
+
+// TRY TO TEST SOME DATA STRUCT
+
+const example = fromJS({
+  transactions: {
+    loading: false,
+    queueids: {
+      1: 'KMD',
+      2: 'BTC'
+    },
+    coins: {
+      KMD: {
+        // RECORD TYPE
+        error: false,
+        list: [],
+        entities: {}
+      }
+    }
+  }
+});
+
+console.log(example.size, 'example.size');
+const transactions = example.get('transactions');
+console.log(transactions.size, 'transactions.size');
+// how to check loading state?
+const queueids = example.getIn(['transactions', 'queueids']);
+console.log(queueids.size, 'queueids.size');
+// how to filter transaction by coin? find KMD
+const coins = example.getIn(['transactions', 'coins']);
+console.log(coins.get('KMD').toJS(), "coins.get('KMD') 23");

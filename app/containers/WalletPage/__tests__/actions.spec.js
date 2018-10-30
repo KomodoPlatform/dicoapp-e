@@ -7,7 +7,7 @@ import {
   closeDepositModal
 } from '../actions';
 import {
-  LOAD_TRANSACTIONS,
+  TRANSACTIONS_LOAD,
   LOAD_TRANSACTIONS_SUCCESS,
   WITHDRAW_MODAL_OPEN,
   WITHDRAW_MODAL_CLOSE,
@@ -22,7 +22,7 @@ describe('containers/WalletPage/actions/loadTransactions', () => {
 
   it('should return the correct type and the passed name', () => {
     const expectedResult = {
-      type: LOAD_TRANSACTIONS
+      type: TRANSACTIONS_LOAD
     };
 
     expect(loadTransactions()).toEqual(expectedResult);

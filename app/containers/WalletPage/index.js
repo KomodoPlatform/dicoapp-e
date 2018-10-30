@@ -5,15 +5,16 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-// import Grid from '@material-ui/core/Grid';
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
+import injectWebsocket from '../../utils/inject-websocket';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { TabContainer } from '../../components/Tabs';
 import MDCAppBar from '../../components/AppBar';
 import MDCHeader from '../../components/AppBar/Header';
 import MDCTabBar from '../../components/AppBar/TabBar';
 import PageSectionTitle from '../../components/PageSectionTitle';
+import { WEBSOCKET_DAEMON } from '../../utils/constants';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
 import TransactionsTab from './TransactionsTab';
@@ -24,6 +25,7 @@ import ProgressBar from './ProgressBar';
 import reducer from './reducer';
 import saga from './saga';
 import { APP_STATE_NAME } from './constants';
+import subscribe from './subscribe';
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
@@ -116,9 +118,16 @@ class WalletPage extends Component<Props, State> {
 const withReducer = injectReducer({ key: APP_STATE_NAME, reducer });
 const withSaga = injectSaga({ key: APP_STATE_NAME, saga });
 
+const withWebsocket = injectWebsocket({
+  key: APP_STATE_NAME,
+  mode: WEBSOCKET_DAEMON,
+  subscribe
+});
+
 const WalletPageWapper = compose(
   withReducer,
   withSaga,
+  withWebsocket,
   withStyles(styles)
 )(WalletPage);
 

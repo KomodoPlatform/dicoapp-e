@@ -14,7 +14,7 @@ Object {
 
 exports[`containers/WalletPage/actions/loadTransactions should loadTransactions should create loadTransactions action 1`] = `
 Object {
-  "type": "dicoapp/WalletPage/LOAD_TRANSACTIONS",
+  "type": "dicoapp/WalletPage/TRANSACTIONS_LOAD",
 }
 `;
 
