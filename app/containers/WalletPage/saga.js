@@ -17,6 +17,14 @@ export function* loadCoinTransactionsProcess(coin, address) {
   try {
     debug(`load coin transaction process running ${coin}`);
 
+    // request = api.listTransactions({
+    //   coin,
+    //   address
+    // },
+    // {
+    //   useQueue: true
+    // });
+
     request = api.listTransactions({
       coin,
       address

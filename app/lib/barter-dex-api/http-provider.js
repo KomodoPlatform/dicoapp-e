@@ -2,7 +2,8 @@
 import axios, { CancelToken } from 'axios';
 import { CANCEL } from 'redux-saga';
 import getConfig from '../config';
-import type { StateType } from './schema';
+import { DEFAULT_OPTION } from './schema';
+import type { StateType, OptionsType } from './schema';
 
 function toError(error) {
   throw error;
@@ -21,14 +22,6 @@ const TIMEOUT = 300000; // 5 min
 const config = getConfig();
 
 let queueId = 1;
-
-type OptionsType = {
-  useQueue: boolean
-};
-
-const DEFAULT_OPTION = {
-  useQueue: false
-};
 
 export default function httpProvider(
   state: StateType,

@@ -11,7 +11,8 @@ const allowedMethods = [
   'tradestatus'
 ];
 
-export default async function buySubscribe({ result }, dispatch, getState) {
+export default async function buySubscribe(data, dispatch, getState) {
+  const { result } = data;
   if (result && allowedMethods.indexOf(result.method) !== -1) {
     const selectSwapsList = makeSelectCurrentSwapsList();
     const list = selectSwapsList(getState());
