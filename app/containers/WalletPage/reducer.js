@@ -26,6 +26,7 @@ export const initialState = fromJS({
   // },
   transactions: {
     loading: false,
+    error: false,
     queueids: {},
     coins: {}
   },
@@ -39,10 +40,9 @@ export const initialState = fromJS({
   }
 });
 
-function generateCoinTransactionRecord() {
+export function generateCoinTransactionRecord() {
   // FIXME: should we change to RECORD type?
   return fromJS({
-    error: false,
     list: [],
     entities: {}
   });
@@ -84,7 +84,7 @@ const walletReducer = handleActions(
       // step one: update transactions / queueids
       const queueids = state
         .getIn(['transactions', 'queueids'])
-        .set(queueId, coin);
+        .set(`${queueId}`, coin);
       // step two: update transactions / coins if not found
       let coins = state.getIn(['transactions', 'coins']);
       if (!coins.get(coin)) {
