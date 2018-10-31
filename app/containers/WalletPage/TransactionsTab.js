@@ -21,7 +21,8 @@ import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
   makeSelectTransactionsList,
-  makeSelectTransactionsEntities
+  makeSelectTransactionsEntities,
+  makeSelectLatestTransactions
 } from './selectors';
 import { loadTransactions } from './actions';
 
@@ -70,7 +71,9 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   entities: Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  dispatchLoadTransactions: Function
+  dispatchLoadTransactions: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  transactions: Object // List
 };
 
 class TransactionsTab extends React.PureComponent<Props> {
@@ -137,10 +140,37 @@ class TransactionsTab extends React.PureComponent<Props> {
     );
   };
 
+  renderRecord2 = (t, k) => {
+    if (!t) return null;
+    const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
+    return (
+      <TableRow key={t.get('tx_hash')}>
+        <TableCell>{k + 1}</TableCell>
+        <TableCell>{t.get('coin')}</TableCell>
+        <TableCell>{t.get('height')}</TableCell>
+        <TableCell>
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          {linkExplorer && (
+            <a
+              style={{ color: '#000' }}
+              href={linkExplorer}
+              // target="_blank"
+              // rel="noopener noreferrer"
+              onClick={this.onClickTranstactions}
+            >
+              {t.get('tx_hash')}
+            </a>
+          )}
+          {!linkExplorer && t.get('tx_hash')}
+        </TableCell>
+      </TableRow>
+    );
+  };
+
   render() {
     debug(`render`);
 
-    const { loading, classes, list, error } = this.props;
+    const { loading, classes, list, error, transactions } = this.props;
 
     return (
       <Grid container spacing={12}>
@@ -181,7 +211,10 @@ class TransactionsTab extends React.PureComponent<Props> {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{list && list.map(this.renderRecord)}</TableBody>
+            <TableBody>
+              {list && list.map(this.renderRecord)}
+              {transactions && transactions.map(this.renderRecord2)}
+            </TableBody>
           </Table>
         </Grid>
       </Grid>
@@ -202,7 +235,8 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectTransactionsLoading(),
   error: makeSelectTransactionsError(),
   list: makeSelectTransactionsList(),
-  entities: makeSelectTransactionsEntities()
+  entities: makeSelectTransactionsEntities(),
+  transactions: makeSelectLatestTransactions()
 });
 
 const withConnect = connect(

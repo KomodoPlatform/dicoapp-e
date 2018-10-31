@@ -130,7 +130,6 @@ const walletReducer = handleActions(
       let coins = state.getIn(['transactions', 'coins', coin]);
       let list = coins.get('list');
       let entities = coins.get('entities');
-      console.log(coins.toJS());
       for (let i = 0; i < tx.length; i += 1) {
         const t = tx[i];
         // step one: update list
