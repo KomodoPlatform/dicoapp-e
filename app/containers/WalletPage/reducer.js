@@ -156,6 +156,7 @@ const walletReducer = handleActions(
 export default walletReducer;
 /* eslint-enable no-case-declarations, no-param-reassign */
 
+/**
 // TRY TO TEST SOME DATA STRUCT
 
 const example = fromJS({
@@ -185,3 +186,4 @@ console.log(queueids.size, 'queueids.size');
 // how to filter transaction by coin? find KMD
 const coins = example.getIn(['transactions', 'coins']);
 console.log(coins.get('KMD').toJS(), "coins.get('KMD') 23");
+ */

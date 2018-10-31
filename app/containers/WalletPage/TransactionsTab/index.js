@@ -22,7 +22,7 @@ import {
   makeSelectTransactionsError,
   makeSelectLatestTransactions
 } from '../selectors';
-import { loadTransactions } from '../actions';
+import { loadTransactions, loadTransactionsLoop } from '../actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:TransactionsTab');
 
@@ -49,9 +49,6 @@ const styles = () => ({
   }
 });
 
-let idInterval = null;
-const LOAD_TRANSACTION_TIME = 90000;
-
 type Props = {
   loading: boolean,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -61,30 +58,15 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadTransactions: Function,
   // eslint-disable-next-line flowtype/no-weak-types
+  dispatchLoadTransactionsLoop: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
   transactions: Object // List
 };
 
 class TransactionsTab extends React.PureComponent<Props> {
   componentDidMount = () => {
-    debug('watch transactions');
-
-    const { dispatchLoadTransactions } = this.props;
-    if (idInterval) {
-      clearInterval(idInterval);
-      idInterval = null;
-    }
-    idInterval = setInterval(() => {
-      dispatchLoadTransactions();
-    }, LOAD_TRANSACTION_TIME);
-
-    dispatchLoadTransactions();
-  };
-
-  componentWillUnmount = () => {
-    if (idInterval) {
-      clearInterval(idInterval);
-      idInterval = null;
-    }
+    const { dispatchLoadTransactionsLoop } = this.props;
+    dispatchLoadTransactionsLoop();
   };
 
   onClickReloadTranstactions = (evt: SyntheticInputEvent<>) => {
@@ -185,7 +167,8 @@ TransactionsTab.displayName = 'Transactions';
 // eslint-disable-next-line flowtype/no-weak-types
 export function mapDispatchToProps(dispatch: Dispatch<Object>) {
   return {
-    dispatchLoadTransactions: () => dispatch(loadTransactions())
+    dispatchLoadTransactions: () => dispatch(loadTransactions()),
+    dispatchLoadTransactionsLoop: () => dispatch(loadTransactionsLoop())
   };
 }
 

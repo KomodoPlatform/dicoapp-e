@@ -1,10 +1,15 @@
 import { all, call, put, select, cancelled } from 'redux-saga/effects';
-import { CANCEL } from 'redux-saga';
+import { CANCEL, delay } from 'redux-saga';
 import takeFirst from '../../utils/sagas/take-first';
-import { TRANSACTIONS_LOAD } from './constants';
+import {
+  TRANSACTIONS_LOAD,
+  TRANSACTIONS_LOAD_LOOP,
+  TIME_LOOP
+} from './constants';
 import { makeSelectCurrentUser } from '../App/selectors';
 import api from '../../lib/barter-dex-api';
 import {
+  loadTransactions,
   // loadTransactionSuccess,
   loadTransactionsSuccess,
   loadTransactionsError,
@@ -31,18 +36,6 @@ export function* loadCoinTransactionsProcess(coin, address) {
 
     // {result: "success", status: "queued"}
     const data = yield request;
-
-    // sort
-    // data = data.sort((a, b) => b.height - a.height);
-
-    // only take 10 records
-    // data = data.slice(0, 10);
-
-    // add coin symbol
-    // data = data.map(e => {
-    //   e.coin = coin;
-    //   return e;
-    // });
     data.coin = coin;
     data.queueId = queueId;
     // return yield put(loadTransactionSuccess(data));
@@ -79,9 +72,17 @@ export function* loadTransactionsProcess() {
     }
     // https://github.com/chainmakers/dicoapp/blob/glxt/.desktop/modules/marketmaker/index.js#L1144
     yield all(requests);
-    return yield put(loadTransactionsSuccess());
+    yield put(loadTransactionsSuccess());
   } catch (err) {
     return yield put(loadTransactionsError(err.message));
+  }
+}
+
+export function* loadTransactionsLoopProcess() {
+  while (true) {
+    debug('load transactions loop process start');
+    yield put(loadTransactions());
+    yield call(delay, TIME_LOOP);
   }
 }
 
@@ -90,4 +91,5 @@ export function* loadTransactionsProcess() {
  */
 export default function* walletData() {
   yield takeFirst(TRANSACTIONS_LOAD, loadTransactionsProcess);
+  yield takeFirst(TRANSACTIONS_LOAD_LOOP, loadTransactionsLoopProcess);
 }

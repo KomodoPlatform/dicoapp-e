@@ -9,6 +9,7 @@ import {
   DEPOSIT_MODAL_OPEN,
   DEPOSIT_MODAL_CLOSE,
   TRANSACTIONS_LOAD,
+  TRANSACTIONS_LOAD_LOOP,
   COIN_TRANSACTIONS_LOAD,
   COIN_TRANSACTIONS_SUCCESS
 } from './constants';
@@ -75,6 +76,12 @@ export function closeDepositModal() {
 export function loadTransactions() {
   return {
     type: TRANSACTIONS_LOAD
+  };
+}
+
+export function loadTransactionsLoop() {
+  return {
+    type: TRANSACTIONS_LOAD_LOOP
   };
 }
 
