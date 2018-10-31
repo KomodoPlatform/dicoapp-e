@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import classNames from 'classnames';
+import ClassNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -8,8 +8,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { covertSymbolToName } from '../../../utils/coin';
 
@@ -73,6 +71,17 @@ const styles = theme => ({
     //     '0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
     //   cursor: 'pointer'
     // }
+  },
+
+  wallet__buttonBorder: {
+    borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
+    margin: '0px 16px',
+    height: '100%',
+    minHeight: 20
+  },
+
+  wallet__firstButton: {
+    marginLeft: 4
   }
 });
 
@@ -131,25 +140,23 @@ class Asset extends PureComponent<Props> {
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Button
-            className={classes.wallet__button}
+            className={ClassNames(
+              classes.wallet__button,
+              classes.wallet__firstButton
+            )}
             size="small"
             color="primary"
             onClick={this.openDeposit}
           >
-            <KeyboardArrowUpIcon
-              className={classNames(classes.leftIcon, classes.iconSmall)}
-            />
             Deposit
           </Button>
+          <div className={classes.wallet__buttonBorder} />
           <Button
             className={classes.wallet__button}
             size="small"
             color="primary"
             onClick={this.openWithdraw}
           >
-            <KeyboardArrowDownIcon
-              className={classNames(classes.leftIcon, classes.iconSmall)}
-            />
             Withdraw
           </Button>
         </CardActions>

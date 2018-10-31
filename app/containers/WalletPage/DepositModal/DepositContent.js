@@ -30,8 +30,8 @@ const styles = theme => ({
     paddingLeft: 0
   },
 
-  depositModal__listItemSecondaryAction: {
-    right: 0
+  depositModal__listItemSecondaryLogo: {
+    right: -10
   },
 
   depositModal__warningPlate: {
@@ -79,7 +79,7 @@ class DepositContent extends React.PureComponent<Props> {
             >
               <ListItemText primary="Asset" secondary={coin.get('coin')} />
               <ListItemSecondaryAction
-                className={classes.depositModal__listItemSecondaryAction}
+                className={classes.depositModal__listItemSecondaryLogo}
               >
                 <IconButton aria-label="coin-icon">{CIcon}</IconButton>
               </ListItemSecondaryAction>
@@ -91,7 +91,7 @@ class DepositContent extends React.PureComponent<Props> {
             >
               <ListItemText primary="Address" secondary={coin.get('address')} />
               <ListItemSecondaryAction
-                className={classes.depositModal__listItemSecondaryAction}
+                className={classes.depositModal__listItemSecondaryLogo}
               >
                 <IconButton
                   aria-label="copy-address"

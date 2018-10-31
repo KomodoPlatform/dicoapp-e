@@ -117,8 +117,7 @@ const styles = theme => ({
   },
 
   withdraw__listItemSecondaryLogo: {
-    right: -10,
-    top: 24
+    right: -10
   },
 
   withdraw__transactionFee: {
