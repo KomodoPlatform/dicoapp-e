@@ -6,6 +6,7 @@ import { loadCoinTransactionsProcess } from '../saga';
 import data, { listtransactionsdata } from './fake-data';
 
 const TEST_URL = 'http://127.0.0.1:7783';
+const TIME_OUT = 30 * 1000;
 
 describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
   const coin = 'EQL';
@@ -26,7 +27,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
-              queueid: 0,
+              queueid: 1,
               method: 'listtransactions',
               count: 10
             });
@@ -64,10 +65,10 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
         nock.enableNetConnect();
         done();
       } catch (err) {
-        console.log(err);
+        done.fail(err);
       }
     },
-    90 * 1000
+    TIME_OUT
   );
   it(
     'should throw error when handle loadCoinTransactionsProcess',
@@ -83,7 +84,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
-              queueid: 0,
+              queueid: 2,
               method: 'listtransactions',
               count: 10
             });
@@ -108,9 +109,9 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
         nock.enableNetConnect();
         done();
       } catch (err) {
-        console.log(err);
+        done.fail(err);
       }
     },
-    90 * 1000
+    TIME_OUT
   );
 });
