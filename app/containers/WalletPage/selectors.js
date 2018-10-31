@@ -17,6 +17,11 @@ const makeSelectTransactionsError = () =>
     transactionsState.get('error')
   );
 
+const makeSelectTransactionsQueueids = () =>
+  createSelector(makeSelectTransactions(), transactionsState =>
+    transactionsState.get('queueids')
+  );
+
 const makeSelectTransactionsList = () =>
   createSelector(makeSelectTransactions(), transactionsState =>
     transactionsState.get('list')
@@ -54,6 +59,7 @@ export {
   makeSelectTransactionsList,
   makeSelectTransactionsEntities,
   makeSelectTransactions,
+  makeSelectTransactionsQueueids,
   makeSelectWithdrawModal,
   makeSelectCoinWithdrawModal,
   makeSelectDepositModal,

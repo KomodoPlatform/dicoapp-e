@@ -5,9 +5,10 @@ import { TRANSACTIONS_LOAD } from './constants';
 import { makeSelectCurrentUser } from '../App/selectors';
 import api from '../../lib/barter-dex-api';
 import {
-  loadTransactionSuccess,
+  // loadTransactionSuccess,
   loadTransactionsSuccess,
-  loadTransactionsError
+  loadTransactionsError,
+  loadCoinTransactions
 } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:saga');
@@ -17,6 +18,7 @@ export function* loadCoinTransactionsProcess(coin, address) {
   try {
     debug(`load coin transaction process running ${coin}`);
 
+    const queueId = api.getQueueId();
     request = api.listTransactions(
       {
         coin,
@@ -27,26 +29,24 @@ export function* loadCoinTransactionsProcess(coin, address) {
       }
     );
 
-    // request = api.listTransactions({
-    //   coin,
-    //   address
-    // });
-
-    let data = yield request;
+    // {result: "success", status: "queued"}
+    const data = yield request;
 
     // sort
-    data = data.sort((a, b) => b.height - a.height);
+    // data = data.sort((a, b) => b.height - a.height);
 
     // only take 10 records
-    data = data.slice(0, 10);
+    // data = data.slice(0, 10);
 
     // add coin symbol
-    data = data.map(e => {
-      e.coin = coin;
-      return e;
-    });
-
-    return yield put(loadTransactionSuccess(data));
+    // data = data.map(e => {
+    //   e.coin = coin;
+    //   return e;
+    // });
+    data.coin = coin;
+    data.queueId = queueId;
+    // return yield put(loadTransactionSuccess(data));
+    return yield put(loadCoinTransactions(data));
   } catch (err) {
     debug(`load coin transaction process fail ${coin}: ${err.message}`);
     return [];

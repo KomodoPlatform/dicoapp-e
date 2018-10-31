@@ -8,9 +8,15 @@ import {
   WITHDRAW_MODAL_CLOSE,
   DEPOSIT_MODAL_OPEN,
   DEPOSIT_MODAL_CLOSE,
-  TRANSACTIONS_LOAD
+  TRANSACTIONS_LOAD,
+  COIN_TRANSACTIONS_LOAD,
+  COIN_TRANSACTIONS_SUCCESS
 } from './constants';
-import type { TransactionPayload } from './schema';
+import type {
+  TransactionPayload,
+  CoinTransactionsLoadPayload,
+  CoinTransactionsSuccessPayload
+} from './schema';
 
 export function loadTransactionsSuccess() {
   return {
@@ -69,5 +75,21 @@ export function closeDepositModal() {
 export function loadTransactions() {
   return {
     type: TRANSACTIONS_LOAD
+  };
+}
+
+export function loadCoinTransactions(payload: CoinTransactionsLoadPayload) {
+  return {
+    type: COIN_TRANSACTIONS_LOAD,
+    payload
+  };
+}
+
+export function loadCoinTransactionsSuccess(
+  payload: CoinTransactionsSuccessPayload
+) {
+  return {
+    type: COIN_TRANSACTIONS_SUCCESS,
+    payload
   };
 }

@@ -39,6 +39,13 @@ export default function httpProvider(
       // eslint-disable-next-line no-param-reassign
       state.userpass = null;
     },
+    // NOTE: only for test
+    setQueueId(id: number) {
+      queueId = id;
+    },
+    getQueueId() {
+      return queueId;
+    },
     // eslint-disable-next-line flowtype/no-weak-types
     publicCall(params: Object, options: OptionsType = DEFAULT_OPTION) {
       const source = CancelToken.source();

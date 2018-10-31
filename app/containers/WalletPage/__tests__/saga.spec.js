@@ -17,6 +17,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
     'should handle loadCoinTransactionsProcess correctly',
     async done => {
       try {
+        api.setQueueId(1);
         nock(TEST_URL)
           .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
           .persist()
@@ -74,6 +75,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
     'should throw error when handle loadCoinTransactionsProcess',
     async done => {
       try {
+        api.setQueueId(1);
         nock(TEST_URL)
           .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
           .persist()
@@ -84,7 +86,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
-              queueid: 2,
+              queueid: 1,
               method: 'listtransactions',
               count: 10
             });

@@ -51,6 +51,7 @@ describe('utils/barter-dex-api/http-provider', () => {
       body: '{"queueid":0,"userpass":"userpass","song":"perfect"}'
     });
 
+    api.setQueueId(1);
     res = await api.privateCall(
       {
         song: 'perfect'
@@ -63,6 +64,7 @@ describe('utils/barter-dex-api/http-provider', () => {
       uri: '/',
       body: '{"queueid":1,"userpass":"userpass","song":"perfect"}'
     });
+    expect(api.getQueueId()).toEqual(2);
   });
 
   it('should handle the publicCall correctly', async () => {
@@ -86,6 +88,7 @@ describe('utils/barter-dex-api/http-provider', () => {
 
     expect(res).toEqual({ uri: '/', body: '{"queueid":0,"song":"perfect"}' });
 
+    api.setQueueId(1);
     res = await api.publicCall(
       {
         song: 'perfect'
@@ -94,6 +97,7 @@ describe('utils/barter-dex-api/http-provider', () => {
         useQueue: true
       }
     );
-    expect(res).toEqual({ uri: '/', body: '{"queueid":2,"song":"perfect"}' });
+    expect(res).toEqual({ uri: '/', body: '{"queueid":1,"song":"perfect"}' });
+    expect(api.getQueueId()).toEqual(2);
   });
 });
