@@ -54,19 +54,18 @@ describe('containers/WalletPage/subscribe/walletSubscribe', () => {
         };
 
         const getState = () => store;
-
-        const result = await walletSubscribe(
-          fakeDataFromSocket,
-          dispatch,
-          getState
-        );
-
         const tx = fakeDataFromSocket.result
           .sort((a, b) => b.height - a.height)
           .map(e => {
             e.coin = coin;
             return e;
           });
+
+        let result = await walletSubscribe(
+          fakeDataFromSocket,
+          dispatch,
+          getState
+        );
         expect(result).toEqual(undefined);
         expect(dispatched).toEqual([
           loadCoinTransactionsSuccess({
@@ -76,6 +75,11 @@ describe('containers/WalletPage/subscribe/walletSubscribe', () => {
           })
         ]);
         dispatched = [];
+
+        fakeDataFromSocket.queueid = 23;
+        result = await walletSubscribe(fakeDataFromSocket, dispatch, getState);
+        expect(result).toEqual(undefined);
+        expect(dispatched).toEqual([]);
 
         done();
       } catch (err) {
