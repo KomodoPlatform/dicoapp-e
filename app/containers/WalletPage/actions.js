@@ -1,7 +1,6 @@
 // @flow
 
 import {
-  LOAD_TRANSACTION_SUCCESS,
   LOAD_TRANSACTIONS_SUCCESS,
   LOAD_TRANSACTIONS_ERROR,
   WITHDRAW_MODAL_OPEN,
@@ -14,7 +13,6 @@ import {
   COIN_TRANSACTIONS_SUCCESS
 } from './constants';
 import type {
-  TransactionPayload,
   CoinTransactionsLoadPayload,
   CoinTransactionsSuccessPayload
 } from './schema';
@@ -22,15 +20,6 @@ import type {
 export function loadTransactionsSuccess() {
   return {
     type: LOAD_TRANSACTIONS_SUCCESS
-  };
-}
-
-export function loadTransactionSuccess(transaction: Array<TransactionPayload>) {
-  return {
-    type: LOAD_TRANSACTION_SUCCESS,
-    payload: {
-      transaction
-    }
   };
 }
 

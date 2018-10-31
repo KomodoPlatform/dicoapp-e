@@ -10,7 +10,6 @@ import { makeSelectCurrentUser } from '../App/selectors';
 import api from '../../lib/barter-dex-api';
 import {
   loadTransactions,
-  // loadTransactionSuccess,
   loadTransactionsSuccess,
   loadTransactionsError,
   loadCoinTransactions
@@ -38,9 +37,9 @@ export function* loadCoinTransactionsProcess(coin, address) {
     const data = yield request;
     data.coin = coin;
     data.queueId = queueId;
-    // return yield put(loadTransactionSuccess(data));
     return yield put(loadCoinTransactions(data));
   } catch (err) {
+    // FIXME: handling error
     debug(`load coin transaction process fail ${coin}: ${err.message}`);
     return [];
   } finally {

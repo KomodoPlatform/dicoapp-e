@@ -3,21 +3,27 @@ import { fromJS } from 'immutable';
 import { runSaga } from 'redux-saga';
 import api from '../../../lib/barter-dex-api';
 import { loadCoinTransactionsProcess } from '../saga';
-import data, { listtransactionsdata } from './fake-data';
+import { loadCoinTransactions } from '../actions';
+import data from './fake-data';
 
 const TEST_URL = 'http://127.0.0.1:7783';
 const TIME_OUT = 30 * 1000;
 
 describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
-  const coin = 'EQL';
+  const coin = 'KMD';
   const address = 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu';
   const userpass = 'userpass';
+  const queueId = 23;
+  const listtransactionsdata = {
+    result: 'success',
+    status: 'queued'
+  };
   api.setUserpass(userpass);
   it(
     'should handle loadCoinTransactionsProcess correctly',
     async done => {
       try {
-        api.setQueueId(1);
+        api.setQueueId(queueId);
         nock(TEST_URL)
           .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
           .persist()
@@ -28,7 +34,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
-              queueid: 1,
+              queueid: queueId,
               method: 'listtransactions',
               count: 10
             });
@@ -49,17 +55,15 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
 
         expect(saga).toEqual(1);
         expect(dispatched).toEqual([
-          {
-            type: 'dicoapp/WalletPage/LOAD_TRANSACTION_SUCCESS',
-            payload: {
-              transaction: listtransactionsdata
-                .map(e => {
-                  e.coin = coin;
-                  return e;
-                })
-                .sort((a, b) => b.height - a.height)
-            }
-          }
+          loadCoinTransactions(
+            Object.assign(
+              {
+                coin,
+                queueId
+              },
+              listtransactionsdata
+            )
+          )
         ]);
 
         nock.cleanAll();
@@ -75,7 +79,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
     'should throw error when handle loadCoinTransactionsProcess',
     async done => {
       try {
-        api.setQueueId(1);
+        api.setQueueId(queueId);
         nock(TEST_URL)
           .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
           .persist()
@@ -86,7 +90,7 @@ describe('containers/WalletPage/saga/loadCoinTransactionsProcess', () => {
               userpass,
               coin,
               address,
-              queueid: 1,
+              queueid: queueId,
               method: 'listtransactions',
               count: 10
             });
