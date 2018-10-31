@@ -5,7 +5,8 @@ import {
   openWithdrawModal,
   closeWithdrawModal,
   openDepositModal,
-  closeDepositModal
+  closeDepositModal,
+  loadCoinTransactions
 } from '../actions';
 import {
   TRANSACTIONS_LOAD,
@@ -14,7 +15,8 @@ import {
   WITHDRAW_MODAL_OPEN,
   WITHDRAW_MODAL_CLOSE,
   DEPOSIT_MODAL_OPEN,
-  DEPOSIT_MODAL_CLOSE
+  DEPOSIT_MODAL_CLOSE,
+  COIN_TRANSACTIONS_LOAD
 } from '../constants';
 
 describe('containers/WalletPage/actions/loadTransactions', () => {
@@ -120,5 +122,26 @@ describe('containers/WalletPage/actions/closeDepositModal', () => {
     };
 
     expect(closeDepositModal()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/WalletPage/actions/loadCoinTransactions', () => {
+  const data = {
+    result: 'success',
+    status: 'queued',
+    coin: 'KMD',
+    queueId: 23
+  };
+  it('should loadCoinTransactions should create loadCoinTransactions action', () => {
+    expect(loadCoinTransactions(data)).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: COIN_TRANSACTIONS_LOAD,
+      payload: data
+    };
+
+    expect(loadCoinTransactions(data)).toEqual(expectedResult);
   });
 });

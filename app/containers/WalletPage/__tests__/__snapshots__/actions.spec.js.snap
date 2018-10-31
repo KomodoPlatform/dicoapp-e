@@ -12,6 +12,18 @@ Object {
 }
 `;
 
+exports[`containers/WalletPage/actions/loadCoinTransactions should loadCoinTransactions should create loadCoinTransactions action 1`] = `
+Object {
+  "payload": Object {
+    "coin": "KMD",
+    "queueId": 23,
+    "result": "success",
+    "status": "queued",
+  },
+  "type": "dicoapp/WalletPage/COIN_TRANSACTIONS_LOAD",
+}
+`;
+
 exports[`containers/WalletPage/actions/loadTransactions should loadTransactions should create loadTransactions action 1`] = `
 Object {
   "type": "dicoapp/WalletPage/TRANSACTIONS_LOAD",
