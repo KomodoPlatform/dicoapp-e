@@ -38,16 +38,6 @@ const makeSelectLatestTransactions = () =>
     }, List())
   );
 
-const makeSelectTransactionsList = () =>
-  createSelector(makeSelectTransactions(), transactionsState =>
-    transactionsState.get('list')
-  );
-
-const makeSelectTransactionsEntities = () =>
-  createSelector(makeSelectTransactions(), transactionsState =>
-    transactionsState.get('entities')
-  );
-
 const makeSelectWithdrawModal = () =>
   createSelector(selectWallet, walletState => walletState.get('withdrawModal'));
 
@@ -72,8 +62,6 @@ export {
   selectWallet,
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
-  makeSelectTransactionsList,
-  makeSelectTransactionsEntities,
   makeSelectTransactions,
   makeSelectTransactionsQueueids,
   makeSelectLatestTransactions,

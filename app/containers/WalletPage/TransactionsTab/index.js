@@ -20,8 +20,6 @@ import explorer from '../../../lib/explorer';
 import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
-  makeSelectTransactionsList,
-  makeSelectTransactionsEntities,
   makeSelectLatestTransactions
 } from '../selectors';
 import { loadTransactions } from '../actions';
@@ -60,10 +58,6 @@ type Props = {
   error: boolean | Object,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
-  // eslint-disable-next-line flowtype/no-weak-types
-  list: Object,
-  // eslint-disable-next-line flowtype/no-weak-types
-  entities: Object,
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadTransactions: Function,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -105,36 +99,7 @@ class TransactionsTab extends React.PureComponent<Props> {
     shell.openExternal(evt.target.href);
   };
 
-  renderRecord = (v, k) => {
-    const { entities } = this.props;
-    const t = entities.get(v);
-    if (!t) return null;
-    const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
-    return (
-      <TableRow key={t.get('tx_hash')}>
-        <TableCell>{k + 1}</TableCell>
-        <TableCell>{t.get('coin')}</TableCell>
-        <TableCell>{t.get('height')}</TableCell>
-        <TableCell>
-          {/* eslint-disable-next-line react/jsx-no-target-blank */}
-          {linkExplorer && (
-            <a
-              style={{ color: '#000' }}
-              href={linkExplorer}
-              // target="_blank"
-              // rel="noopener noreferrer"
-              onClick={this.onClickTranstactions}
-            >
-              {t.get('tx_hash')}
-            </a>
-          )}
-          {!linkExplorer && t.get('tx_hash')}
-        </TableCell>
-      </TableRow>
-    );
-  };
-
-  renderRecord2 = (t, k) => {
+  renderRecord = (t, k) => {
     if (!t) return null;
     const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
     return (
@@ -164,7 +129,7 @@ class TransactionsTab extends React.PureComponent<Props> {
   render() {
     debug(`render`);
 
-    const { loading, classes, list, error, transactions } = this.props;
+    const { loading, classes, error, transactions } = this.props;
 
     return (
       <Grid container spacing={12}>
@@ -206,8 +171,7 @@ class TransactionsTab extends React.PureComponent<Props> {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list && list.map(this.renderRecord)}
-              {transactions && transactions.map(this.renderRecord2)}
+              {transactions && transactions.map(this.renderRecord)}
             </TableBody>
           </Table>
         </Grid>
@@ -228,8 +192,6 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectTransactionsLoading(),
   error: makeSelectTransactionsError(),
-  list: makeSelectTransactionsList(),
-  entities: makeSelectTransactionsEntities(),
   transactions: makeSelectLatestTransactions()
 });
 
