@@ -134,35 +134,3 @@ const walletReducer = handleActions(
 
 export default walletReducer;
 /* eslint-enable no-case-declarations, no-param-reassign */
-
-/**
-// TRY TO TEST SOME DATA STRUCT
-
-const example = fromJS({
-  transactions: {
-    loading: false,
-    queueids: {
-      1: 'KMD',
-      2: 'BTC'
-    },
-    coins: {
-      KMD: {
-        // RECORD TYPE
-        error: false,
-        list: [],
-        entities: {}
-      }
-    }
-  }
-});
-
-console.log(example.size, 'example.size');
-const transactions = example.get('transactions');
-console.log(transactions.size, 'transactions.size');
-// how to check loading state?
-const queueids = example.getIn(['transactions', 'queueids']);
-console.log(queueids.size, 'queueids.size');
-// how to filter transaction by coin? find KMD
-const coins = example.getIn(['transactions', 'coins']);
-console.log(coins.get('KMD').toJS(), "coins.get('KMD') 23");
- */
