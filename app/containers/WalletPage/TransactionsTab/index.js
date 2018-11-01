@@ -7,20 +7,24 @@ import { compose } from 'redux';
 import type { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Typography from '@material-ui/core/Typography';
+import CloudOff from '@material-ui/icons/CloudOff';
 import CachedIcon from '@material-ui/icons/Cached';
 import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
-  makeSelectLatestTransactions
+  makeSelectLatestTransactions,
+  makeSelectTransactionsQueueids
 } from '../selectors';
 import { loadTransactions, loadTransactionsLoop } from '../actions';
 import TransactionsTable from './TransactionsTable';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:TransactionsTab');
 
-const styles = () => ({
+const styles = theme => ({
   containerSection: {
     position: 'relative',
     paddingBottom: 30
@@ -31,6 +35,18 @@ const styles = () => ({
     right: 8,
     display: 'flex',
     position: 'absolute'
+  },
+
+  walletTable__emptyContainer: {
+    width: 350,
+    color: '#202124',
+    margin: '60px auto',
+    textAlign: 'center'
+  },
+
+  walletTable__iconemptystate: {
+    fontSize: 50,
+    color: theme.palette.primary.main
   }
 });
 
@@ -45,7 +61,11 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadTransactionsLoop: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  transactions: List<*>
+  transactions: List<*>,
+  // eslint-disable-next-line flowtype/no-weak-types
+  switchToPortfolioTab: Function,
+  // eslint-disable-next-line flowtype/no-weak-types
+  queueids: Map<*, *>
 };
 
 class TransactionsTab extends React.PureComponent<Props> {
@@ -60,10 +80,29 @@ class TransactionsTab extends React.PureComponent<Props> {
     dispatchLoadTransactions();
   };
 
+  renderEmptyState = () => {
+    const { classes, switchToPortfolioTab } = this.props;
+
+    return (
+      <div className={classes.walletTable__emptyContainer}>
+        <CloudOff className={classes.walletTable__iconemptystate} />
+        <Typography variant="title" gutterBottom>
+          No data found
+        </Typography>
+        <Typography variant="subheading" gutterBottom>
+          Please start making a swap
+        </Typography>
+        <Button color="primary" onClick={switchToPortfolioTab}>
+          go to portfolio
+        </Button>
+      </div>
+    );
+  };
+
   render() {
     debug(`render`);
 
-    const { loading, classes, error, transactions } = this.props;
+    const { loading, queueids, classes, error, transactions } = this.props;
 
     return (
       <Grid container spacing={12}>
@@ -83,7 +122,10 @@ class TransactionsTab extends React.PureComponent<Props> {
               message={error.message}
             />
           )}
-          <TransactionsTable data={transactions} />
+          {transactions.size === 0 &&
+            queueids.size === 0 &&
+            this.renderEmptyState()}
+          {transactions.size > 0 && <TransactionsTable data={transactions} />}
         </Grid>
       </Grid>
     );
@@ -103,7 +145,8 @@ export function mapDispatchToProps(dispatch: Dispatch<Object>) {
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectTransactionsLoading(),
   error: makeSelectTransactionsError(),
-  transactions: makeSelectLatestTransactions()
+  transactions: makeSelectLatestTransactions(),
+  queueids: makeSelectTransactionsQueueids()
 });
 
 const withConnect = connect(

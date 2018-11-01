@@ -63,6 +63,14 @@ class WalletPage extends Component<Props, State> {
     this.setState({ value });
   };
 
+  switchToPortfolioTab = () => {
+    this.setState({ value: 0 });
+  };
+
+  switchToTransactionsTab = () => {
+    this.setState({ value: 1 });
+  };
+
   render() {
     debug(`render`);
 
@@ -104,7 +112,9 @@ class WalletPage extends Component<Props, State> {
                   </FormattedMessage>
                 }
               />
-              <TransactionsTab />
+              <TransactionsTab
+                switchToPortfolioTab={this.switchToPortfolioTab}
+              />
             </TabContainer>
           </ErrorBoundary>
         </NavigationLayout>
