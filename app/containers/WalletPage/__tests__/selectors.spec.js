@@ -3,6 +3,8 @@ import { initialState } from '../reducer';
 import { APP_STATE_NAME } from '../constants';
 import {
   selectWallet,
+  makeSelectTransactionsLoading,
+  makeSelectTransactionsCoins,
   makeSelectWithdrawModal,
   makeSelectDepositModal,
   makeSelectCoinWithdrawModal,
@@ -16,6 +18,18 @@ describe('containers/WalletPage/selectors/selectWallet', () => {
       [APP_STATE_NAME]: initialState
     });
     expect(selectWallet(mockedState)).toEqual(initialState);
+  });
+});
+
+describe('containers/WalletPage/selectors/makeSelectTransactionsLoading', () => {
+  it('should select the withdrawModal state', () => {
+    const mockedState = fromJS({
+      [APP_STATE_NAME]: initialState
+    });
+    const selectTransactionsLoading = makeSelectTransactionsLoading();
+    expect(selectTransactionsLoading(mockedState)).toEqual(
+      initialState.getIn(['transactions', 'loading'])
+    );
   });
 });
 
@@ -75,5 +89,14 @@ describe('containers/WalletPage/selectors/makeSelectCoinDepositModal', () => {
     const expected = fromJS(data.global.balance.entities[coin]);
     const selectCoinDepositModal = makeSelectCoinDepositModal();
     expect(selectCoinDepositModal(mockedState)).toEqual(expected);
+  });
+});
+
+describe('containers/WalletPage/selectors/makeSelectTransactionsCoins', () => {
+  it('should select the TransactionsCoins state', () => {
+    const mockedState = fromJS(data);
+    const expected = fromJS(data.wallet.transactions.coins);
+    const selectTransactionsCoins = makeSelectTransactionsCoins();
+    expect(selectTransactionsCoins(mockedState)).toEqual(expected);
   });
 });

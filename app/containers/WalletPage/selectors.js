@@ -64,6 +64,7 @@ export {
   makeSelectTransactionsError,
   makeSelectTransactions,
   makeSelectTransactionsQueueids,
+  makeSelectTransactionsCoins,
   makeSelectLatestTransactions,
   makeSelectWithdrawModal,
   makeSelectCoinWithdrawModal,
