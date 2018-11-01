@@ -5,7 +5,7 @@ export const LOAD_TRANSACTIONS_SUCCESS =
 export const LOAD_TRANSACTIONS_ERROR =
   'dicoapp/WalletPage/LOAD_TRANSACTIONS_ERROR';
 
-export const TIME_LOOP = 30 * 1000;
+export const TIME_LOOP = 90 * 1000;
 export const WITHDRAW_MODAL_OPEN = 'dicoapp/WalletPage/WITHDRAW_MODAL_OPEN';
 export const WITHDRAW_MODAL_CLOSE = 'dicoapp/WalletPage/WITHDRAW_MODAL_CLOSE';
 export const DEPOSIT_MODAL_OPEN = 'dicoapp/WalletPage/DEPOSIT_MODAL_OPEN';

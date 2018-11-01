@@ -122,7 +122,8 @@ class TransactionsTab extends React.PureComponent<Props> {
               message={error.message}
             />
           )}
-          {transactions.size === 0 &&
+          {!loading &&
+            transactions.size === 0 &&
             queueids.size === 0 &&
             this.renderEmptyState()}
           {transactions.size > 0 && <TransactionsTable data={transactions} />}

@@ -13,7 +13,7 @@ export default async function walletSubscribe(
     if (coin) {
       // FIXME this case
       // {error: "timeout"}
-
+      if (!result || !result.sort) return;
       // sort
       let data = result.sort((a, b) => b.height - a.height);
 
