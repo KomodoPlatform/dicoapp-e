@@ -103,7 +103,7 @@ class TransactionsTab extends React.PureComponent<Props> {
     debug(`render`);
 
     const { loading, queueids, classes, error, transactions } = this.props;
-
+    const empty = !loading && transactions.size === 0 && queueids.size === 0;
     return (
       <Grid container spacing={12}>
         <Grid item xs={12} className={classes.containerSection}>
@@ -122,11 +122,8 @@ class TransactionsTab extends React.PureComponent<Props> {
               message={error.message}
             />
           )}
-          {!loading &&
-            transactions.size === 0 &&
-            queueids.size === 0 &&
-            this.renderEmptyState()}
-          {transactions.size > 0 && <TransactionsTable data={transactions} />}
+          {empty && this.renderEmptyState()}
+          {!empty && <TransactionsTable data={transactions} />}
         </Grid>
       </Grid>
     );
