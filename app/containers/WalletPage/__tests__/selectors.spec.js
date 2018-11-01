@@ -1,10 +1,14 @@
 import { fromJS } from 'immutable';
+import each from 'lodash/each';
+import take from 'lodash/take';
+import concat from 'lodash/concat';
 import { initialState } from '../reducer';
 import { APP_STATE_NAME } from '../constants';
 import {
   selectWallet,
   makeSelectTransactionsLoading,
   makeSelectTransactionsCoins,
+  makeSelectLatestTransactions,
   makeSelectWithdrawModal,
   makeSelectDepositModal,
   makeSelectCoinWithdrawModal,
@@ -98,5 +102,20 @@ describe('containers/WalletPage/selectors/makeSelectTransactionsCoins', () => {
     const expected = fromJS(data.wallet.transactions.coins);
     const selectTransactionsCoins = makeSelectTransactionsCoins();
     expect(selectTransactionsCoins(mockedState)).toEqual(expected);
+  });
+});
+
+describe('containers/WalletPage/selectors/makeSelectLatestTransactions', () => {
+  it('should select the TransactionsCoins state', () => {
+    const mockedState = fromJS(data);
+    let expected = [];
+
+    each(data.wallet.transactions.coins, v => {
+      let lastTx = take(v.list, 10);
+      lastTx = lastTx.map(e => v.entities[e]);
+      expected = concat(expected, lastTx);
+    });
+    const selectTransactionsCoins = makeSelectLatestTransactions();
+    expect(selectTransactionsCoins(mockedState)).toEqual(fromJS(expected));
   });
 });
