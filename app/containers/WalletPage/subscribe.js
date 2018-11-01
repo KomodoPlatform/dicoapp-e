@@ -10,7 +10,6 @@ export default async function walletSubscribe(
     const selectTransactionsQueueids = makeSelectTransactionsQueueids();
     const queueids = selectTransactionsQueueids(getState());
     const coin = queueids.get(`${queueid}`);
-    console.log(coin, 'walletSubscribe');
     if (coin) {
       // FIXME this case
       // {error: "timeout"}

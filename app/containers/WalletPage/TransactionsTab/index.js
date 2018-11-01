@@ -1,28 +1,22 @@
 // @flow
 import React from 'react';
-import { shell } from 'electron';
+import type { List } from 'immutable';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { FormattedMessage } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import CachedIcon from '@material-ui/icons/Cached';
-import explorer from '../../../lib/explorer';
 import {
   makeSelectTransactionsLoading,
   makeSelectTransactionsError,
   makeSelectLatestTransactions
 } from '../selectors';
 import { loadTransactions, loadTransactionsLoop } from '../actions';
+import TransactionsTable from './TransactionsTable';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:TransactionsTab');
 
@@ -32,20 +26,11 @@ const styles = () => ({
     paddingBottom: 30
   },
 
-  table: {
-    maxHeight: 450
-  },
-
   btns: {
     top: 8,
     right: 8,
     display: 'flex',
     position: 'absolute'
-  },
-
-  th: {
-    color: '#555555',
-    fontSize: 15
   }
 });
 
@@ -60,7 +45,7 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadTransactionsLoop: Function,
   // eslint-disable-next-line flowtype/no-weak-types
-  transactions: Object // List
+  transactions: List<*>
 };
 
 class TransactionsTab extends React.PureComponent<Props> {
@@ -73,39 +58,6 @@ class TransactionsTab extends React.PureComponent<Props> {
     evt.preventDefault();
     const { dispatchLoadTransactions } = this.props;
     dispatchLoadTransactions();
-  };
-
-  onClickTranstactions = (evt: SyntheticInputEvent<>) => {
-    evt.preventDefault();
-    // https://github.com/electron/electron/blob/master/docs/api/shell.md#shellopenexternalurl
-    shell.openExternal(evt.target.href);
-  };
-
-  renderRecord = (t, k) => {
-    if (!t) return null;
-    const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
-    return (
-      <TableRow key={t.get('tx_hash')}>
-        <TableCell>{k + 1}</TableCell>
-        <TableCell>{t.get('coin')}</TableCell>
-        <TableCell>{t.get('height')}</TableCell>
-        <TableCell>
-          {/* eslint-disable-next-line react/jsx-no-target-blank */}
-          {linkExplorer && (
-            <a
-              style={{ color: '#000' }}
-              href={linkExplorer}
-              // target="_blank"
-              // rel="noopener noreferrer"
-              onClick={this.onClickTranstactions}
-            >
-              {t.get('tx_hash')}
-            </a>
-          )}
-          {!linkExplorer && t.get('tx_hash')}
-        </TableCell>
-      </TableRow>
-    );
   };
 
   render() {
@@ -131,31 +83,7 @@ class TransactionsTab extends React.PureComponent<Props> {
               message={error.message}
             />
           )}
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.th}>#</TableCell>
-                <TableCell className={classes.th}>
-                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_coin">
-                    {(...content) => content}
-                  </FormattedMessage>
-                </TableCell>
-                <TableCell className={classes.th}>
-                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_blockheight">
-                    {(...content) => content}
-                  </FormattedMessage>
-                </TableCell>
-                <TableCell className={classes.th}>
-                  <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_transactionid">
-                    {(...content) => content}
-                  </FormattedMessage>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {transactions && transactions.map(this.renderRecord)}
-            </TableBody>
-          </Table>
+          <TransactionsTable data={transactions} />
         </Grid>
       </Grid>
     );
