@@ -32,7 +32,7 @@ const MarketMaker = () => {
       const coins = config.get('marketmaker.data');
       const startparams = Object.assign({}, options, {
         client: 1,
-        canbind: 0,
+        // canbind: 0,
         gui: 'dICOapp-cm',
         passphrase: 'default',
         userhome: config.get('paths.homeDir'),
