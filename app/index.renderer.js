@@ -14,8 +14,6 @@ import history from './utils/history';
 import { translationMessages } from './i18n';
 import './app.global.css';
 
-import ErrorBoundary from './components/ErrorBoundary';
-
 const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('root');
@@ -25,14 +23,12 @@ const render = (AppComponent, messages) => {
     <AppContainer>
       <Provider store={store}>
         <LanguageProvider messages={messages}>
-          <ErrorBoundary>
-            <MuiThemeProvider theme={theme}>
-              <CssBaseline />
-              <ConnectedRouter history={history}>
-                <AppComponent />
-              </ConnectedRouter>
-            </MuiThemeProvider>
-          </ErrorBoundary>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <ConnectedRouter history={history}>
+              <AppComponent />
+            </ConnectedRouter>
+          </MuiThemeProvider>
         </LanguageProvider>
       </Provider>
     </AppContainer>,

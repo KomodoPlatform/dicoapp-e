@@ -38,9 +38,9 @@ if (
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
+  // NOTE: we shoud run `UPGRADE_EXTENSIONS=true yarn dev` after upgrade react
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
   ).catch(console.log);

@@ -1,7 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
-// import Avatar from '@material-ui/core/Avatar';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line } from '../../../components/placeholder';
 import { floor } from '../utils';
@@ -22,16 +20,12 @@ const line = (
   />
 );
 
-const styles = () => ({});
-
 type Props = {
-  // eslint-disable-next-line flowtype/no-weak-types
-  classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
   balance: Object
 };
 
-class CurrencySection extends PureComponent<Props> {
+class CurrencySection extends React.PureComponent<Props> {
   static defaultProps = {};
 
   render() {
@@ -68,4 +62,4 @@ class CurrencySection extends PureComponent<Props> {
 
 CurrencySection.displayName = 'CurrencySection';
 
-export default withStyles(styles)(CurrencySection);
+export default CurrencySection;

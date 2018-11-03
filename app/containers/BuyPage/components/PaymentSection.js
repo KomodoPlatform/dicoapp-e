@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { List, Map } from 'immutable';
-import { withStyles } from '@material-ui/core/styles';
 import { createStructuredSelector } from 'reselect';
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { Line, Circle } from '../../../components/placeholder';
@@ -54,12 +53,8 @@ const circle = (
   />
 );
 
-const styles = () => ({});
-
 type Props = {
   loading: boolean,
-  // eslint-disable-next-line flowtype/no-weak-types
-  // classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadPrice: Function,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -149,7 +144,4 @@ const withConnect = connect(
   null
 );
 
-export default compose(
-  withConnect,
-  withStyles(styles)
-)(PaymentSection);
+export default compose(withConnect)(PaymentSection);
