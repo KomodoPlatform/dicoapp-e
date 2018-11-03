@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   page__title: {
-    marginBottom: 25,
+    marginBottom: 24,
     fontSize: 20
   }
 });

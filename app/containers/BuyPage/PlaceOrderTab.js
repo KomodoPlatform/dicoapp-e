@@ -31,7 +31,7 @@ const styles = () => ({
   },
 
   containerSection: {
-    paddingBottom: 30
+    // paddingBottom: 30
   },
 
   hr: {

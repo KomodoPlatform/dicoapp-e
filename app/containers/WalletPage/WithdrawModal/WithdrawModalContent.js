@@ -10,11 +10,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import TextField from '@material-ui/core/TextField';
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
 import { getCoinIcon } from '../../../components/CryptoIcons';
 import { required, requiredNumber } from '../../../components/Form/helper';
 import BuyButton from '../../../components/BuyButton';

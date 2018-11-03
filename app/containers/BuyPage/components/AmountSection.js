@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
+import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { Dispatch } from 'redux';
@@ -15,6 +16,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import CloseIcon from '@material-ui/icons/Close';
 import { Circle, Line } from '../../../components/placeholder';
@@ -41,7 +43,6 @@ import {
   makeSelectBuyingError,
   makeSelectCurrentSwap
 } from '../selectors';
-import AmountInput from './AmountInput';
 import BuyButton from '../../../components/BuyButton';
 import CoinSelectable from './CoinSelectable';
 
@@ -49,15 +50,26 @@ const debug = require('debug')('dicoapp:containers:BuyPage:AmountSection');
 
 const config = getConfig();
 const COIN_BASE = config.get('marketmaker.tokenconfig');
+const line = (
+  <Line
+    width={60}
+    style={{
+      margin: '10px auto'
+    }}
+  />
+);
+const circle = <Circle />;
 
 // eslint-disable-next-line react/prop-types
 const TextInput = ({ onChange, value, error, isError, ...props }) => (
-  <AmountInput
+  <TextField
     {...props}
+    variant="outlined"
     error={isError}
     helperText={error}
     value={value}
     onChange={onChange}
+    margin="dense"
   />
 );
 
@@ -81,14 +93,6 @@ const ValidationPaymentInput = validate(TextInput, [requiredNumber, lessThan], {
 });
 
 const styles = theme => ({
-  amountform: {
-    width: '50%'
-  },
-
-  amountform__item: {
-    width: '100%'
-  },
-
   amountform__itemCenter: {
     textAlign: 'center'
   },
@@ -125,6 +129,39 @@ const styles = theme => ({
     fontSize: '0.75rem',
     fontWeight: 400,
     lineHeight: '1.375em'
+  },
+
+  amountform__formItem: {
+    margin: '24px 0 24px 0',
+    position: 'relative',
+    width: '100%'
+  },
+
+  amountform__formFirstItem: {
+    margin: '0 0 24px 0',
+    position: 'relative',
+    width: '100%'
+  },
+
+  amountform__formEndItem: {
+    margin: '24px 0 0 0',
+    position: 'relative',
+    width: '100%'
+  },
+
+  amountform__item: {
+    width: '100%'
+  },
+
+  amountform__formIcon: {
+    width: '1em',
+    float: 'left',
+    margin: 0
+  },
+
+  amountform: {
+    width: '50%',
+    position: 'relative'
   }
 });
 
@@ -164,7 +201,7 @@ type State = {
   snackbarMessage: string
 };
 
-class AmountSection extends Component<Props, State> {
+class AmountSection extends React.Component<Props, State> {
   static defaultProps = {
     entity: null
   };
@@ -323,84 +360,78 @@ class AmountSection extends Component<Props, State> {
     }
 
     return (
-      <form>
-        <ValidationBaseInput
-          label={COIN_BASE.coin}
-          id={COIN_BASE.coin}
-          type="number"
-          disabled={disabled}
-          className={classes.amountform__item}
-          ref={this.baseInput}
-          onChange={this.onChangeBaseInput}
-        />
-        <br />
-        <br />
-        <SwapHorizIcon />
-        <br />
-        <br />
-        <ValidationPaymentInput
-          label={label}
-          id={label}
-          type="number"
-          balance={this.getBalance()}
-          disabled={disabled}
-          className={classes.amountform__item}
-          ref={this.paymentInput}
-          onChange={this.onChangePaymentInput}
-        />
-        <br />
-        <br />
-        <BuyButton
-          disabled={disabledBuyButton || buyingLoading}
-          color="primary"
-          variant="contained"
-          className={classes.amountform__item}
-          onClick={this.onClickBuyCoinButton}
-        >
-          <FormattedMessage id="dicoapp.containers.BuyPage.execute_buy">
-            {(...content) => `${content} (${COIN_BASE.coin})`}
-          </FormattedMessage>
-        </BuyButton>
-      </form>
+      <React.Fragment>
+        <Grid item xs={12} className={classes.amountform__itemCenter}>
+          {/* <form className={classes.withdraw__form}> */}
+          <ValidationBaseInput
+            label={COIN_BASE.coin}
+            id={COIN_BASE.coin}
+            type="number"
+            disabled={disabled}
+            className={classes.amountform__formFirstItem}
+            ref={this.baseInput}
+            onChange={this.onChangeBaseInput}
+          />
+          <SwapHorizIcon
+            className={ClassNames(
+              classes.amountform__formItem,
+              classes.amountform__formIcon
+            )}
+          />
+          {paymentCoin && (
+            <ValidationPaymentInput
+              label={label}
+              id={label}
+              type="number"
+              balance={this.getBalance()}
+              disabled={disabled}
+              className={classes.amountform__formItem}
+              ref={this.paymentInput}
+              onChange={this.onChangePaymentInput}
+            />
+          )}
+          {!paymentCoin && (
+            <TextField
+              label={label}
+              id={label}
+              type="number"
+              variant="outlined"
+              disabled={disabled}
+              className={classes.amountform__formItem}
+              margin="dense"
+            />
+          )}
+          <BuyButton
+            disabled={disabledBuyButton || buyingLoading}
+            color="primary"
+            variant="contained"
+            className={classes.amountform__formEndItem}
+            onClick={this.onClickBuyCoinButton}
+          >
+            <FormattedMessage id="dicoapp.containers.BuyPage.execute_buy">
+              {(...content) => `${content} (${COIN_BASE.coin})`}
+            </FormattedMessage>
+          </BuyButton>
+          {/* </form> */}
+        </Grid>
+      </React.Fragment>
     );
   };
 
   renderConfirmForm = () => {
     const { classes } = this.props;
     return (
-      <Grid container spacing={24}>
+      <React.Fragment>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <Typography gutterBottom className={classes.amountform__warning}>
             The swap is running, don't exit the application
           </Typography>
         </Grid>
         <Grid item xs={6} className={classes.amountform__itemCenter}>
-          <CoinSelectable
-            icon={<Circle />}
-            title="Deposit"
-            subTitle={
-              <Line
-                width={60}
-                style={{
-                  margin: '10px auto'
-                }}
-              />
-            }
-          />
+          <CoinSelectable icon={circle} title="Deposit" subTitle={line} />
         </Grid>
         <Grid item xs={6} className={classes.amountform__itemCenter}>
-          <CoinSelectable
-            icon={<Circle />}
-            title="Receive"
-            subTitle={
-              <Line
-                width={60}
-                style={{
-                  margin: '10px auto'
-                }}
-              />
-            }
-          />
+          <CoinSelectable icon={circle} title="Receive" subTitle={line} />
         </Grid>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <Typography variant="body2" gutterBottom>
@@ -421,7 +452,7 @@ class AmountSection extends Component<Props, State> {
             </FormattedMessage>
           </BuyButton>
         </Grid>
-      </Grid>
+      </React.Fragment>
     );
   };
 
@@ -431,13 +462,7 @@ class AmountSection extends Component<Props, State> {
     const swapsError = entity.get('error');
     const confirmed = entity.get('sentflags').size > 0;
     return (
-      <Grid
-        container
-        spacing={24}
-        style={{
-          position: 'relative'
-        }}
-      >
+      <React.Fragment>
         <Grid item xs={12} className={classes.amountform__itemCenter}>
           <Typography gutterBottom className={classes.amountform__warning}>
             The swap is running, don't exit the application
@@ -530,7 +555,7 @@ class AmountSection extends Component<Props, State> {
               )}
           </BuyButton>
         </Grid>
-      </Grid>
+      </React.Fragment>
     );
   };
 
@@ -540,41 +565,28 @@ class AmountSection extends Component<Props, State> {
     return this.renderProcessingSwapForm();
   };
 
-  // renderForm = () => {
-  //   const { classes, paymentCoin, buyingLoading, intl } = this.props;
-  //   const { disabledBuyButton } = this.state;
-  //   const disabled = paymentCoin === '';
-  //   let label = intl.formatMessage({
-  //     defaultMessage: 'SELECT YOUR PAYMENT',
-  //     id: 'dicoapp.containers.BuyPage.select_payment'
-  //   });
-  //   if (paymentCoin !== '') {
-  //     label = paymentCoin;
-  //   }
-
-  //   return (
-  //     <React.Fragment>
-  //       {!buyingLoading && (
-
-  //       )}
-
-  //       {buyingLoading && (
-
-  //       )}
-  //     </React.Fragment>
-  //   );
-  // };
-
   render() {
     debug(`render`);
     const { classes, buyingLoading } = this.props;
     const { openSnackbar, snackbarMessage } = this.state;
 
     return (
-      <div className={classes.amountform}>
-        {!buyingLoading && this.renderSubmitForm()}
-        {buyingLoading && this.renderProcessing()}
-
+      <React.Fragment>
+        <Grid container className={classes.amountform} spacing={24}>
+          {!buyingLoading && this.renderSubmitForm()}
+          {buyingLoading && this.renderProcessing()}
+          {/* {this.renderSubmitForm()} */}
+        </Grid>
+        {/* <Grid
+          container
+          className={classes.amountform}
+          spacing={24}
+          style={{
+            position: 'relative'
+          }}
+        >
+          {this.renderProcessing()}
+        </Grid> */}
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
@@ -598,7 +610,7 @@ class AmountSection extends Component<Props, State> {
             </IconButton>
           ]}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

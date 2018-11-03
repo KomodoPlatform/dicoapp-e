@@ -236,7 +236,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^4.5.0",
     "crypto": "^1.0.1",
-    "debug": "^3.1.0",
+    "debug": "^4.1.0",
     "devtron": "^1.4.0",
     "electron-debug": "^2.0.0",
     "electron-util": "^0.9.1",
