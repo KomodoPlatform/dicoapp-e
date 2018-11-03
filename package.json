@@ -193,7 +193,7 @@
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "fbjs-scripts": "^0.8.3",
     "file-loader": "^1.1.11",
     "flow-bin": "^0.77.0",
@@ -247,7 +247,7 @@
     "immutable": "^4.0.0-rc.12",
     "intl": "^1.2.5",
     "invariant": "^2.2.4",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "qrcode.react": "^0.8.0",
     "react": "16.7.0-alpha.0",
     "react-dom": "16.7.0-alpha.0",
@@ -264,7 +264,7 @@
     "sha.js": "^2.4.11",
     "source-map-support": "^0.5.6",
     "split2": "^3.0.0",
-    "sweetalert": "^2.1.0"
+    "sweetalert": "^2.1.2"
   },
   "devEngines": {
     "node": ">=7.x",
