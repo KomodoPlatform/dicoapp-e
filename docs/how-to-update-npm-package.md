@@ -33,5 +33,5 @@ Step four: update the codebase if new package contain changes that break backwar
 Step five: Syncs yarn.lock versions into an exsisting package.json
 
 ```
-$ syncyarnlock --save
+$ syncyarnlock --save --keepUpArrow
 ```
