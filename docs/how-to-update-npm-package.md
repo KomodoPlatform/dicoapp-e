@@ -25,7 +25,7 @@ Step two: check if new package contain changes that break backward compatibility
 Step three: upgrade package
 
 ```
-$ yarn upgrade-interactive
+$ yarn upgrade-interactive --latest
 ```
 
 Step four: update the codebase if new package contain changes that break backward compatibility.
@@ -34,4 +34,10 @@ Step five: Syncs yarn.lock versions into an exsisting package.json
 
 ```
 $ syncyarnlock --save --keepUpArrow
+```
+
+Step six: Cleans and removes unnecessary files from package dependencies.
+
+```
+$ yarn autoclean --init
 ```
