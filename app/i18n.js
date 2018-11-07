@@ -8,15 +8,15 @@ const viTranslationMessages = require('./translations/vi.json');
 addLocaleData(enLocaleData);
 addLocaleData(viLocaleData);
 
-const DEFAULT_LOCALE = 'en';
+export const DEFAULT_LOCALE = 'en';
 
 // prettier-ignore
-const appLocales = [
+export const appLocales = [
   'en',
   'vi',
 ];
 
-const formatTranslationMessages = (locale, messages) => {
+export const formatTranslationMessages = (locale, messages) => {
   const defaultFormattedMessages =
     locale !== DEFAULT_LOCALE
       ? formatTranslationMessages(DEFAULT_LOCALE, enTranslationMessages)
@@ -31,12 +31,7 @@ const formatTranslationMessages = (locale, messages) => {
   return Object.keys(messages).reduce(flattenFormattedMessages, {});
 };
 
-const translationMessages = {
+export const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
   vi: formatTranslationMessages('vi', viTranslationMessages)
 };
-
-exports.appLocales = appLocales;
-exports.formatTranslationMessages = formatTranslationMessages;
-exports.translationMessages = translationMessages;
-exports.DEFAULT_LOCALE = DEFAULT_LOCALE;

@@ -122,7 +122,7 @@ const data = [
   }
 ];
 
-function generateElectrums(d) {
+export function generateElectrums(d) {
   const result = [];
   for (let i = 0; i < d.length; i += 1) {
     const record = d[i];
@@ -139,9 +139,7 @@ function generateElectrums(d) {
   return result;
 }
 
-exports.generateElectrums = generateElectrums;
-
-exports.default = function loadCoinsData(config) {
+export default function loadCoinsData(config) {
   const coinsdata = data.concat([tokenconfig]);
 
   return config.set('marketmaker', {
@@ -149,4 +147,4 @@ exports.default = function loadCoinsData(config) {
     electrums: generateElectrums(coinsdata),
     tokenconfig
   });
-};
+}

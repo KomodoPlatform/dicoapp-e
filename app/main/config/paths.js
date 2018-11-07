@@ -27,7 +27,7 @@ const marketmakerPlatformPath = binDir => {
   }
 };
 
-exports.default = function loadPaths(config) {
+export default function loadPaths(config) {
   // create user data path
   const userDataDir = resolve(app.getPath('userData'), config.get('APPNAME'));
 
@@ -44,4 +44,4 @@ exports.default = function loadPaths(config) {
     userDataDir,
     marketmaker: marketmakerPlatformPath(binDir)
   });
-};
+}

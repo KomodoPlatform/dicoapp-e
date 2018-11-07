@@ -1,4 +1,4 @@
-const dotProp = require('./dot-prop');
+import dotProp from './dot-prop';
 
 const Config = () => {
   // init
@@ -30,4 +30,4 @@ const Config = () => {
   });
 };
 
-module.exports = Config;
+export default Config;
