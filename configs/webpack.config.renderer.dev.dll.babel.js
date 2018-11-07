@@ -32,6 +32,7 @@ export default merge.smart(baseConfig, {
   module: require('./webpack.config.renderer.dev.babel').default.module,
 
   entry: {
+    // ignore fontawesome package
     renderer: Object.keys(dependencies || {}).filter(
       dependency => dependency !== '@fortawesome/fontawesome-free'
     )
