@@ -1,10 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-
 import getInjectors from './saga-injectors';
 
 const debug = require('debug')('dicoapp:utils:inject-saga');
+
+type Context = {
+  // eslint-disable-next-line flowtype/no-weak-types
+  store: Object
+};
 
 /**
  * Dynamically injects a saga, passes component's props as saga arguments
@@ -18,17 +21,12 @@ const debug = require('debug')('dicoapp:utils:inject-saga');
  *
  */
 export default ({ key, saga, mode }) => WrappedComponent => {
-  class InjectSaga extends React.Component {
+  class InjectSaga extends React.Component<{}, {}, Context> {
     static WrappedComponent = WrappedComponent;
 
     static displayName = `withSaga(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       'Component'})`;
-
-    static contextTypes = {
-      // eslint-disable-next-line react/forbid-prop-types
-      store: PropTypes.object.isRequired
-    };
 
     componentWillMount() {
       const { injectSaga } = this.injectors;

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import React from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
 const defaults = {
@@ -9,6 +10,12 @@ const defaults = {
 };
 
 const debug = require('debug')('dicoapp:utils:auth-wrapper');
+
+type Props = {
+  // eslint-disable-next-line flowtype/no-weak-types
+  isAuthenticated: boolean,
+  isAuthenticating?: boolean
+};
 
 export default args => {
   const { AuthenticatingComponent, FailureComponent, wrapperDisplayName } = {
@@ -21,13 +28,8 @@ export default args => {
     const displayName =
       DecoratedComponent.displayName || DecoratedComponent.name || 'Component';
 
-    class UserAuthWrapper extends Component {
+    class UserAuthWrapper extends React.PureComponent<Props> {
       static displayName = `${wrapperDisplayName}(${displayName})`;
-
-      static propTypes = {
-        isAuthenticated: PropTypes.bool.isRequired,
-        isAuthenticating: PropTypes.bool
-      };
 
       static defaultProps = {
         isAuthenticating: false

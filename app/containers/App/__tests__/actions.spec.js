@@ -1,4 +1,3 @@
-// import { spy } from 'sinon';
 import {
   login,
   logout,

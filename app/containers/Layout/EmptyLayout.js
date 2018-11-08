@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React from 'react';
+import type { Node } from 'react';
 // import { remote } from 'electron';
 // import { centerWindow } from 'electron-util';
 // import { loginWindowSize } from '../../config/config-default';
@@ -22,7 +23,12 @@ const debug = require('debug')('dicoapp:containers:layout:EmptyLayout');
 //   });
 // };
 
-class EmptyLayout extends Component {
+type Props = {
+  // eslint-disable-next-line flowtype/no-weak-types
+  children: Node
+};
+
+class EmptyLayout extends React.PureComponent<Props> {
   // constructor(props) {
   //   super(props);
   //   setLoginWindowBounds();
@@ -36,12 +42,6 @@ class EmptyLayout extends Component {
     return <React.Fragment>{children}</React.Fragment>;
   }
 }
-
-EmptyLayout.propTypes = {
-  children: PropTypes.node.isRequired
-};
-
-EmptyLayout.defaultProps = {};
 
 EmptyLayout.displayName = 'EmptyLayout';
 
