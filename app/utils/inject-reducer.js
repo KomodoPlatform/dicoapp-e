@@ -1,13 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import getInjectors from './reducer-injectors';
 
 const debug = require('debug')('dicoapp:utils:inject-reducer');
-
-type Context = {
-  // eslint-disable-next-line flowtype/no-weak-types
-  store: Object
-};
 
 /**
  * Dynamically injects a reducer
@@ -17,12 +13,17 @@ type Context = {
  *
  */
 export default ({ key, reducer }) => WrappedComponent => {
-  class ReducerInjector extends React.Component<{}, {}, Context> {
+  class ReducerInjector extends React.PureComponent {
     static WrappedComponent = WrappedComponent;
 
     static displayName = `withReducer(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       'Component'})`;
+
+    static contextTypes = {
+      // eslint-disable-next-line react/forbid-prop-types
+      store: PropTypes.object.isRequired
+    };
 
     componentWillMount() {
       const { injectReducer } = this.injectors;

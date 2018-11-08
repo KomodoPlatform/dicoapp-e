@@ -1,22 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-
 import getInjectors from './websocket-injectors';
 
 const debug = require('debug')('dicoapp:utils:inject-websocket');
 
-type Context = {
-  // eslint-disable-next-line flowtype/no-weak-types
-  store: Object
-};
-
 export default ({ key, subscribe, mode }) => WrappedComponent => {
-  class InjectWebsocket extends React.Component<{}, {}, Context> {
+  class InjectWebsocket extends React.PureComponent {
     static WrappedComponent = WrappedComponent;
 
     static displayName = `withWebsocket(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       'Component'})`;
+
+    static contextTypes = {
+      // eslint-disable-next-line react/forbid-prop-types
+      store: PropTypes.object.isRequired
+    };
 
     componentWillMount() {
       const { injectWebsocket } = this.injectors;

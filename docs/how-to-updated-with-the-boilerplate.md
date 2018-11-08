@@ -20,11 +20,9 @@
 
 - appveyor.yml
 
-- AUTHORS.md
+### we should keep these files
 
-saved
-
-- **mocks**
+- ** mocks **
 
 - .github/ISSUE_TEMPLATE
 
