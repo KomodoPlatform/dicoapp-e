@@ -61,6 +61,9 @@ module.exports = api => {
       [require('@babel/plugin-proposal-class-properties'), { loose: true }],
       require('@babel/plugin-proposal-json-strings'),
 
+      // other
+      require('babel-plugin-inline-react-svg'),
+
       ...(development ? developmentPlugins : productionPlugins)
     ]
   };

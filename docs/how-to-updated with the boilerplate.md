@@ -126,10 +126,32 @@ saved
 
   remove "jest" field
 
-- jest.config.js
+  copy
 
-- babel.config.js
+- jest.config.js
 
 - logo.png
 
--
+Copy:
+
+- .dockerignore DONE
+
+- .editorconfig DONE
+
+- .eslintignore DONE
+
+- .flowconfig DONE
+
+- .gitattributes DONE
+
+- .prettierrc DONE
+
+- .stylelintrc DONE
+
+- .testcafe-electron-rc DONE
+
+- appveyor.yml DONE
+
+- AUTHORS.md IGNORE
+
+- babel.config.js merge with "plugins": ["add-module-exports", "inline-react-svg"]
