@@ -39,5 +39,5 @@ $ syncyarnlock --save --keepUpArrow
 Step six: Cleans and removes unnecessary files from package dependencies.
 
 ```
-$ yarn autoclean --init
+$ yarn autoclean --init && yarn autoclean --force
 ```

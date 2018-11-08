@@ -1,3 +1,27 @@
+# How to update with the boilerplate
+
+### Copy these files and folder from boilerplate into project
+
+- .dockerignore
+
+- .editorconfig
+
+- .eslintignore
+
+- .flowconfig
+
+- .gitattributes
+
+- .prettierrc
+
+- .stylelintrc
+
+- .testcafe-electron-rc
+
+- appveyor.yml
+
+- AUTHORS.md
+
 saved
 
 - **mocks**
@@ -133,25 +157,5 @@ saved
 - logo.png
 
 Copy:
-
-- .dockerignore DONE
-
-- .editorconfig DONE
-
-- .eslintignore DONE
-
-- .flowconfig DONE
-
-- .gitattributes DONE
-
-- .prettierrc DONE
-
-- .stylelintrc DONE
-
-- .testcafe-electron-rc DONE
-
-- appveyor.yml DONE
-
-- AUTHORS.md IGNORE
 
 - babel.config.js merge with "plugins": ["add-module-exports", "inline-react-svg"]
