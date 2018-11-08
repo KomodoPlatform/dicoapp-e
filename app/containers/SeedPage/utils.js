@@ -69,8 +69,7 @@ export function generateWif(seed) {
     )
     .digest('hex');
   const priv = toHexString(hash) + doublesha.substr(0, 8);
-  const wif = bs58.encode(toByteArray(priv));
-
+  const wif = bs58.encode(Buffer.from(toByteArray(priv)));
   debug(`generateWif: ${wif}`);
   return wif;
 }

@@ -1,4 +1,4 @@
-const explorer = require('../explorer');
+import explorer from '../explorer';
 
 describe('lib/explorer', () => {
   it('tx', () => {

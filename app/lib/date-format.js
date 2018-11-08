@@ -25,11 +25,11 @@ const DAY_OF_WEEK_ARRAY_LIST = [
   'Friday',
   'Saturday'
 ];
-const ISO8601_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS';
-const ISO8601_WITH_TZ_OFFSET_FORMAT = 'yyyy-MM-ddTHH:mm:ss.SSS K';
-const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss.SSS tt';
-const DATE_FORMAT = 'yyyy-MM-dd';
-const TIME_FORMAT = 'hh:mm:ss tt';
+export const ISO8601_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS';
+export const ISO8601_WITH_TZ_OFFSET_FORMAT = 'yyyy-MM-ddTHH:mm:ss.SSS K';
+export const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss.SSS tt';
+export const DATE_FORMAT = 'yyyy-MM-dd';
+export const TIME_FORMAT = 'hh:mm:ss tt';
 
 function isValidDate(date) {
   return (
@@ -39,7 +39,7 @@ function isValidDate(date) {
   );
 }
 
-function validateDate(d) {
+export function validateDate(d) {
   if (isValidDate(d)) return d;
   // eslint-disable-next-line no-param-reassign
   if (numRegex.test(d) === true && typeof d === 'string') d = Number(d);
@@ -54,7 +54,7 @@ type YearOption = {
   format: string
 };
 
-function getYear(d, { option, format }: YearOption = yearOption) {
+export function getYear(d, { option, format }: YearOption = yearOption) {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -76,7 +76,7 @@ type AppendZeroOption = {
 };
 const appendZeroOption = { width: 2, lastPosition: false };
 
-function appendZero(
+export function appendZero(
   number,
   { width, lastPosition }: AppendZeroOption = appendZeroOption
 ) {
@@ -95,7 +95,7 @@ type MonthOption = {
   format: string
 };
 
-function getMonth(d, { option, format }: MonthOption = monthOption) {
+export function getMonth(d, { option, format }: MonthOption = monthOption) {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -111,7 +111,7 @@ function getMonth(d, { option, format }: MonthOption = monthOption) {
   }
 }
 
-function getDate(d, option: string = '') {
+export function getDate(d, option: string = '') {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -135,7 +135,7 @@ type HourOption = {
   format: string
 };
 
-function getHours(d, { option, format }: HourOption = hourOption) {
+export function getHours(d, { option, format }: HourOption = hourOption) {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -149,7 +149,7 @@ function getHours(d, { option, format }: HourOption = hourOption) {
   }
 }
 
-function getMinutes(d, option: string = '') {
+export function getMinutes(d, option: string = '') {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -163,7 +163,7 @@ function getMinutes(d, option: string = '') {
   }
 }
 
-function getSeconds(d, option: string = '') {
+export function getSeconds(d, option: string = '') {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -177,7 +177,7 @@ function getSeconds(d, option: string = '') {
   }
 }
 
-function getMilliseconds(d, option: string = '') {
+export function getMilliseconds(d, option: string = '') {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -202,7 +202,7 @@ type DayOfWeek = {
   format: string
 };
 
-function getDayOfWeek(d, { option, format }: DayOfWeek = dayOfWeek) {
+export function getDayOfWeek(d, { option, format }: DayOfWeek = dayOfWeek) {
   try {
     const dateObj = validateDate(d);
     if (dateObj) {
@@ -218,7 +218,11 @@ function getDayOfWeek(d, { option, format }: DayOfWeek = dayOfWeek) {
   }
 }
 
-function getAM_PM_Hours(dateObj: Date, format: string, option: string = '') {
+export function getAM_PM_Hours(
+  dateObj: Date,
+  format: string,
+  option: string = ''
+) {
   const hour = option === 'utc' ? dateObj.getUTCHours() : dateObj.getHours();
   const AM_PM = {
     type: 'AM',
@@ -233,14 +237,14 @@ function getAM_PM_Hours(dateObj: Date, format: string, option: string = '') {
   return AM_PM;
 }
 
-function timeOffset(timezoneOffset) {
+export function timeOffset(timezoneOffset) {
   const os = Math.abs(timezoneOffset);
   const hour = appendZero(Math.floor(os / 60));
   const minute = appendZero(os % 60);
   return timezoneOffset < 0 ? `+${hour}${minute}` : `-${hour}${minute}`;
 }
 
-function formatDate(dateString, formatStyle, timezoneOffset) {
+export function formatDate(dateString, formatStyle, timezoneOffset) {
   try {
     const dateObj = validateDate(dateString);
     if (!dateObj) throw new Error('Invalid Date');
@@ -309,25 +313,5 @@ function formatDate(dateString, formatStyle, timezoneOffset) {
     throw new Error('Invalid Date Operation');
   }
 }
-
-module.exports = {
-  validateDate,
-  getYear,
-  appendZero,
-  getMonth,
-  getDate,
-  getHours,
-  getMinutes,
-  getSeconds,
-  getMilliseconds,
-  getDayOfWeek,
-  getAM_PM_Hours,
-  formatDate,
-  ISO8601_FORMAT,
-  ISO8601_WITH_TZ_OFFSET_FORMAT,
-  DATETIME_FORMAT,
-  DATE_FORMAT,
-  TIME_FORMAT
-};
 
 /* eslint-enable no-param-reassign, camelcase */

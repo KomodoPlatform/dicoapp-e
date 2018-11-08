@@ -1,4 +1,4 @@
-const Config = require('../config-manager');
+import Config from '../config-manager';
 
 describe('lib/config-manager', () => {
   it('get', () => {

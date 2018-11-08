@@ -14,6 +14,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest'
   },
   setupFiles: ['./internals/scripts/CheckBuiltsExist.js'],
+  testRegex: '(/__tests__/.*)\\.jsx?$',
   collectCoverage: true,
   coverageReporters: ['json', 'html']
 };

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {
+import {
   validateDate,
   getYear,
   appendZero,
@@ -12,9 +12,8 @@ const {
   getDayOfWeek,
   getAM_PM_Hours,
   formatDate,
-
   TIME_FORMAT
-} = require('../date-format');
+} from '../date-format';
 
 describe('lib/date-format', () => {
   const d = 1539375819825;
