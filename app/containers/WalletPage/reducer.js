@@ -112,12 +112,12 @@ const walletReducer = handleActions(
       for (let i = 0; i < tx.length; i += 1) {
         const t = tx[i];
         // step one: update list
-        if (!list.find(e => e === t.tx_hash)) {
-          list = list.push(t.tx_hash);
+        if (!list.find(e => e === t.txid)) {
+          list = list.push(t.txid);
         }
         // step two: update entities
-        if (!entities.get(t.tx_hash)) {
-          entities = entities.set(t.tx_hash, fromJS(t));
+        if (!entities.get(t.txid)) {
+          entities = entities.set(t.txid, fromJS(t));
         }
       }
       coins = coins.set('list', list).set('entities', entities);

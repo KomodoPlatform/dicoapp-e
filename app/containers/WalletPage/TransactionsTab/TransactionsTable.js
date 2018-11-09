@@ -9,10 +9,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
-
+import { formatDate } from '../../../lib/date-format';
 import explorer from '../../../lib/explorer';
 
-const styles = () => ({
+const styles = theme => ({
   table: {
     maxHeight: 450
   },
@@ -20,6 +20,14 @@ const styles = () => ({
   th: {
     color: '#555555',
     fontSize: 15
+  },
+
+  transactionTable__cellSuccess: {
+    color: theme.colors.success
+  },
+
+  transactionTable__cellDanger: {
+    color: theme.colors.danger
   }
 });
 
@@ -39,12 +47,25 @@ class TransactionsTable extends React.PureComponent<Props> {
 
   renderRecord = (t, k) => {
     if (!t) return null;
-    const linkExplorer = explorer.tx(t.get('tx_hash'), t.get('coin'));
+    const linkExplorer = explorer.tx(t.get('txid'), t.get('coin'));
+    const { classes } = this.props;
     return (
-      <TableRow key={t.get('tx_hash')}>
+      <TableRow key={t.get('txid')}>
         <TableCell>{k + 1}</TableCell>
         <TableCell>{t.get('coin')}</TableCell>
-        <TableCell>{t.get('height')}</TableCell>
+        {t.get('category') === 'receive' && (
+          <TableCell className={classes.transactionTable__cellSuccess}>
+            + {t.get('amount')}
+          </TableCell>
+        )}
+        {t.get('category') === 'send' && (
+          <TableCell className={classes.transactionTable__cellDanger}>
+            - {Math.abs(t.get('amount'))}
+          </TableCell>
+        )}
+        <TableCell>
+          {formatDate(t.get('blocktime') * 1000, 'yyyy-MM-dd HH:mm:ss')}
+        </TableCell>
         <TableCell>
           {/* eslint-disable-next-line react/jsx-no-target-blank */}
           {linkExplorer && (
@@ -55,10 +76,10 @@ class TransactionsTable extends React.PureComponent<Props> {
               // rel="noopener noreferrer"
               onClick={this.onClickTranstactions}
             >
-              {t.get('tx_hash')}
+              Open tx in explorer
             </a>
           )}
-          {!linkExplorer && t.get('tx_hash')}
+          {!linkExplorer && t.get('txid')}
         </TableCell>
       </TableRow>
     );
@@ -77,11 +98,13 @@ class TransactionsTable extends React.PureComponent<Props> {
                 {(...content) => content}
               </FormattedMessage>
             </TableCell>
-            <TableCell className={classes.th}>
+            {/* <TableCell className={classes.th}>
               <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_blockheight">
                 {(...content) => content}
               </FormattedMessage>
-            </TableCell>
+            </TableCell> */}
+            <TableCell className={classes.th}>Amount</TableCell>
+            <TableCell className={classes.th}>Date</TableCell>
             <TableCell className={classes.th}>
               <FormattedMessage id="dicoapp.containers.Wallet.last_transactions_transactionid">
                 {(...content) => content}

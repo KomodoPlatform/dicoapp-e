@@ -7,15 +7,17 @@ export default async function walletSubscribe(
   getState
 ) {
   if (queueid > 0) {
+    // console.log(queueid, result);
     const selectTransactionsQueueids = makeSelectTransactionsQueueids();
     const queueids = selectTransactionsQueueids(getState());
     const coin = queueids.get(`${queueid}`);
     if (coin) {
       // FIXME this case
       // {error: "timeout"}
+      // {error: "no coin"}
       if (!result || !result.sort) return;
       // sort
-      let data = result.sort((a, b) => b.height - a.height);
+      let data = result.sort((a, b) => b.blockindex - a.blockindex);
 
       // only take 10 records
       // data = data.slice(0, 10);

@@ -32,7 +32,7 @@ const styles = theme => ({
 
   btns: {
     top: 8,
-    right: 8,
+    right: -12,
     display: 'flex',
     position: 'absolute'
   },

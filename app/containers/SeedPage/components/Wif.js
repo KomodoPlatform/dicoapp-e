@@ -102,12 +102,11 @@ class Wif extends Component<Props, State> {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.wifContainer}>
           <Typography className={classes.wifContent}>{wif}</Typography>
-          {wif &&
-            supportedCopyCommandSupported && (
-              <IconButton aria-label="Copy" onClick={this.copyWifToClipboard}>
-                <FileCopyIcon />
-              </IconButton>
-            )}
+          {wif && supportedCopyCommandSupported && (
+            <IconButton aria-label="Copy" onClick={this.copyWifToClipboard}>
+              <FileCopyIcon />
+            </IconButton>
+          )}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );

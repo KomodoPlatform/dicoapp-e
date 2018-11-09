@@ -522,37 +522,35 @@ class AmountSection extends React.Component<Props, State> {
             className={classes.amountform__item}
             onClick={this.clickProcessButton}
           >
-            {swapsLoading &&
-              !confirmed && (
-                <React.Fragment>
-                  Loading...
-                  <CircularProgress
-                    size={20}
-                    className={classes.amountform__circularProgress}
-                  />
-                </React.Fragment>
-              )}
-            {swapsLoading &&
-              confirmed && (
-                <React.Fragment>
-                  <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
-                    {(...content) => content}
-                  </FormattedMessage>
-                  <CircularProgress
-                    size={20}
-                    color="secondary"
-                    className={classes.amountform__circularProgress}
-                  />
-                </React.Fragment>
-              )}
-            {!swapsLoading &&
-              swapsError && <React.Fragment>Cancel</React.Fragment>}
-            {!swapsLoading &&
-              !swapsError && (
+            {swapsLoading && !confirmed && (
+              <React.Fragment>
+                Loading...
+                <CircularProgress
+                  size={20}
+                  className={classes.amountform__circularProgress}
+                />
+              </React.Fragment>
+            )}
+            {swapsLoading && confirmed && (
+              <React.Fragment>
                 <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
                   {(...content) => content}
                 </FormattedMessage>
-              )}
+                <CircularProgress
+                  size={20}
+                  color="secondary"
+                  className={classes.amountform__circularProgress}
+                />
+              </React.Fragment>
+            )}
+            {!swapsLoading && swapsError && (
+              <React.Fragment>Cancel</React.Fragment>
+            )}
+            {!swapsLoading && !swapsError && (
+              <FormattedMessage id="dicoapp.containers.BuyPage.swap_successful_message">
+                {(...content) => content}
+              </FormattedMessage>
+            )}
           </BuyButton>
         </Grid>
       </React.Fragment>
