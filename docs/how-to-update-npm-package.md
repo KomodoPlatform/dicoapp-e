@@ -41,3 +41,11 @@ Step six: Cleans and removes unnecessary files from package dependencies.
 ```
 $ yarn autoclean --init && yarn autoclean --force
 ```
+
+NOTE:
+
+```
+rm -rf node_modules .yarnclean && yarn install
+```
+
+https://github.com/gotwarlost/istanbul/issues/743

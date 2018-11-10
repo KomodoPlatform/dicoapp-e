@@ -7,7 +7,6 @@ export default async function walletSubscribe(
   getState
 ) {
   if (queueid > 0) {
-    // console.log(queueid, result);
     const selectTransactionsQueueids = makeSelectTransactionsQueueids();
     const queueids = selectTransactionsQueueids(getState());
     const coin = queueids.get(`${queueid}`);
