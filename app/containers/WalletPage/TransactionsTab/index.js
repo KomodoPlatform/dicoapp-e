@@ -105,7 +105,7 @@ class TransactionsTab extends React.PureComponent<Props> {
     const { loading, queueids, classes, error, transactions } = this.props;
     const empty = !loading && transactions.size === 0 && queueids.size === 0;
     return (
-      <Grid container spacing={12}>
+      <Grid container spacing={16}>
         <Grid item xs={12} className={classes.containerSection}>
           <div className={classes.btns}>
             <IconButton
