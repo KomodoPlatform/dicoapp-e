@@ -131,7 +131,7 @@ class Asset extends PureComponent<Props> {
         />
         <CardContent className={classes.wallet__content}>
           <Typography
-            variant="display4"
+            variant="h1"
             gutterBottom
             className={classes.wallet__balance}
           >

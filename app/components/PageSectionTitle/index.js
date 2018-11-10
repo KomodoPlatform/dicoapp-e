@@ -26,7 +26,7 @@ class PageSectionTitle extends React.PureComponent<Props> {
     const { classes, title } = this.props;
 
     return (
-      <Typography variant="title" gutterBottom className={classes.page__title}>
+      <Typography variant="h6" gutterBottom className={classes.page__title}>
         {title}
       </Typography>
     );

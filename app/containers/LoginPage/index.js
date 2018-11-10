@@ -185,7 +185,7 @@ class LoginPage extends Component<Props, State> {
 
             <CardContent className={classes.loginContainer__content}>
               <Typography
-                variant="headline"
+                variant="h5"
                 className={classes.loginContainer__item}
                 gutterBottom
               >
@@ -194,7 +194,7 @@ class LoginPage extends Component<Props, State> {
                 </FormattedMessage>
               </Typography>
 
-              <Typography variant="subheading" gutterBottom>
+              <Typography variant="subtitle1" gutterBottom>
                 <FormattedMessage id="dicoapp.containers.LoginPage.subheading">
                   {(...content) => content}
                 </FormattedMessage>

@@ -14,7 +14,7 @@ class Header extends React.PureComponent<Props> {
 
     return (
       <Toolbar>
-        <Typography variant="title" color="inherit">
+        <Typography variant="h6" color="inherit">
           {title}
         </Typography>
       </Toolbar>

@@ -9,10 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
-
 import injectReducer from '../../utils/inject-reducer';
 import injectSaga from '../../utils/inject-saga';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -143,7 +141,7 @@ class SeedPage extends Component<Props, State> {
             <Card className={classes.card}>
               <CardContent className={classes.content}>
                 <Typography
-                  variant="headline"
+                  variant="h5"
                   className={classes.bottom30}
                   gutterBottom
                 >
@@ -160,7 +158,7 @@ class SeedPage extends Component<Props, State> {
                   </FormattedMessage>
                 </Typography>
                 <Typography
-                  variant="title"
+                  variant="h6"
                   className={classNames(classes.textLeft, classes.item)}
                   gutterBottom
                 >

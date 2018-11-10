@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import ClassNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -83,7 +83,7 @@ type Props = {
   price?: Node | null
 };
 
-class CoinSelectable extends PureComponent<Props> {
+class CoinSelectable extends React.PureComponent<Props> {
   static defaultProps = {
     title: null,
     subTitle: null,
@@ -148,7 +148,7 @@ class CoinSelectable extends PureComponent<Props> {
           {title && (
             <Typography
               component="div"
-              variant="title"
+              variant="h6"
               color="inherit"
               className={classes.btn__title}
             >
@@ -158,7 +158,7 @@ class CoinSelectable extends PureComponent<Props> {
           {subTitle && (
             <Typography
               component="div"
-              variant="subheading"
+              variant="subtitle1"
               color="inherit"
               className={classes.btn__subtitle}
             >

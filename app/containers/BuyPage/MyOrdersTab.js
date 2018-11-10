@@ -101,14 +101,14 @@ class MyOrders extends React.PureComponent<Props> {
     return (
       <React.Fragment>
         <Typography
-          variant="title"
+          variant="h6"
           gutterBottom
           className={classes.swapform__emptystate}
         >
           <CloudOff className={classes.swapform__iconemptystate} />
         </Typography>
         <Typography
-          variant="subheading"
+          variant="subtitle1"
           gutterBottom
           className={classes.swapform__emptystate}
         >
