@@ -15,14 +15,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Divider from '@material-ui/core/Divider';
 import CloudOff from '@material-ui/icons/CloudOff';
-
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import explorer from '../../lib/explorer';
 // eslint-disable-next-line import/named
@@ -39,6 +37,10 @@ import BuyButton from '../../components/BuyButton';
 import { floor } from './utils';
 
 const debug = require('debug')('dicoapp:containers:BuyPage:SwapDetailModal');
+
+function onOpenEmpty() {
+  debug('onOpenEmpty');
+}
 
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
@@ -141,10 +143,10 @@ export class SwapDetail extends React.PureComponent<Props> {
     const { classes } = this.props;
     return (
       <div className={classes.swapform__emptystate}>
-        <Typography variant="title" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           <CloudOff className={classes.swapform__iconemptystate} />
         </Typography>
-        <Typography variant="subheading" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           No data found. Please start making a swap.
         </Typography>
       </div>
@@ -325,7 +327,7 @@ export class SwapDetail extends React.PureComponent<Props> {
       <React.Fragment>
         <CardHeader
           title={
-            <Typography variant="title" gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Detail Swap
             </Typography>
           }
@@ -505,6 +507,7 @@ export class SwapDetail extends React.PureComponent<Props> {
         anchor="right"
         open={detailModal.get('open')}
         onClose={onClose}
+        onOpen={onOpenEmpty}
       >
         <div tabIndex={0} role="button" className={classes.swapDetail__content}>
           {!swap && this.renderNotFound()}

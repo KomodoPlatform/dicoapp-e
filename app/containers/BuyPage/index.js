@@ -15,7 +15,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import { TabContainer } from '../../components/Tabs';
 import { NavigationLayout } from '../Layout';
 import HeaderTabs from './components/HeaderTabs';
-// import TestSwap from './components/TestSwap';
+import TestSwap from './components/TestSwap';
 import MyOrdersTab from './MyOrdersTab';
 import PlaceOrderTab from './PlaceOrderTab';
 import ProgressBar from './ProgressBar';
@@ -77,7 +77,7 @@ class BuyPage extends Component<Props, State> {
               <MyOrdersTab />
             </TabContainer>
           </ErrorBoundary>
-          {/* <TestSwap /> */}
+          <TestSwap />
         </NavigationLayout>
       </React.Fragment>
     );

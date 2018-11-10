@@ -20,6 +20,10 @@ import WithdrawModalContent from './WithdrawModalContent';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:WithdrawModal');
 
+function onOpenEmpty() {
+  debug('onOpenEmpty');
+}
+
 type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
@@ -88,6 +92,7 @@ export class WithdrawModal extends React.PureComponent<Props> {
         anchor="right"
         open={withdrawModal.get('open')}
         onClose={onClose}
+        onOpen={onOpenEmpty}
       >
         <div
           tabIndex={0}

@@ -356,7 +356,7 @@ class WithdrawModalContent extends React.PureComponent<Props, State> {
               }}
             />
             <div className={classes.withdraw__transactionFee}>
-              <Typography variant="subheading" gutterBottom>
+              <Typography variant="subtitle1" gutterBottom>
                 Transaction Fee
               </Typography>
               <Typography
