@@ -22,7 +22,13 @@ const debug = require('debug')(
   'dicoapp:containers:WalletPage:WithdrawModalContent'
 );
 
-export const lessThan = (value: mixed, props: mixed) =>
+export const lessThan = (
+  value: mixed,
+  props: {
+    balance: string | number,
+    fee: string | number
+  }
+) =>
   new Promise((resolve, reject) => {
     const { balance, fee } = props;
     const n = Number(value);
@@ -35,7 +41,12 @@ export const lessThan = (value: mixed, props: mixed) =>
     return resolve(true);
   });
 
-export const notSameAddress = (value: mixed, props: mixed) =>
+export const notSameAddress = (
+  value: string,
+  props: {
+    address: string
+  }
+) =>
   new Promise((resolve, reject) => {
     const { address } = props;
     if (address.trim() === value.trim()) {
