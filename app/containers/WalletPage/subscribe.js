@@ -29,7 +29,7 @@ export default async function walletSubscribe(
 
       dispatch(
         loadCoinTransactionsSuccess({
-          queueId: queueid,
+          queueId: `${queueid}`,
           coin,
           tx: data
         })

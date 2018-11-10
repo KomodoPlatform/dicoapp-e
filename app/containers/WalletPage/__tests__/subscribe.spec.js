@@ -5,7 +5,7 @@ import { loadCoinTransactionsSuccess } from '../actions';
 import data from './fake-data';
 
 const fakeDataFromSocket = {
-  queueid: 10,
+  queueid: '10',
   result: [
     {
       blockindex: 224243,
