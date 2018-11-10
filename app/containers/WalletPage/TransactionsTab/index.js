@@ -123,7 +123,12 @@ class TransactionsTab extends React.PureComponent<Props> {
             />
           )}
           {empty && this.renderEmptyState()}
-          {!empty && <TransactionsTable data={transactions} />}
+          {!empty && (
+            <TransactionsTable
+              data={transactions}
+              loading={queueids.size !== 0}
+            />
+          )}
         </Grid>
       </Grid>
     );

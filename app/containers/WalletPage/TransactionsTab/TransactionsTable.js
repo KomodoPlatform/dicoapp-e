@@ -9,8 +9,40 @@ import TableRow from '@material-ui/core/TableRow';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
+import { Line } from '../../../components/placeholder';
 import { formatDate } from '../../../lib/date-format';
 import explorer from '../../../lib/explorer';
+
+const debug = require('debug')(
+  'dicoapp:containers:WalletPage:TransactionsTable'
+);
+
+const line60 = (
+  <Line
+    width={60}
+    style={{
+      margin: 0
+    }}
+  />
+);
+
+const line90 = (
+  <Line
+    width={90}
+    style={{
+      margin: 0
+    }}
+  />
+);
+
+const line120 = (
+  <Line
+    width={120}
+    style={{
+      margin: 0
+    }}
+  />
+);
 
 const styles = theme => ({
   table: {
@@ -35,7 +67,8 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  data: List<*>
+  data: List<*>,
+  loading: boolean
 };
 
 class TransactionsTable extends React.PureComponent<Props> {
@@ -85,8 +118,19 @@ class TransactionsTable extends React.PureComponent<Props> {
     );
   };
 
+  renderLoading = () => (
+    <TableRow key="skeleton__row">
+      <TableCell>{line60}</TableCell>
+      <TableCell>{line60}</TableCell>
+      <TableCell>{line90}</TableCell>
+      <TableCell>{line120}</TableCell>
+      <TableCell>{line120}</TableCell>
+    </TableRow>
+  );
+
   render = () => {
-    const { classes, data } = this.props;
+    debug(`render`);
+    const { classes, data, loading } = this.props;
 
     return (
       <Table className={classes.table}>
@@ -112,7 +156,10 @@ class TransactionsTable extends React.PureComponent<Props> {
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{data.map(this.renderRecord)}</TableBody>
+        <TableBody>
+          {data.map(this.renderRecord)}
+          {loading && this.renderLoading()}
+        </TableBody>
       </Table>
     );
   };
