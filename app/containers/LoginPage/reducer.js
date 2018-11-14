@@ -1,13 +1,15 @@
 import { fromJS } from 'immutable';
+import { handleActions } from 'redux-actions';
+import { LOGOUT } from '../App/constants';
 
 // The initial state of the App
 export const initialState = fromJS({});
 
-function loginReducer(state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const loginReducer = handleActions(
+  {
+    [LOGOUT]: () => initialState
+  },
+  initialState
+);
 
 export default loginReducer;
