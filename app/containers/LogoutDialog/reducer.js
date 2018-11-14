@@ -1,6 +1,5 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { LOGOUT } from '../App/constants';
 import {
   SHOW_LOGOUT_DIALOG,
   CANCEL_LOGOUT_DIALOG,
@@ -16,8 +15,7 @@ const logoutDialogReducer = handleActions(
   {
     [SHOW_LOGOUT_DIALOG]: state => state.set('show', true),
     [CANCEL_LOGOUT_DIALOG]: state => state.set('show', false),
-    [AGREE_LOGOUT_DIALOG]: state => state.set('show', false),
-    [LOGOUT]: () => initialState
+    [AGREE_LOGOUT_DIALOG]: state => state.set('show', false)
   },
   initialState
 );
