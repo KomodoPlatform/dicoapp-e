@@ -1,30 +1,35 @@
 // @flow
 import React from 'react';
-import type { Node } from 'react';
+import type { Element } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import MenuIcon from '@material-ui/icons/Menu';
 
-const styles = () => ({
+const styles = theme => ({
   appBar: {
     boxShadow: 'none',
-    backgroundColor: '#fff'
+    backgroundColor: theme.appbar.background,
+    left: 72
   },
 
-  appBar__button: {
-    marginLeft: -12,
-    marginRight: 35
+  appBar__divider: {
+    bottom: -5,
+    boxShadow: 'inset 0px 4px 8px -3px rgba(17, 17, 17, .06)',
+    height: 5,
+    left: 0,
+    opacity: 1,
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: 0,
+    backgroundColor: 'transparent'
   }
 });
 
 type Props = {
-  title: Node,
   // eslint-disable-next-line flowtype/no-weak-types
-  classes: Object
+  classes: Object,
+  // eslint-disable-next-line flowtype/no-weak-types
+  children: Element<any>
 };
 
 class MDCAppBar extends React.PureComponent<Props> {
@@ -33,23 +38,12 @@ class MDCAppBar extends React.PureComponent<Props> {
   static propTypes = {};
 
   render() {
-    const { classes, title } = this.props;
+    const { classes, children } = this.props;
 
     return (
       <AppBar position="fixed" color="default" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            className={classes.appBar__button}
-            color="inherit"
-            aria-label="Menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit">
-            {title}
-          </Typography>
-        </Toolbar>
-        <Divider />
+        {children}
+        <Divider className={classes.appBar__divider} />
       </AppBar>
     );
   }

@@ -1,6 +1,6 @@
 // @flow
-import React, { PureComponent } from 'react';
-import type { Node, ChildrenArray } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 import ClassNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -17,13 +17,11 @@ const styles = () => ({
     paddingBottom: 20,
     paddingLeft: 30,
     paddingRight: 30,
-    // marginLeft: 10,
-    // marginRight: 10,
     marginRight: 20,
-    marginBottom: 10,
-    border: '1px solid lightgray',
+    marginBottom: 20,
+    border: '1px solid #dadce0',
     cursor: 'pointer',
-    borderRadius: 5,
+    borderRadius: 8,
     position: 'relative'
   },
 
@@ -67,6 +65,7 @@ const styles = () => ({
 });
 
 type Props = {
+  key: string,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   icon: Node,
@@ -75,25 +74,25 @@ type Props = {
   title?: Node | null,
   subTitle?: Node | null,
   // eslint-disable-next-line flowtype/no-weak-types
-  children?: ChildrenArray<any> | null,
-  // eslint-disable-next-line flowtype/no-weak-types
   onClick?: Function | null,
   // eslint-disable-next-line flowtype/no-weak-types
   dispatchLoadPrice?: Function,
   // eslint-disable-next-line flowtype/no-weak-types
   data?: string,
-  className: string
+  className?: string,
+  price?: Node | null
 };
 
-class CoinSelectable extends PureComponent<Props> {
+class CoinSelectable extends React.PureComponent<Props> {
   static defaultProps = {
     title: null,
     subTitle: null,
+    price: null,
     selected: false,
     disabled: false,
-    children: null,
     onClick: null,
     data: '',
+    className: '',
     dispatchLoadPrice: () => {}
   };
 
@@ -119,6 +118,7 @@ class CoinSelectable extends PureComponent<Props> {
     debug(`render`);
 
     const {
+      key,
       classes,
       className,
       icon,
@@ -126,7 +126,7 @@ class CoinSelectable extends PureComponent<Props> {
       subTitle,
       selected,
       disabled,
-      children
+      price
     } = this.props;
 
     const buttonClasses = ClassNames(classes.btn, className, {
@@ -138,7 +138,7 @@ class CoinSelectable extends PureComponent<Props> {
       <ButtonBase
         disabled={disabled}
         focusRipple
-        key="title"
+        key={key}
         className={buttonClasses}
         focusVisibleClassName={classes.focusVisible}
         onClick={this.onClick}
@@ -148,7 +148,7 @@ class CoinSelectable extends PureComponent<Props> {
           {title && (
             <Typography
               component="div"
-              variant="title"
+              variant="h6"
               color="inherit"
               className={classes.btn__title}
             >
@@ -158,14 +158,14 @@ class CoinSelectable extends PureComponent<Props> {
           {subTitle && (
             <Typography
               component="div"
-              variant="subheading"
+              variant="subtitle1"
               color="inherit"
               className={classes.btn__subtitle}
             >
               {subTitle}
             </Typography>
           )}
-          {children}
+          {price}
         </span>
         {selected && (
           <CheckCircleOutlineIcon className={classes.btn__selected} />

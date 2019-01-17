@@ -1,13 +1,18 @@
 import { all, call, put, select, cancelled } from 'redux-saga/effects';
-import { CANCEL } from 'redux-saga';
+import { CANCEL, delay } from 'redux-saga';
 import takeFirst from '../../utils/sagas/take-first';
-import { LOAD_TRANSACTIONS } from './constants';
+import {
+  TRANSACTIONS_LOAD,
+  TRANSACTIONS_LOAD_LOOP,
+  TIME_LOOP
+} from './constants';
 import { makeSelectCurrentUser } from '../App/selectors';
 import api from '../../lib/barter-dex-api';
 import {
-  loadTransactionSuccess,
+  loadTransactions,
   loadTransactionsSuccess,
-  loadTransactionsError
+  loadTransactionsError,
+  loadCoinTransactions
 } from './actions';
 
 const debug = require('debug')('dicoapp:containers:WalletPage:saga');
@@ -17,27 +22,24 @@ export function* loadCoinTransactionsProcess(coin, address) {
   try {
     debug(`load coin transaction process running ${coin}`);
 
-    request = api.listTransactions({
-      coin,
-      address
-    });
+    const queueId = api.getQueueId();
+    request = api.listTransactions(
+      {
+        coin,
+        address
+      },
+      {
+        useQueue: true
+      }
+    );
 
-    let data = yield request;
-
-    // sort
-    data = data.sort((a, b) => b.height - a.height);
-
-    // only take 10 records
-    data = data.slice(0, 10);
-
-    // add coin symbol
-    data = data.map(e => {
-      e.coin = coin;
-      return e;
-    });
-
-    return yield put(loadTransactionSuccess(data));
+    // {result: "success", status: "queued"}
+    const data = yield request;
+    data.coin = coin;
+    data.queueId = queueId;
+    return yield put(loadCoinTransactions(data));
   } catch (err) {
+    // FIXME: handling error
     debug(`load coin transaction process fail ${coin}: ${err.message}`);
     return [];
   } finally {
@@ -69,9 +71,17 @@ export function* loadTransactionsProcess() {
     }
     // https://github.com/chainmakers/dicoapp/blob/glxt/.desktop/modules/marketmaker/index.js#L1144
     yield all(requests);
-    return yield put(loadTransactionsSuccess());
+    yield put(loadTransactionsSuccess());
   } catch (err) {
     return yield put(loadTransactionsError(err.message));
+  }
+}
+
+export function* loadTransactionsLoopProcess() {
+  while (true) {
+    debug('load transactions loop process start');
+    yield put(loadTransactions());
+    yield call(delay, TIME_LOOP);
   }
 }
 
@@ -79,5 +89,6 @@ export function* loadTransactionsProcess() {
  * Root saga manages watcher lifecycle
  */
 export default function* walletData() {
-  yield takeFirst(LOAD_TRANSACTIONS, loadTransactionsProcess);
+  yield takeFirst(TRANSACTIONS_LOAD, loadTransactionsProcess);
+  yield takeFirst(TRANSACTIONS_LOAD_LOOP, loadTransactionsLoopProcess);
 }

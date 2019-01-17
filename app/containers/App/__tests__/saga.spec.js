@@ -1,5 +1,5 @@
 import { take, put } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import routes from '../../../constants/routes.json';
 import { logoutFlow } from '../saga';
 import { logout } from '../actions';

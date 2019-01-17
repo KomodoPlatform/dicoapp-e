@@ -5,7 +5,12 @@ import {
   loadBestPrice,
   loadBuyCoin,
   loadBuyCoinError,
-  removeSwapsData
+  checkTimeoutEvent,
+  checkUpdateSwapEvent,
+  timeoutSwap,
+  makeANewSwap,
+  openDetailModal,
+  closeDetailModal
 } from '../actions';
 import {
   LOAD_PRICE,
@@ -14,7 +19,12 @@ import {
   LOAD_BEST_PRICE,
   LOAD_BUY_COIN,
   LOAD_BUY_COIN_ERROR,
-  REMOVE_SWAPS_DATA
+  CHECK_TIMEOUT_EVENT,
+  CHECK_UPDATE_SWAP_EVENT,
+  SWAP_TIMEOUT,
+  SWAP_MAKE_A_NEW,
+  SWAP_DETAIL_MODAL_OPEN,
+  SWAP_DETAIL_MODAL_CLOSE
 } from '../constants';
 
 describe('containers/BuyPage/actions/loadPrice', () => {
@@ -133,16 +143,111 @@ describe('containers/BuyPage/actions/loadBuyCoinError', () => {
   });
 });
 
-describe('containers/BuyPage/actions/removeSwapsData', () => {
-  it('should removeSwapsData should create removeSwapsData action', () => {
-    expect(removeSwapsData()).toMatchSnapshot();
+describe('containers/BuyPage/actions/checkTimeoutEvent', () => {
+  it('should checkTimeoutEvent should create checkTimeoutEvent action', () => {
+    expect(checkTimeoutEvent()).toMatchSnapshot();
   });
 
   it('should return the correct type and the passed name', () => {
     const expectedResult = {
-      type: REMOVE_SWAPS_DATA
+      type: CHECK_TIMEOUT_EVENT
     };
 
-    expect(removeSwapsData()).toEqual(expectedResult);
+    expect(checkTimeoutEvent()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/checkUpdateSwapEvent', () => {
+  it('should checkUpdateSwapEvent should create checkUpdateSwapEvent action', () => {
+    expect(checkUpdateSwapEvent()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: CHECK_UPDATE_SWAP_EVENT
+    };
+
+    expect(checkUpdateSwapEvent()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/timeoutSwap', () => {
+  const payload = {
+    alice: 'BEER',
+    bob: 'COQUI',
+    id: 3624682363,
+    quoteid: 0,
+    requestid: 0,
+    uuid: 'bc5e1509b2aea898b8dff71ecc3fa7d5bc7c361fb14187fe9bc06916fae63811'
+  };
+  it('should timeoutSwap should create timeoutSwap action', () => {
+    expect(timeoutSwap(payload)).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_TIMEOUT,
+      payload
+    };
+
+    expect(timeoutSwap(payload)).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/makeANewSwap', () => {
+  it('should makeANewSwap should create makeANewSwap action', () => {
+    expect(makeANewSwap()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_MAKE_A_NEW
+    };
+
+    expect(makeANewSwap()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/openDetailModal', () => {
+  const uuid = 'uuid';
+  it('should openDetailModal should create openDetailModal action', () => {
+    expect(openDetailModal()).toMatchSnapshot();
+    expect(openDetailModal(uuid)).toMatchSnapshot();
+  });
+
+  it('should return the correct type', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_OPEN,
+      payload: {
+        uuid: undefined
+      }
+    };
+
+    expect(openDetailModal()).toEqual(expectedResult);
+  });
+
+  it('should return the correct type and the uuid', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_OPEN,
+      payload: {
+        uuid
+      }
+    };
+
+    expect(openDetailModal(uuid)).toEqual(expectedResult);
+  });
+});
+
+describe('containers/BuyPage/actions/closeDetailModal', () => {
+  it('should closeDetailModal should create closeDetailModal action', () => {
+    expect(closeDetailModal()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: SWAP_DETAIL_MODAL_CLOSE
+    };
+
+    expect(closeDetailModal()).toEqual(expectedResult);
   });
 });

@@ -282,6 +282,8 @@ export default {
       loading: true,
       error: false,
       list: [],
+      processingList: [],
+      finishedList: [],
       entities: {
         '153a5b01fe56576c3cc4c69256b65a68decd2c407e85d84deb119085c020e2de': {
           alice: 'BEER',
@@ -453,7 +455,13 @@ export const buy2 = {
     relvalue: 0.92602593,
     desthash:
       'c88a033b587244cd501e90709620c3ec58d9c3886e33c2e1db909d0451aa5833',
-    aliceid: '7904046646222061569'
+    aliceid: '7904046646222061569',
+    alicesmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+    bobsmartaddress: 'RRVJBpA5MoeTo3beA1iP6euWWrWcJdJtXu',
+    requested: {
+      aliceAmount: 21.4920001,
+      bobAmount: 10
+    }
   },
   uuid: 'bc5e1509b2aea898b8dff71ecc3fa7d5bc7c361fb14187fe9bc06916fae63811'
 };

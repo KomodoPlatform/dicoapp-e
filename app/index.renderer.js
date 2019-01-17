@@ -2,22 +2,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 import { AppContainer } from 'react-hot-loader';
-import { createHashHistory } from 'history';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './components/Theme';
 import configureStore from './store/configureStore';
 import LanguageProvider from './containers/LanguageProvider';
 import Routes from './containers/Routes';
+import history from './utils/history';
 import { translationMessages } from './i18n';
 import './app.global.css';
 
-// Create redux store with history
-
 const initialState = {};
-const history = createHashHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('root');
 
@@ -43,7 +40,7 @@ if (module.hot) {
   module.hot.accept(['./i18n', './containers/Routes'], () => {
     // ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     // render();
-    const NextRoot = require('./containers/Routes'); // eslint-disable-line global-require
+    const NextRoot = require('./containers/Routes').default; // eslint-disable-line global-require
     render(NextRoot, translationMessages);
   });
 }
@@ -66,4 +63,5 @@ if (!window.Intl) {
 } else {
   render(Routes, translationMessages);
 }
+
 /* eslint-enable import/no-named-as-default */

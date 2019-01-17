@@ -18,13 +18,14 @@ type Props = {
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
-  style: Object,
+  style?: Object,
   className?: string
 };
 
 class Circle extends PureComponent<Props> {
   static defaultProps = {
-    className: ''
+    className: '',
+    style: {}
   };
 
   render() {

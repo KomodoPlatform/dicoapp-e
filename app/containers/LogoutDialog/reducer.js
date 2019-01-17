@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-
+import { handleActions } from 'redux-actions';
 import {
   SHOW_LOGOUT_DIALOG,
   CANCEL_LOGOUT_DIALOG,
@@ -11,17 +11,13 @@ export const initialState = fromJS({
   show: false
 });
 
-function logoutDialogReducer(state = initialState, action) {
-  switch (action.type) {
-    case SHOW_LOGOUT_DIALOG:
-      return state.set('show', true);
-    case CANCEL_LOGOUT_DIALOG:
-      return state.set('show', false);
-    case AGREE_LOGOUT_DIALOG:
-      return state.set('show', false);
-    default:
-      return state;
-  }
-}
+const logoutDialogReducer = handleActions(
+  {
+    [SHOW_LOGOUT_DIALOG]: state => state.set('show', true),
+    [CANCEL_LOGOUT_DIALOG]: state => state.set('show', false),
+    [AGREE_LOGOUT_DIALOG]: state => state.set('show', false)
+  },
+  initialState
+);
 
 export default logoutDialogReducer;

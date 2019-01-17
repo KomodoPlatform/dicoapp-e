@@ -5,6 +5,7 @@ import addServerFactory from './add-server';
 import balanceFactory from './balance';
 import buyFactory from './buy';
 import getendpointFactory from './get-endpoint';
+import getfeeFactory from './getfee';
 import isReadyFactory from './is-ready';
 import listTransactionsFactory from './list-transactions';
 import listunspentFactory from './listunspent';
@@ -24,22 +25,12 @@ function BarterDexAPI(): Object {
   };
 
   return Object.assign(
-    {
-      setUserpass(userpass: string) {
-        state.userpass = userpass;
-      },
-      getUserpass() {
-        return state.userpass;
-      },
-      resetUserpass() {
-        state.userpass = null;
-      }
-    },
     httpprovider(state),
     addServerFactory(state),
     balanceFactory(state),
     buyFactory(state),
     getendpointFactory(state),
+    getfeeFactory(state),
     isReadyFactory(state),
     listTransactionsFactory(state),
     listunspentFactory(state),

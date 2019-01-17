@@ -1,6 +1,6 @@
 import { loadSwapSuccess } from '../App/actions';
 import { loadRecentSwapsDataFromWebsocket } from './actions';
-import { makeSelectSwapsList } from './selectors';
+import { makeSelectCurrentSwapsList } from './selectors';
 
 const allowedMethods = [
   // 'request',
@@ -11,9 +11,10 @@ const allowedMethods = [
   'tradestatus'
 ];
 
-export default async function buySubscribe({ result }, dispatch, getState) {
+export default async function buySubscribe(data, dispatch, getState) {
+  const { result } = data;
   if (result && allowedMethods.indexOf(result.method) !== -1) {
-    const selectSwapsList = makeSelectSwapsList();
+    const selectSwapsList = makeSelectCurrentSwapsList();
     const list = selectSwapsList(getState());
     if (list.includes(result.uuid)) {
       dispatch(loadRecentSwapsDataFromWebsocket(result));

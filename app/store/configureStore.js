@@ -4,9 +4,10 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
-import { routerMiddleware } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
+import { routerMiddleware } from 'connected-react-router/immutable';
 import createSagaMiddleware from 'redux-saga';
+
 import createReducer from '../reducers';
 
 const sagaMiddleware = createSagaMiddleware();

@@ -11,11 +11,19 @@
  * @flow
  */
 import { app, BrowserWindow } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import MenuBuilder from './main/menu';
 import marketmaker from './main/plugins/marketmaker';
 import getConfig from './main/config';
 
 const debug = require('debug')('dicoapp:main');
+
+export default class AppUpdater {
+  constructor() {
+    autoUpdater.logger = debug;
+    autoUpdater.checkForUpdatesAndNotify();
+  }
+}
 
 const config = getConfig();
 
@@ -38,12 +46,12 @@ if (
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
+  // NOTE: we shoud run `UPGRADE_EXTENSIONS=true yarn dev` after upgrade react
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-
   return Promise.all(
     extensions.map(name => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+  ).catch(debug);
 };
 
 /**
@@ -98,4 +106,8 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // Remove this if your app does not use auto updates
+  // eslint-disable-next-line
+  new AppUpdater();
 });

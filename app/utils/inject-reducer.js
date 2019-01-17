@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-
 import getInjectors from './reducer-injectors';
 
 const debug = require('debug')('dicoapp:utils:inject-reducer');
@@ -14,7 +13,7 @@ const debug = require('debug')('dicoapp:utils:inject-reducer');
  *
  */
 export default ({ key, reducer }) => WrappedComponent => {
-  class ReducerInjector extends React.Component {
+  class ReducerInjector extends React.PureComponent {
     static WrappedComponent = WrappedComponent;
 
     static displayName = `withReducer(${WrappedComponent.displayName ||

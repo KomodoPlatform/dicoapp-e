@@ -6,6 +6,12 @@ Object {
 }
 `;
 
+exports[`containers/App/actions/loadBalanceSuccess should loadBalanceSuccess should create loadBalanceSuccess action 1`] = `
+Object {
+  "type": "dicoapp/App/LOAD_BALANCE_SUCCESS",
+}
+`;
+
 exports[`containers/App/actions/loadCoinBalanceSuccess should logout should create loadCoinBalanceSuccess action 1`] = `
 Object {
   "payload": Object {

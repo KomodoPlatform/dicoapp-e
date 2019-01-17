@@ -22,7 +22,7 @@ function getPathSegments(path) {
   return parts;
 }
 
-module.exports = {
+export default {
   get(obj, path, value) {
     if (!isObj(obj) || typeof path !== 'string') {
       return value === undefined ? obj : value;

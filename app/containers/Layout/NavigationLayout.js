@@ -20,8 +20,7 @@ const debug = require('debug')('dicoapp:containers:layout:NavigationLayout');
 //   win.center();
 // };
 
-// const styles = theme => ({
-const styles = () => ({
+const styles = theme => ({
   content: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.default,
@@ -33,7 +32,7 @@ const styles = () => ({
   },
 
   dicoDrawer: {
-    color: 'rgba(0, 0, 0, .87)',
+    color: theme.drawer.color,
     position: 'fixed',
     top: 0,
     left: 0,
@@ -43,12 +42,12 @@ const styles = () => ({
     maxWidth: 72,
     height: '100%',
     overflow: 'hidden',
-    contain: 'strict'
+    contain: 'strict',
+    backgroundColor: theme.drawer.background
   }
 });
 
 type Props = {
-  background?: string,
   // eslint-disable-next-line flowtype/no-weak-types
   classes: Object,
   // eslint-disable-next-line flowtype/no-weak-types
@@ -61,33 +60,19 @@ class NavigationLayout extends PureComponent<Props> {
   //   setAppWindowBounds();
   // }
 
-  static defaultProps = {
-    background: '#fff'
-  };
+  static defaultProps = {};
 
   render() {
     debug(`render`);
 
-    const { background, children, classes } = this.props;
+    const { children, classes } = this.props;
 
     return (
       <React.Fragment>
-        <aside
-          className={classes.dicoDrawer}
-          style={{
-            background
-          }}
-        >
+        <aside className={classes.dicoDrawer}>
           <DICDrawer />
         </aside>
-        <main
-          className={classes.content}
-          style={{
-            background
-          }}
-        >
-          {children}
-        </main>
+        <main className={classes.content}>{children}</main>
         {/* <div className={classes.root}> */}
         {/* <DICTypography> */}
         {/* <header className="mdc-toolbar mdc-toolbar--fixed fl-empty-layout__header"> */}

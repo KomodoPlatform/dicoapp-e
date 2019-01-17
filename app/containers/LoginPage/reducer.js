@@ -1,13 +1,9 @@
 import { fromJS } from 'immutable';
+import { handleActions } from 'redux-actions';
 
 // The initial state of the App
 export const initialState = fromJS({});
 
-function loginReducer(state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const loginReducer = handleActions({}, initialState);
 
 export default loginReducer;

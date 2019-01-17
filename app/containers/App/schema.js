@@ -13,7 +13,8 @@ type UTXOType = {
 type BalancePayload = {
   address: string,
   balance: number,
-  coin: string
+  coin: string,
+  fee: number
   // utxo: Array<UTXOType>
 };
 

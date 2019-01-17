@@ -3,7 +3,6 @@ import { generateSeed, generateWif } from '../utils';
 describe('containers/SeedPage/utils/generateSeed', () => {
   it('should generateSeed should create seed correctly', () => {
     const s = generateSeed();
-    console.log(s, 'generateSeed');
     expect(s.split(' ').length - 1).toEqual(13);
   });
 

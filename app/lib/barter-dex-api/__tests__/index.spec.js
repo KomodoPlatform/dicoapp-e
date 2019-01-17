@@ -6,6 +6,7 @@ describe('lib/barter-dex-api/index', () => {
     expect(typeof BarterDexAPI.balance).toEqual('function');
     expect(typeof BarterDexAPI.buy).toEqual('function');
     expect(typeof BarterDexAPI.getendpoint).toEqual('function');
+    expect(typeof BarterDexAPI.getfee).toEqual('function');
     expect(typeof BarterDexAPI.isready).toEqual('function');
     expect(typeof BarterDexAPI.listTransactions).toEqual('function');
     expect(typeof BarterDexAPI.orderbook).toEqual('function');

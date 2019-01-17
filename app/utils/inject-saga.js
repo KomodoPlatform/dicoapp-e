@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-
 import getInjectors from './saga-injectors';
 
 const debug = require('debug')('dicoapp:utils:inject-saga');
@@ -18,7 +17,7 @@ const debug = require('debug')('dicoapp:utils:inject-saga');
  *
  */
 export default ({ key, saga, mode }) => WrappedComponent => {
-  class InjectSaga extends React.Component {
+  class InjectSaga extends React.PureComponent {
     static WrappedComponent = WrappedComponent;
 
     static displayName = `withSaga(${WrappedComponent.displayName ||

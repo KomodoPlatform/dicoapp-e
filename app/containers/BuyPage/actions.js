@@ -15,10 +15,18 @@ import {
   // LOAD_RECENT_SWAPS_SUCCESS,
   LOAD_RECENT_SWAPS_DATA_FROM_WEBSOCKET,
   LOAD_RECENT_SWAPS_ERROR,
-  REMOVE_SWAPS_DATA
+  CHECK_TIMEOUT_EVENT,
+  CHECK_UPDATE_SWAP_EVENT,
+  SWAP_TIMEOUT,
+  SWAP_MAKE_A_NEW,
+  SWAP_DETAIL_MODAL_OPEN,
+  SWAP_DETAIL_MODAL_CLOSE
 } from './constants';
-
-import type { BuyCoinPayload, BestPricePayload } from './schema';
+import type {
+  BuyCoinPayload,
+  BestPricePayload,
+  TimeoutPayload
+} from './schema';
 
 export function loadPrice(coin: string) {
   return {
@@ -118,8 +126,42 @@ export function loadRecentSwapsError(message: string) {
   };
 }
 
-export function removeSwapsData() {
+export function checkTimeoutEvent() {
   return {
-    type: REMOVE_SWAPS_DATA
+    type: CHECK_TIMEOUT_EVENT
+  };
+}
+
+export function checkUpdateSwapEvent() {
+  return {
+    type: CHECK_UPDATE_SWAP_EVENT
+  };
+}
+
+export function timeoutSwap(payload: TimeoutPayload) {
+  return {
+    type: SWAP_TIMEOUT,
+    payload
+  };
+}
+
+export function makeANewSwap() {
+  return {
+    type: SWAP_MAKE_A_NEW
+  };
+}
+
+export function openDetailModal(uuid?: string) {
+  return {
+    type: SWAP_DETAIL_MODAL_OPEN,
+    payload: {
+      uuid
+    }
+  };
+}
+
+export function closeDetailModal() {
+  return {
+    type: SWAP_DETAIL_MODAL_CLOSE
   };
 }

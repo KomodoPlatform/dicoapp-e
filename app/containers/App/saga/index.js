@@ -1,5 +1,5 @@
 import { fork, take, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import takeFirst from '../../../utils/sagas/take-first';
 import routes from '../../../constants/routes.json';
 import { LOGOUT, LOAD_BALANCE, LOAD_WITHDRAW } from '../constants';

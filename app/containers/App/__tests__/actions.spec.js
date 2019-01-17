@@ -1,6 +1,11 @@
-// import { spy } from 'sinon';
-import { login, logout, loadCoinBalanceSuccess, loadBalance } from '../actions';
-import { LOGIN } from '../constants';
+import {
+  login,
+  logout,
+  loadBalanceSuccess,
+  loadCoinBalanceSuccess,
+  loadBalance
+} from '../actions';
+import { LOGIN, LOAD_BALANCE, LOAD_BALANCE_SUCCESS } from '../constants';
 
 describe('containers/App/actions/login', () => {
   const passphrase = 'passphrase';
@@ -142,5 +147,27 @@ describe('containers/App/actions/loadCoinBalanceSuccess', () => {
 describe('containers/App/actions/loadBalance', () => {
   it('should loadBalance should create loadBalance action', () => {
     expect(loadBalance()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: LOAD_BALANCE
+    };
+
+    expect(loadBalance()).toEqual(expectedResult);
+  });
+});
+
+describe('containers/App/actions/loadBalanceSuccess', () => {
+  it('should loadBalanceSuccess should create loadBalanceSuccess action', () => {
+    expect(loadBalanceSuccess()).toMatchSnapshot();
+  });
+
+  it('should return the correct type and the passed name', () => {
+    const expectedResult = {
+      type: LOAD_BALANCE_SUCCESS
+    };
+
+    expect(loadBalanceSuccess()).toEqual(expectedResult);
   });
 });

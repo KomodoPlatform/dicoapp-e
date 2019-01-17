@@ -3,6 +3,7 @@ import React from 'react';
 
 import AionIcon from './aion.svg';
 import BTCIcon from './btc.svg';
+import EQLIcon from './eqli.svg';
 import ETHIcon from './eth.svg';
 import CHIPSIcon from './chips.svg';
 import RDNIcon from './rdn.svg';
@@ -23,10 +24,14 @@ import MONEROIcon from './xmr.svg';
 import CARDANOIcon from './ada.svg';
 import KMDIcon from './kmd.svg';
 import UNKNOWIcon from './unknow.svg';
+import COQUIIcon from './coqui.svg';
+import BEERIcon from './beer.svg';
+import PIZZAIcon from './pizza.svg';
 
 export {
   AionIcon as AION,
   BTCIcon as BTC,
+  EQLIcon as EQL,
   ETHIcon as ETH,
   CHIPSIcon as CHIPS,
   BCHIcon as BCH,
@@ -46,12 +51,16 @@ export {
   MONEROIcon as XMR,
   CARDANOIcon as ADA,
   KMDIcon as KMD,
-  UNKNOWIcon as UNKNOW
+  UNKNOWIcon as UNKNOW,
+  COQUIIcon as COQUI,
+  BEERIcon as BEER,
+  PIZZAIcon as PIZZA
 };
 
 const coins = {
   aion: AionIcon,
   btc: BTCIcon,
+  eql: EQLIcon,
   eth: ETHIcon,
   chips: CHIPSIcon,
   bch: BCHIcon,
@@ -72,9 +81,13 @@ const coins = {
   ada: CARDANOIcon,
   kmd: KMDIcon,
   unknow: UNKNOWIcon,
+  coqui: COQUIIcon,
+  beer: BEERIcon,
+  pizza: PIZZAIcon,
 
   AION: AionIcon,
   BTC: BTCIcon,
+  EQL: EQLIcon,
   ETH: ETHIcon,
   CHIPS: CHIPSIcon,
   BCH: BCHIcon,
@@ -94,12 +107,16 @@ const coins = {
   XMR: MONEROIcon,
   ADA: CARDANOIcon,
   KMD: KMDIcon,
-  UNKNOW: UNKNOWIcon
+  UNKNOW: UNKNOWIcon,
+  COQUI: COQUIIcon,
+  BEER: BEERIcon,
+  PIZZA: PIZZAIcon
 };
 
 const coinsRender = {
   aion: <AionIcon />,
   btc: <BTCIcon />,
+  eql: <EQLIcon />,
   eth: <ETHIcon />,
   chips: <CHIPSIcon />,
   bch: <BCHIcon />,
@@ -120,9 +137,13 @@ const coinsRender = {
   ada: <CARDANOIcon />,
   kmd: <KMDIcon />,
   unknow: <UNKNOWIcon />,
+  coqui: <COQUIIcon />,
+  beer: <BEERIcon />,
+  pizza: <PIZZAIcon />,
 
   AION: <AionIcon />,
   BTC: <BTCIcon />,
+  EQL: <EQLIcon />,
   ETH: <ETHIcon />,
   CHIPS: <CHIPSIcon />,
   BCH: <BCHIcon />,
@@ -142,7 +163,10 @@ const coinsRender = {
   XMR: <MONEROIcon />,
   ADA: <CARDANOIcon />,
   KMD: <KMDIcon />,
-  UNKNOW: <UNKNOWIcon />
+  UNKNOW: <UNKNOWIcon />,
+  COQUI: <COQUIIcon />,
+  BEER: <BEERIcon />,
+  PIZZA: <PIZZAIcon />
 };
 
 export function getCoinIcon(symbol) {

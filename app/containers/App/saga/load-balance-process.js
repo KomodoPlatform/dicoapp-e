@@ -25,11 +25,16 @@ export function* loadCoinBalanceProcess(coin, address) {
     const data = yield request;
     data.address = address;
     // const utxo = yield call([api, 'listUnspent'], params);
+    // https://docs.komodoplatform.com/barterDEX/barterDEX-API.html#getfee
+    const fee = yield call([api, 'getfee'], {
+      coin
+    });
     yield put(
       loadCoinBalanceSuccess({
         coin,
         address,
-        balance: Number(data.balance)
+        balance: Number(data.balance),
+        fee: fee.txfee
         // utxo
       })
     );
@@ -37,9 +42,10 @@ export function* loadCoinBalanceProcess(coin, address) {
     debug(`load balance done ${coin}`);
 
     return {
-      address: data.address,
-      balance: data.balance,
-      coin: data.coin
+      coin,
+      address,
+      balance: Number(data.balance),
+      fee: fee.txfee
     };
   } catch (err) {
     debug(`load coin balance process fail ${coin}: ${err.message}`);

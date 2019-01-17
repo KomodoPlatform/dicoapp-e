@@ -27,6 +27,7 @@ type BestPricePayload = {
 };
 
 type SwapError = {
+  code: number,
   message: string
 };
 
@@ -41,6 +42,12 @@ type SwapInfo = {
   alicedexfee: string
 };
 
+type StepInfo = {
+  coin?: string,
+  tx: string,
+  value: number
+};
+
 type SwapCoin = {
   id: number, // the unique id, alias trade id
   uuid: string, // the unique id
@@ -49,15 +56,34 @@ type SwapCoin = {
   expiration: number,
   bob: string, // eg: KMD, BTC, LTC
   alice: string, // eg: KMD, BTC, LTC
-
   status: string, // eg: pending, finished
+  bobsmartaddress: string,
+  alicesmartaddress: string,
+  requested: {
+    bobAmount: number,
+    aliceAmount: number
+  },
   application: string, // where the request come from? eg: 'dICOapp'
-
   error?: SwapError,
   info?: SwapInfo,
+
+  myfee?: StepInfo,
+  bobdeposit?: StepInfo,
+  alicepayment?: StepInfo,
+  bobpayment?: StepInfo,
+  alicespend?: StepInfo,
 
   createdAt?: Date,
   updatedAt?: Date
 };
 
-export type { BuyCoinPayload, BestPricePayload, SwapCoin };
+type TimeoutPayload = {
+  id: number, // the unique id, alias trade id
+  uuid: string, // the unique id
+  requestid: number,
+  quoteid: number,
+  bob: string, // eg: KMD, BTC, LTC
+  alice: string // eg: KMD, BTC, LTC
+};
+
+export type { BuyCoinPayload, BestPricePayload, SwapCoin, TimeoutPayload };

@@ -1,5 +1,26 @@
 # Change Log
 
+# 0.12.0 (2018.11.11)
+
+- 2b94d17 implement-transactions-tab (#86)
+- acddbbf update-github-issue-template (#85)
+- 95639bd upgrade-npm-package (#73)
+
+# 0.11.0 (2018.11.02)
+
+- 4e18812 loading-strip-on-top-get-stuck (#72)
+- 3c82887 calculate-transaction-fee (#71)
+- ec5d2c8 walletpage: withdraw modal
+- 06016a1 implement-portfolio-tab (#67)
+- bb0c376 add-header-tab-in-wallet-page (#61)
+
+# 0.10.0 (2018.10.19)
+
+- 225f6b2 add-more-detail-in-swap-modal (#58)
+- 2cbb545 swap-detail-page-or-swap-detail-modal (#55)
+- 9d262c0 implement-my-orders-tab-in-buy-page (#53)
+- 333c877 refactor-layout-to-support-tab-in-buy-page (#50)
+
 # 0.9.0 (2018.9.30)
 
 - f026285 cancel-http-requests-when-switch-page (#36)

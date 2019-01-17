@@ -6,12 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import MDCAppBar from '../../components/AppBar';
+import MDCHeader from '../../components/AppBar/Header';
+import PageSectionTitle from '../../components/PageSectionTitle';
 import { NavigationLayout } from '../Layout';
 
 const styles = {
   container: {
     marginTop: 65,
-    padding: 24
+    padding: '40px 24px 24px 24px'
   },
 
   containerSection: {
@@ -32,18 +34,9 @@ class HelpPage extends Component<Props> {
 
     return (
       <React.Fragment>
-        <MDCAppBar
-          title={
-            <FormattedMessage id="dicoapp.containers.HelpPage.title">
-              {(...content) => content}
-            </FormattedMessage>
-          }
-        />
         <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} className={classes.containerSection}>
-            <Typography variant="title" gutterBottom>
-              Pre-Login Instructions:
-            </Typography>
+            <PageSectionTitle title="Pre-Login Instructions:" />
             <Typography variant="body1" gutterBottom>
               <ol>
                 <li>Click Create Account</li>
@@ -56,9 +49,7 @@ class HelpPage extends Component<Props> {
                 <li>Login with your new Seed</li>
               </ol>
             </Typography>
-            <Typography variant="title" gutterBottom>
-              After Login:
-            </Typography>
+            <PageSectionTitle title="After Login:" />
             <Typography variant="body1" gutterBottom>
               <ol>
                 <li>Choose the coin you want to deposit</li>
@@ -86,11 +77,7 @@ class HelpPage extends Component<Props> {
                 </li>
               </ol>
             </Typography>
-            <Typography variant="title" gutterBottom>
-              For more information and technical assistance please watch the
-              instructional video below and join the GLX Token (GLXT) chat group
-              at GLX.com:
-            </Typography>
+            <PageSectionTitle title="For more information and technical assistance please watch the instructional video below and join the GLX Token (GLXT) chat group at GLX.com:" />
             <ol>
               <li>
                 <a
@@ -114,6 +101,15 @@ const HelpPageWapper = withStyles(styles)(HelpPage);
 const Index = () => (
   <NavigationLayout>
     <ErrorBoundary>
+      <MDCAppBar>
+        <MDCHeader
+          title={
+            <FormattedMessage id="dicoapp.containers.HelpPage.title">
+              {(...content) => content}
+            </FormattedMessage>
+          }
+        />
+      </MDCAppBar>
       <HelpPageWapper />
     </ErrorBoundary>
   </NavigationLayout>
